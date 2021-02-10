@@ -1,0 +1,17 @@
+﻿<UserControl x:Class="LHWpfControlLibrary.Source.UserControls.UC_LineChart" xmlns:usercontrols="clr-namespace:LHWpfControlLibrary.Source.UserControls;assembly=LHWpfControlLibrary" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:LHWpfControlLibrary.Source.UserControls" d:DesignHeight="250" d:DesignWidth="600"  mc:Ignorable="d" MouseWheel="Control_MouseWheel">
+    <UserControl.ContextMenu>
+        <ContextMenu>
+            <MenuItem Click="MIAutoScale_Click" Header="Scale" Icon="{DynamicResource Ico_Dimension}"></MenuItem>
+        </ContextMenu>
+    </UserControl.ContextMenu>
+    <Grid Background="{DynamicResource Col_UC_LineChartBackground}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Canvas Name="canvas"  SizeChanged="Canvas_SizeChanged" SnapsToDevicePixels="True">
+    </Canvas>
+        <WrapPanel x:Name="WPLegend"  VerticalAlignment="Center" Orientation="Vertical" Grid.Column="1" Margin="{DynamicResource Dim_ThStandardMarginLeftRight}">
+    </WrapPanel>
+    </Grid>
+</UserControl>

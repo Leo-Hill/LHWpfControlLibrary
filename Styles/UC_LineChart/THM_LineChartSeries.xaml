@@ -1,0 +1,31 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib" >
+
+    <!-- ******************************************************************************************
+    *
+    * Colors of the chart series
+    *
+    ****************************************************************************************** -->
+    <SolidColorBrush x:Key="Col_0" Color="#FF179C7D" />
+    <SolidColorBrush x:Key="Col_1" Color="#FF2196F3" />
+    <SolidColorBrush x:Key="Col_2" Color="#FFFF9800" />
+    <SolidColorBrush x:Key="Col_3" Color="#FFFF3628" />
+    <SolidColorBrush x:Key="Col_4" Color="#FFE91EA8" />
+    <SolidColorBrush x:Key="Col_5" Color="#FF9C27B0" />
+    <SolidColorBrush x:Key="Col_6" Color="#FF0000AE" />
+
+    <SolidColorBrush x:Key="Col_7" Color="#FF9C27B0" />
+    <SolidColorBrush x:Key="Col_8" Color="#FF9C27B0" />
+    <SolidColorBrush x:Key="Col_9" Color="#FF9C27B0" />
+    <SolidColorBrush x:Key="Col_10" Color="#FF9C27B0" />
+    <SolidColorBrush x:Key="Col_11" Color="#FF9C27B0" />
+    <SolidColorBrush x:Key="Col_12" Color="#FF9C27B0" />
+    <SolidColorBrush x:Key="Col_13" Color="#FF9C27B0" />
+    <SolidColorBrush x:Key="Col_14" Color="#FF9C27B0" />
+    <SolidColorBrush x:Key="Col_15" Color="#FF9C27B0" />
+    <SolidColorBrush x:Key="Col_16" Color="#FF9C27B0" />
+    <SolidColorBrush x:Key="Col_17" Color="#FF9C27B0" />
+    <SolidColorBrush x:Key="Col_18" Color="#FF9C27B0" />
+    <SolidColorBrush x:Key="Col_19" Color="#FF9C27B0" />
+    <SolidColorBrush x:Key="Col_20" Color="#FF9C27B0" />
+
+</ResourceDictionary>

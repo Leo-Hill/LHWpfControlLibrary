@@ -1,0 +1,31 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" >
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Styles/Button/STY_Button.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Styles/Calendar/STY_Calendar.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Styles/CheckBox/STY_CheckBox.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Styles/ComboBox/STY_ComboBox.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Styles/DatePicker/STY_DatePicker.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Styles/Expander/STY_Expander.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Styles/GroupBox/STY_GroupBox.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Styles/GroupBox/STY_GroupBoxWithHeader.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Styles/Label/STY_Label.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Styles/ListView/STY_ListView.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Styles/ListView/STY_ListViewItem.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Styles/Menu/STY_ContextMenu.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Styles/Menu/STY_Menu.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Styles/Menu/STY_MenuItem.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Styles/ProgressBar/STY_ProgressBar.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Styles/ScrollBar/STY_ScrollBar.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Styles/TextBlock/STY_TextBlock.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Styles/TextBox/STY_TextBox.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Styles/Thumb/STY_Thumb.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Styles/ToolBar/STY_ToolBar.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Styles/UC_Buttons/STY_UC_ToolBarButtonWithText.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Styles/UC_Checkboxes/STY_UC_CheckBoxFilled.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Styles/UC_TitleBar/STY_UC_TitleBar.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Styles/UC_NumericUpDown/STY_UC_NumericUpDown.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Styles/Window/STY_Window.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Styles/Window_MessageBox/STY_Window_MessageBox.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>

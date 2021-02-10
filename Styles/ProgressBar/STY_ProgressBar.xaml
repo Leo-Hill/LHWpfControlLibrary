@@ -1,0 +1,36 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" >
+
+    <!-- ******************************************************************************************
+    *
+    * Control Templates
+    *
+    ****************************************************************************************** -->
+    <ControlTemplate x:Key="CT_Progressbar" TargetType="{x:Type ProgressBar}" >
+        <Grid MinHeight="14" MinWidth="200" Background="{DynamicResource Col_ProgressbarBackground}">
+            <Border x:Name="PART_Track" CornerRadius="2" BorderThickness="1">
+                <Border.BorderBrush>
+                    <SolidColorBrush Color="Transparent" />
+                </Border.BorderBrush>
+            </Border>
+            <Border x:Name="PART_Indicator" CornerRadius="2" BorderThickness="1" HorizontalAlignment="Center" Background="{DynamicResource Col_ProgressbarForeground}" Margin="0,-1,0,1">
+            </Border>
+        </Grid>
+    </ControlTemplate>
+
+    <!-- ******************************************************************************************
+    *
+    * Styles
+    *
+    ****************************************************************************************** -->
+    <Style TargetType="ProgressBar">
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="Template" Value="{StaticResource CT_Progressbar}"/>
+    </Style>
+
+</ResourceDictionary>
+    
+    
+    
+    
+    
+    

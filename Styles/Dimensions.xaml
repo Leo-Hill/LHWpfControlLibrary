@@ -1,0 +1,22 @@
+<ResourceDictionary 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:system="clr-namespace:System;assembly=mscorlib">
+
+    <!-- CornerRadius -->  
+    <CornerRadius  x:Key="Dim_ControlCornerRadius">2</CornerRadius>                                 <!--Corner radius for special controls-->
+    
+    <!-- Double -->
+    <system:Double x:Key="Dim_dButtonWidth">90</system:Double>                                      <!-- Width of a button-->
+    <system:Double x:Key="Dim_dTextBoxWidth">120</system:Double>                                    <!-- Width of a button-->
+
+    <!-- GridLength -->
+    <GridLength x:Key="Dim_GlWindowPadding">10</GridLength>                                         <!-- Padding for the borders of a window-->
+
+    <!-- Thickness -->
+    <Thickness x:Key="Dim_ThButtonPadding">5</Thickness>                                            <!-- Marign of a control -->
+    <Thickness x:Key="Dim_ThStandardMargin">5</Thickness>                                           <!-- Marign of a control -->
+    <Thickness x:Key="Dim_ThStandardMarginLeftRight" Left="5" Top="0" Right="5" Bottom="0" />       <!-- Marign of a control only left and right -->
+    <Thickness x:Key="Dim_ThStandardMarginTopBottom" Left="0" Top="5" Right="0" Bottom="5" />       <!-- Marign of a control only top and bottom -->
+
+</ResourceDictionary>

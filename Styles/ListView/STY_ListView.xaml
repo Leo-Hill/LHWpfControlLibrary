@@ -1,0 +1,118 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" >
+
+    <!-- ******************************************************************************************
+    *
+    * Control Templates
+    *
+    ****************************************************************************************** -->
+    <ControlTemplate x:Key="CT_ListView" TargetType="ListView">
+        <Border Name="Border" BorderThickness="1" BorderBrush="{DynamicResource Col_ListViewBorder}" Background="{DynamicResource Col_ListViewBackground}" CornerRadius="{DynamicResource Dim_ControlCornerRadius}" Padding="0">
+            <ScrollViewer Style="{DynamicResource {x:Static GridView.GridViewScrollViewerStyleKey}}">
+                <ItemsPresenter />
+            </ScrollViewer>
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsGrouping" Value="true">
+                <Setter Property="ScrollViewer.CanContentScroll" Value="false" />
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="false">
+                
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="CT_ListViewGridViewColumnHeader" TargetType="GridViewColumnHeader">
+        <Grid>
+            <Border x:Name="HeaderBorder" BorderThickness="1,1,0,1" Padding="2,0,2,0" BorderBrush="{DynamicResource Col_ListViewGridViewColumnHeaderBorder}" Background="{DynamicResource Col_ListViewGridViewColumnHeaderBackground}">
+                <ContentPresenter x:Name="HeaderContent" Margin="4,0,4,1" RecognizesAccessKey="True" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+            </Border>
+            <Thumb x:Name="PART_HeaderGripper" HorizontalAlignment="Right" Margin="0,0,-9,0" Style="{DynamicResource GridViewColumnHeaderGripper}" />
+        </Grid>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" SourceName="HeaderBorder" Value="True">
+                <Setter Property="Background" TargetName="HeaderBorder" Value="{DynamicResource Col_ListViewGridViewColumnHeaderBackgroundMouseOver}"/>
+            </Trigger>
+            <Trigger Property="IsPressed"  Value="True">
+                <Setter Property="Background" TargetName="HeaderBorder" Value="{DynamicResource Col_ListViewGridViewColumnHeaderBackgroundPressed}" />
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="CT_ListViewScrollViewer" TargetType="ScrollViewer">
+        <Grid Background="{TemplateBinding Background}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <DockPanel Margin="{TemplateBinding Padding}">
+                <ScrollViewer DockPanel.Dock="Top" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden" Focusable="false">
+                    <GridViewHeaderRowPresenter Margin="2,0,2,0" Columns="{Binding Path=TemplatedParent.View.Columns,
+                RelativeSource={RelativeSource TemplatedParent}}" ColumnHeaderContainerStyle="{Binding
+                Path=TemplatedParent.View.ColumnHeaderContainerStyle,
+                RelativeSource={RelativeSource TemplatedParent}}" ColumnHeaderTemplate="{Binding
+                Path=TemplatedParent.View.ColumnHeaderTemplate,
+                RelativeSource={RelativeSource TemplatedParent}}" ColumnHeaderTemplateSelector="{Binding 
+                Path=TemplatedParent.View.ColumnHeaderTemplateSelector,
+                RelativeSource={RelativeSource TemplatedParent}}" AllowsColumnReorder="{Binding
+                Path=TemplatedParent.View.AllowsColumnReorder,
+                RelativeSource={RelativeSource TemplatedParent}}" ColumnHeaderContextMenu="{Binding
+                Path=TemplatedParent.View.ColumnHeaderContextMenu,
+                RelativeSource={RelativeSource TemplatedParent}}" ColumnHeaderToolTip="{Binding
+                Path=TemplatedParent.View.ColumnHeaderToolTip,
+                RelativeSource={RelativeSource TemplatedParent}}" SnapsToDevicePixels="{TemplateBinding
+                SnapsToDevicePixels}" />
+                </ScrollViewer>
+
+                <ScrollContentPresenter Name="PART_ScrollContentPresenter" KeyboardNavigation.DirectionalNavigation="Local" CanContentScroll="True" CanHorizontallyScroll="False" CanVerticallyScroll="False" />
+            </DockPanel>
+
+            <ScrollBar Name="PART_HorizontalScrollBar" Orientation="Horizontal" Grid.Row="1" Maximum="{TemplateBinding ScrollableWidth}" ViewportSize="{TemplateBinding ViewportWidth}" Value="{TemplateBinding HorizontalOffset}" Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}" />
+
+            <ScrollBar Name="PART_VerticalScrollBar" Grid.Column="1" Maximum="{TemplateBinding ScrollableHeight}" ViewportSize="{TemplateBinding ViewportHeight}" Value="{TemplateBinding VerticalOffset}" Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}" />
+
+        </Grid>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="CT_ListViewThumb" TargetType="{x:Type Thumb}">
+        <Border Padding="{TemplateBinding Padding}" Background="Transparent" >
+            <Rectangle HorizontalAlignment="Center" Width="1" Fill="Transparent" />
+        </Border>
+    </ControlTemplate>
+  
+    <!-- ******************************************************************************************
+    *
+    * Styles
+    *
+    ****************************************************************************************** -->
+    <Style TargetType="GridViewColumnHeader">
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Foreground" Value="{DynamicResource Col_ListViewGridViewColumnHeaderForeground}" />
+        <Setter Property="Template" Value="{StaticResource CT_ListViewGridViewColumnHeader}" />
+    </Style>
+
+    <Style x:Key="GridViewColumnHeaderGripper" TargetType="Thumb">
+        <Setter Property="Width" Value="18" />
+        <Setter Property="Template" Value="{StaticResource CT_ListViewThumb}" />
+    </Style>
+
+    <Style x:Key="{x:Static GridView.GridViewScrollViewerStyleKey}" TargetType="ScrollViewer">
+        <Setter Property="Template" Value="{StaticResource CT_ListViewScrollViewer}" />
+    </Style>
+
+    <Style x:Key="{x:Type ListView}" TargetType="ListView">
+        <Setter Property="SnapsToDevicePixels" Value="true" />
+        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
+        <Setter Property="ScrollViewer.CanContentScroll" Value="true" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Template" Value="{StaticResource CT_ListView}" />
+    </Style>
+
+</ResourceDictionary>

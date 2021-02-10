@@ -1,0 +1,13 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:CommentFormatter.Resources.Dictionaries.Styles.Window">
+
+    <!-- ******************************************************************************************
+    *
+    * Styles
+    *
+    ****************************************************************************************** -->
+    <Style x:Key="STY_Window_MessageBox" TargetType="Window">
+        <Setter Property="Background" Value="{DynamicResource Col_Background}" />
+        <Setter Property="UseLayoutRounding" Value="True" />
+    </Style>
+   
+</ResourceDictionary>

@@ -1,0 +1,23 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/Add_16x.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/AddressEditor_16x.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/DeleteTable_16x.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/Dimension_16x.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/Edit_16x.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/EditTheme_16x.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/FontSize_16x.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/ExtractConstant_16x.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/ImportFile_16x.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/InformationSymbol_16x.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/ResultToDataGrid_16x.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/Remove_16x.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/Run_16x.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/OpenFolder_16x.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/PopOut_16x.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/SaveStatusBar1_16x.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/SendTestMail_16x.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/ShowFullHistory_16x.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/Visible_16x.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>

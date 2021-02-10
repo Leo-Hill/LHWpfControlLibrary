@@ -1,0 +1,39 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:CommentFormatter.Resources.Dictionaries.Styles.ListView">
+
+    <!-- ******************************************************************************************
+    *
+    * Control Templates
+    *
+    ****************************************************************************************** -->
+    <ControlTemplate x:Key="CT_ListViewItem" TargetType="ListViewItem">
+        <Border x:Name="Border" Padding="2" SnapsToDevicePixels="true" Background="{TemplateBinding Background}">
+            <GridViewRowPresenter VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{DynamicResource Col_ListViewItemBackgroundMouseOver}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource Col_ListViewItemBackgroundMouseOver}" />
+            </Trigger>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="Background" Value="{DynamicResource Col_ListViewItemBackgroundSelected}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource Col_ListViewItemBackgroundSelected}" />
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <!-- ******************************************************************************************
+    *
+    * Styles
+    *
+    ****************************************************************************************** -->
+    <Style TargetType="ListViewItem">
+        <Setter Property="Foreground" Value="{DynamicResource Col_Text}" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="SnapsToDevicePixels" Value="true" />
+        <Setter Property="Template" Value="{StaticResource CT_ListViewItem}" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+    </Style>
+    
+    
+</ResourceDictionary>

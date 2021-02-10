@@ -1,0 +1,15 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:LHWpfControlLibrary.Styles.UC_TitleBar" xmlns:usercontrols="clr-namespace:LHWpfControlLibrary.Source.UserControls">
+
+    <!-- ******************************************************************************************
+    *
+    * Styles
+    *
+    ****************************************************************************************** -->
+    <Style TargetType="usercontrols:UC_ToolBarButtonWithText">
+        <Style.Resources>
+            <Style TargetType="Button">
+                <Setter Property="Template" Value="{DynamicResource CT_ToolBarButtonbase}" />
+            </Style> 
+        </Style.Resources>
+    </Style>
+</ResourceDictionary>
