@@ -13,8 +13,8 @@
                 </ToolTip.Content>
             </ToolTip>
         </Button.ToolTip>
-        <StackPanel>
-            <ContentControl ContentTemplate="{Binding Icon}" x:Name="CCIcon" SnapsToDevicePixels="True" UseLayoutRounding="True"/>
+        <StackPanel >
+            <ContentControl Content="{Binding Icon}" x:Name="CCIcon" SnapsToDevicePixels="True" UseLayoutRounding="True"></ContentControl>
             <Label Content="{Binding Text}" x:Name="LLabel" />
         </StackPanel>
     </Button>

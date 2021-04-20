@@ -148,14 +148,7 @@
     * Styles
     *
     ****************************************************************************************** -->
-    <Style x:Key="STY_Calendar" TargetType="{x:Type Calendar}">
-        <Setter Property="CalendarButtonStyle" Value="{DynamicResource CalendarButtonStyle}" />
-        <Setter Property="CalendarDayButtonStyle" Value="{DynamicResource CalendarDayButtonStyle}" />
-        <Setter Property="CalendarItemStyle" Value="{DynamicResource CalendarItemStyle}" />
-        <Setter Property="Background" Value="{DynamicResource Col_CalendarBackground}" />
-        <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="Template" Value="{DynamicResource CT_Calendar}" />
-    </Style>
+
 
     <Style TargetType="DatePickerTextBox">
         <Setter Property="Background" Value="{DynamicResource Col_TextBoxBackground}" />
