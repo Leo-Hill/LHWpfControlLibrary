@@ -49,11 +49,11 @@ namespace LHWpfControlLibrary.Source.UserControls
         public static readonly DependencyProperty DPText =
             DependencyProperty.Register("Text", typeof(String), typeof(UC_ToolBarButtonWithText));
 
-        //ContentControl for the icon
-        public ContentControl Icon { get { return (ContentControl)GetValue(DPIcon); } set { SetValue(DPIcon, value); } }
+        //DataTemplate for the icon
+        public DataTemplate Icon { get { return (DataTemplate)GetValue(DPIcon); } set { SetValue(DPIcon, value); } }
         //DependencyProperty for the icon
         public static readonly DependencyProperty DPIcon =
-            DependencyProperty.Register("Icon", typeof(ContentControl), typeof(UC_ToolBarButtonWithText));
+            DependencyProperty.Register("Icon", typeof(DataTemplate), typeof(UC_ToolBarButtonWithText));
       
 
         /***********************************************************************************************
