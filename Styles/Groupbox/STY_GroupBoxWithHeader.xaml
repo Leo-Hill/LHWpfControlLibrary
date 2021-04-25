@@ -48,6 +48,7 @@
     <Style x:Key="STY_GroupBoxWithHeader" TargetType="GroupBox">
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Template" Value="{StaticResource CT_GroupBoxWithHeader}" />
+        <Setter Property="Foreground" Value="{DynamicResource Col_Text}"></Setter>
     </Style>
     
 </ResourceDictionary>

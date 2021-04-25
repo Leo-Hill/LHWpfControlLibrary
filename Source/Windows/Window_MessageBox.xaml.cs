@@ -16,7 +16,7 @@ using System.Windows.Shapes;
 
 namespace LHWpfControlLibrary.Source.Windows
 {
-  
+
     public partial class Window_MessageBox : Window
     {
         /***********************************************************************************************
@@ -36,7 +36,7 @@ namespace LHWpfControlLibrary.Source.Windows
         * Constructor
         * 
         * *********************************************************************************************/
-        public Window_MessageBox()
+        private Window_MessageBox()
         {
             InitializeComponent();
         }
@@ -101,7 +101,10 @@ namespace LHWpfControlLibrary.Source.Windows
         public static MessageBoxResult MBRShow(String qsTitle, String qsText, MessageBoxButton qMessageBoxButton, ResourceDictionary qRDTheme)
         {
             Window_MessageBox window_MessageBox = new Window_MessageBox();
-            window_MessageBox.Resources.MergedDictionaries.Add(qRDTheme);                           //Set the GUI theme
+            if (qRDTheme != null)
+            {
+                window_MessageBox.Resources.MergedDictionaries.Add(qRDTheme);                           //Set the GUI theme
+            }
             window_MessageBox.LTitle.Content = qsTitle;
             window_MessageBox.LText.Content = qsText;
             window_MessageBox.vSetMessageBoxType(qMessageBoxButton);
@@ -109,6 +112,22 @@ namespace LHWpfControlLibrary.Source.Windows
             return window_MessageBox.messageBoxResult;
         }
 
-        
+        //This function shows the messagebox with the content of a inserted page
+        public static MessageBoxResult MBRShow(String qsTitle, String qsText, MessageBoxButton qMessageBoxButton, Page qInsertPage,ResourceDictionary qRDTheme)
+        {
+            Window_MessageBox window_MessageBox = new Window_MessageBox();
+            if (qRDTheme != null)
+            {
+                window_MessageBox.Resources.MergedDictionaries.Add(qRDTheme);                           //Set the GUI theme
+            }
+            window_MessageBox.FInsert.Content = qInsertPage;
+            window_MessageBox.LTitle.Content = qsTitle;
+            window_MessageBox.LText.Content = qsText;
+            window_MessageBox.vSetMessageBoxType(qMessageBoxButton);
+            window_MessageBox.ShowDialog();
+            return window_MessageBox.messageBoxResult;
+        }
+
+
     }
 }

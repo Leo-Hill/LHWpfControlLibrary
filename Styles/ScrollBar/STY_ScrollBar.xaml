@@ -70,7 +70,7 @@
                 <RowDefinition Height="0.00001*" />
                 <RowDefinition MaxHeight="18" />
             </Grid.RowDefinitions>
-            <Border Grid.RowSpan="3" Background="{DynamicResource Col_Background}" />
+            <Border Grid.RowSpan="3" Background="{DynamicResource Col_ScrollbarBackground}" />
             <RepeatButton Grid.Row="0" Style="{DynamicResource ScrollBarLineButton}" Height="18" Command="ScrollBar.LineUpCommand" Content="M 0 4 L 8 4 L 4 0 Z" />
             <Track Name="PART_Track" Grid.Row="1" IsDirectionReversed="true">
                 <Track.DecreaseRepeatButton>

@@ -16,7 +16,6 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
-                <RowDefinition Height="6" />
             </Grid.RowDefinitions>
             <Border BorderBrush="Transparent" BorderThickness="{TemplateBinding BorderThickness}" Background="{DynamicResource Col_GroupBoxBackground}" Grid.ColumnSpan="4" Grid.Column="0" CornerRadius="{DynamicResource Dim_ControlCornerRadius}" Grid.Row="1" Grid.RowSpan="3" />
             <Border BorderBrush="{DynamicResource Col_GroupBoxBorder}" BorderThickness="{TemplateBinding BorderThickness}" Grid.ColumnSpan="4" CornerRadius="{DynamicResource Dim_ControlCornerRadius}" Grid.Row="1" Grid.RowSpan="3" />

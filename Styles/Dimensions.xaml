@@ -5,18 +5,20 @@
 
     <!-- CornerRadius -->  
     <CornerRadius  x:Key="Dim_ControlCornerRadius">2</CornerRadius>                                 <!--Corner radius for special controls-->
+    <CornerRadius  x:Key="Dim_ControlCornerRadiusBottom">0,0,2,2</CornerRadius>                                 <!--Corner radius for bottom only-->
     
     <!-- Double -->
     <system:Double x:Key="Dim_dButtonWidth">90</system:Double>                                      <!-- Width of a button-->
     <system:Double x:Key="Dim_dTextBoxWidth">120</system:Double>                                    <!-- Width of a button-->
 
-    <!-- GridLength -->
-    <GridLength x:Key="Dim_GlWindowPadding">10</GridLength>                                         <!-- Padding for the borders of a window-->
-
+    
     <!-- Thickness -->
-    <Thickness x:Key="Dim_ThButtonPadding">5</Thickness>                                            <!-- Marign of a control -->
+    <Thickness x:Key="Dim_ThButtonPadding">5</Thickness>                                            <!-- Button padding -->
     <Thickness x:Key="Dim_ThStandardMargin">5</Thickness>                                           <!-- Marign of a control -->
     <Thickness x:Key="Dim_ThStandardMarginLeftRight" Left="5" Top="0" Right="5" Bottom="0" />       <!-- Marign of a control only left and right -->
+    <Thickness x:Key="Dim_ThStandardMarginMainGrid" Left="10" Top="0" Right="10" Bottom="10" />     <!-- Marign of the main window grid -->
+    <Thickness x:Key="Dim_ThStandardMarginMainGridWithTop" Left="10" Top="10" Right="10" Bottom="10" />     <!-- Marign of the main window grid including top margin-->
+    <Thickness x:Key="Dim_ThStandardMarginTop" Left="0" Top="5" Right="0" Bottom="0" />             <!-- Marign of a control only top  -->
     <Thickness x:Key="Dim_ThStandardMarginTopBottom" Left="0" Top="5" Right="0" Bottom="5" />       <!-- Marign of a control only top and bottom -->
 
 </ResourceDictionary>

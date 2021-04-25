@@ -15,7 +15,7 @@
         </Button.ToolTip>
         <StackPanel >
             <ContentControl ContentTemplate="{Binding Icon}" x:Name="CCIcon" SnapsToDevicePixels="True" UseLayoutRounding="True"></ContentControl>
-            <Label Content="{Binding Text}" x:Name="LLabel" />
+            <Label Content="{Binding Text}" x:Name="LLabel"  HorizontalAlignment="Center"/>
         </StackPanel>
     </Button>
 </UserControl>
