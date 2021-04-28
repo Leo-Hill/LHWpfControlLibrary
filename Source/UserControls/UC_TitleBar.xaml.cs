@@ -25,13 +25,13 @@ namespace LHWpfControlLibrary.Source.UserControls
         * 
         * Constants
         * 
-        * *********************************************************************************************/
+        **********************************************************************************************/
 
         /***********************************************************************************************
         * 
         * Variables
         * 
-        * *********************************************************************************************/
+        **********************************************************************************************/
         private Window WParentWindow;
 
 
@@ -39,7 +39,7 @@ namespace LHWpfControlLibrary.Source.UserControls
         * 
         * Properties
         * 
-        * *********************************************************************************************/
+        **********************************************************************************************/
         public String Title { get { return (String)GetValue(DPTitle); } set { SetValue(DPTitle, value); } }    //Title of the bar
 
         //DependencyProperty for Title
@@ -49,7 +49,7 @@ namespace LHWpfControlLibrary.Source.UserControls
         * 
         * Constructor
         * 
-        * *********************************************************************************************/
+        **********************************************************************************************/
         public UC_TitleBar()
         {
             InitializeComponent();
@@ -61,7 +61,7 @@ namespace LHWpfControlLibrary.Source.UserControls
         * 
         * Commands
         * 
-        * *********************************************************************************************/
+        **********************************************************************************************/
 
         //CommandClose is always enabled
         private void CommandMinimize_CanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -111,7 +111,7 @@ namespace LHWpfControlLibrary.Source.UserControls
         * 
         * Events
         * 
-        * *********************************************************************************************/
+        **********************************************************************************************/
         //This event is called when the control is loaded
         private void This_Loaded(object sender, RoutedEventArgs e)
         {
@@ -161,7 +161,7 @@ namespace LHWpfControlLibrary.Source.UserControls
         * 
         * Functions
         * 
-        * *********************************************************************************************/
+        **********************************************************************************************/
         //This function sets the visibility of the maximize and normalize button according to the parent window state
         void vDetermineWindowStateButton()
         {

@@ -25,13 +25,13 @@ namespace LHWpfControlLibrary.Source.UserControls
         * 
         * Constants
         * 
-        * *********************************************************************************************/
+        **********************************************************************************************/
 
         /***********************************************************************************************
         * 
         * Variables
         * 
-        * *********************************************************************************************/
+        **********************************************************************************************/
         //Objects
         public EventHandler EHCheckedChanged;
         //Primitive
@@ -40,7 +40,7 @@ namespace LHWpfControlLibrary.Source.UserControls
         * 
         * Properties
         * 
-        * *********************************************************************************************/
+        **********************************************************************************************/
         //Text
         public String Text { get { return (String)GetValue(DPText); } set { SetValue(DPText, value); } }    //Title of the bar
         public static readonly DependencyProperty DPText = DependencyProperty.Register("Text", typeof(String), typeof(UC_CheckBoxFilled));
@@ -61,7 +61,7 @@ namespace LHWpfControlLibrary.Source.UserControls
         * 
         * Construtor
         * 
-        * *********************************************************************************************/
+        **********************************************************************************************/
         public UC_CheckBoxFilled()
         {
             InitializeComponent();
@@ -73,13 +73,13 @@ namespace LHWpfControlLibrary.Source.UserControls
         * 
         * Commands
         * 
-        * *********************************************************************************************/
+        **********************************************************************************************/
 
         /***********************************************************************************************
         * 
         * Events
         * 
-        * *********************************************************************************************/
+        **********************************************************************************************/
 
         private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -111,7 +111,7 @@ namespace LHWpfControlLibrary.Source.UserControls
         * 
         * Functions
         * 
-        * *********************************************************************************************/
+        **********************************************************************************************/
         //This function allows to set the fill color programmatically by creating a new style.
         public void vSetCheckedColor(SolidColorBrush qSolidColorBrush)
         {

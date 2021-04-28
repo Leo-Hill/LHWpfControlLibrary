@@ -29,7 +29,7 @@
             <Border x:Name="border" Background="{DynamicResource Col_ComboBoxTextBoxBackground}" Margin="{TemplateBinding BorderThickness}" UseLayoutRounding="True" d:DesignUseLayoutRounding="True">
                 <TextBox x:Name="PART_EditableTextBox" Style="{DynamicResource ComboBoxTextBox}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" InputMethod.IsInputMethodEnabled="False" IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource TemplatedParent}}" Margin="{TemplateBinding Padding}" UseLayoutRounding="True" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" d:DesignUseLayoutRounding="True" />
             </Border>
-            <ContentPresenter x:Name="ContentSite" TextElement.Foreground="{DynamicResource  Col_TextBoxTextColor}" IsHitTestVisible="False" Content="{TemplateBinding SelectionBoxItem}" ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}" ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}" Margin="3,3,23,3" VerticalAlignment="Stretch" HorizontalAlignment="Left" />
+            <ContentPresenter x:Name="ContentSite" TextElement.Foreground="{DynamicResource  Col_TextBoxForeground}" IsHitTestVisible="False" Content="{TemplateBinding SelectionBoxItem}" ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}" ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}" Margin="3,3,23,3" VerticalAlignment="Stretch" HorizontalAlignment="Left" />
 
         </Grid>
         <ControlTemplate.Triggers>
@@ -84,6 +84,21 @@
         </Border>
     </ControlTemplate>
 
+    <ControlTemplate x:Key="CT_ComboboxItem" TargetType="{x:Type ComboBoxItem}">
+        <Border x:Name="Border" Padding="2" SnapsToDevicePixels="true" Background="Transparent">
+            <ContentPresenter />
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="Background" TargetName="Border" Value="{DynamicResource Col_ComboBoxItemSelected}" />
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" TargetName="Border" Value="{DynamicResource Col_ComboBoxItemMouseOver}" />
+            </Trigger>
+            
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
     <!-- ******************************************************************************************
     *
     * Styles
@@ -91,16 +106,19 @@
     ****************************************************************************************** -->
     <Style TargetType="ComboBoxItem">
         <Setter Property="Foreground" Value="{DynamicResource Col_ComboBoxDropDownTextColor}" />
+        <Setter Property="SnapsToDevicePixels" Value="true" />
+        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="Template" Value="{StaticResource CT_ComboboxItem}" />
     </Style>
 
     <Style x:Key="ComboBoxTextBox" TargetType="{x:Type TextBox}">
         <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="AllowDrop" Value="True" />
-        <Setter Property="CaretBrush" Value="{DynamicResource Col_TextBoxTextColor}" />
+        <Setter Property="CaretBrush" Value="{DynamicResource Col_TextBoxForeground}" />
         <Setter Property="MinWidth" Value="0" />
         <Setter Property="MinHeight" Value="0" />
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
-        <Setter Property="Foreground" Value="{DynamicResource Col_TextBoxTextColor}" />
+        <Setter Property="Foreground" Value="{DynamicResource Col_TextBoxForeground}" />
         <Setter Property="ScrollViewer.PanningMode" Value="VerticalFirst" />
         <Setter Property="Stylus.IsFlicksEnabled" Value="False" />
         <Setter Property="SelectionBrush" Value="{DynamicResource Col_TextBoxSelection}" />

@@ -36,7 +36,7 @@ namespace LHWpfControlLibrary.Source.UserControls
         * 
         * Constants
         * 
-        * *********************************************************************************************/
+        **********************************************************************************************/
         //Axes
         private const double D_AXIS_X_SIZE_FACTOR = 0.8;
         private const double D_AXIS_TICK_MARK_SIZE = 4;
@@ -65,7 +65,7 @@ namespace LHWpfControlLibrary.Source.UserControls
         * 
         * Variables
         * 
-        * *********************************************************************************************/
+        **********************************************************************************************/
         //Objects
         private Canvas CVSAxis, CVSSeries;
         private DispatcherTimer TIMResize;                                                          //This timer starts when the control is resized. It detects if the resize is finished by checking a timeout
@@ -93,7 +93,7 @@ namespace LHWpfControlLibrary.Source.UserControls
         * 
         * Construtor
         * 
-        * *********************************************************************************************/
+        **********************************************************************************************/
         public UC_LineChart()
         {
             InitializeComponent();
@@ -127,13 +127,13 @@ namespace LHWpfControlLibrary.Source.UserControls
         * 
         * Commands
         * 
-        * *********************************************************************************************/
+        **********************************************************************************************/
 
         /***********************************************************************************************
         * 
         * Events
         * 
-        * *********************************************************************************************/
+        **********************************************************************************************/
         //This event is called if the canvas is resized
         private void Canvas_SizeChanged(object sender, SizeChangedEventArgs e)
         {
@@ -199,7 +199,7 @@ namespace LHWpfControlLibrary.Source.UserControls
         * 
         * Functions
         * 
-        * *********************************************************************************************/
+        **********************************************************************************************/
         //This function inserts a new series to the chart
         public void vAddNewSeries(String qsSeriesName, SortedList<int, double> qSLDataPoints)
         {
@@ -545,7 +545,7 @@ namespace LHWpfControlLibrary.Source.UserControls
         * 
         * Classes
         * 
-        * *********************************************************************************************/
+        **********************************************************************************************/
         //This class contains the data of a line series
         public class Class_Series
         {

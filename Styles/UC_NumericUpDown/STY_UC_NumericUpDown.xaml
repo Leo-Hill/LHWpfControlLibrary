@@ -51,8 +51,8 @@
                 </Style.Triggers>
             </Style>
             <Style TargetType="TextBox">
-                <Setter Property="CaretBrush" Value="{DynamicResource Col_TextBoxTextColor}" />
-                <Setter Property="Foreground" Value="{DynamicResource Col_TextBoxTextColor}" />
+                <Setter Property="CaretBrush" Value="{DynamicResource Col_TextBoxForeground}" />
+                <Setter Property="Foreground" Value="{DynamicResource Col_TextBoxForeground}" />
                 <Setter Property="SelectionBrush" Value="{DynamicResource Col_TextBoxSelection}" />
                 <Setter Property="Template" Value="{StaticResource CT_NumericUpDownTextbox}" />
             </Style>
