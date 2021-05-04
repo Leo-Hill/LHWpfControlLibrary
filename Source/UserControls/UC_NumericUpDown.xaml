@@ -1,6 +1,6 @@
-﻿<UserControl x:Class="LHWpfControlLibrary.Source.UserControls.UC_NumericUpDown" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:LHWpfControlLibrary.Source.UserControls" mc:Ignorable="d" d:DesignHeight="25" d:DesignWidth="200" Loaded="UCNumericUpDown_Loaded">
+﻿<UserControl x:Name="UserControl" x:Class="LHWpfControlLibrary.Source.UserControls.UC_NumericUpDown" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:LHWpfControlLibrary.Source.UserControls" mc:Ignorable="d" d:DesignHeight="25" d:DesignWidth="200" Loaded="UCNumericUpDown_Loaded">
 
-    <Border BorderThickness="1" CornerRadius="{DynamicResource Dim_ControlCornerRadius}">
+    <Border BorderThickness="1" CornerRadius="{DynamicResource Dim_ControlCornerRadius}" DataContext="{Binding ElementName=UserControl}">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
@@ -10,7 +10,7 @@
                 <RowDefinition Height="*" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <TextBox x:Name="TBMain" Grid.Column="0" Grid.RowSpan="2" BorderThickness="0" LostFocus="TBMain_LostFocus" PreviewKeyDown="TBMain_PreviewKeyDown" PreviewTextInput="TBMain_PreviewTextInput" />
+            <TextBox x:Name="TBMain"  Grid.Column="0" Grid.RowSpan="2" BorderThickness="0" LostFocus="TBMain_LostFocus" PreviewKeyDown="TBMain_PreviewKeyDown" PreviewTextInput="TBMain_PreviewTextInput" />
             <Button Grid.Column="1" Grid.Row="0" PreviewMouseLeftButtonDown="BUp_MouseDown">
                 <Path Data="M1,5 L4,1 7,5" Fill="White" HorizontalAlignment="Center" Margin="0" SnapsToDevicePixels="True" UseLayoutRounding="True" VerticalAlignment="Center" />
             </Button>

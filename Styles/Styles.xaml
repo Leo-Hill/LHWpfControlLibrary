@@ -24,11 +24,12 @@
         <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Styles/TextBox/STY_TextBox.xaml" />
         <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Styles/Thumb/STY_Thumb.xaml" />
         <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Styles/ToolBar/STY_ToolBar.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Styles/ToolTip/STY_ToolTip.xaml" />
         <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Styles/UC_Buttons/STY_UC_ImageButtonWithText.xaml" />
         <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Styles/UC_Buttons/STY_UC_ToolBarButtonWithText.xaml" />
         <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Styles/UC_Checkboxes/STY_UC_CheckBoxFilled.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Styles/UC_TitleBar/STY_UC_TitleBar.xaml" />
         <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Styles/UC_NumericUpDown/STY_UC_NumericUpDown.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Styles/UC_TitleBar/STY_UC_TitleBar.xaml" />
         <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Styles/Window/STY_Window.xaml" />
         <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Styles/Window_MessageBox/STY_Window_MessageBox.xaml" />
     </ResourceDictionary.MergedDictionaries>

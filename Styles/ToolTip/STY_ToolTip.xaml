@@ -1,0 +1,39 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:CommentFormatter.Resources.Dictionaries.Templates">
+
+    <!-- ******************************************************************************************
+    *
+    * Control Templates
+    *
+    ****************************************************************************************** -->
+    <ControlTemplate x:Key="CT_ToolTip" TargetType="ToolTip">
+        <Border Name="Border" BorderThickness="1" CornerRadius="{DynamicResource Dim_ControlCornerRadius}" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" Background="{DynamicResource Col_ToolTipBackground}" BorderBrush="{DynamicResource Col_ToolTipBorder}" SnapsToDevicePixels="True">
+            <ContentPresenter Margin="{DynamicResource Dim_ThStandardMargin}" HorizontalAlignment="Left" VerticalAlignment="Top"  />
+        </Border>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="CT_ToolTipError" TargetType="ToolTip">
+        <Border Name="Border" BorderThickness="1" CornerRadius="{DynamicResource Dim_ControlCornerRadius}" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" Background="{DynamicResource Col_ToolTipBackground}" BorderBrush="{DynamicResource Col_ToolTipBorderError}" SnapsToDevicePixels="True">
+            <ContentPresenter Margin="{DynamicResource Dim_ThStandardMargin}" HorizontalAlignment="Left" VerticalAlignment="Top" />
+        </Border>
+    </ControlTemplate>
+
+    <!-- ******************************************************************************************
+    *
+    * Styles
+    *
+    ****************************************************************************************** -->
+    <Style TargetType="ToolTip">
+        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="HasDropShadow" Value="False" />
+        <Setter Property="Foreground" Value="{DynamicResource Col_ToolTipForeground}" />
+        <Setter Property="Template"  Value="{StaticResource CT_ToolTip}"/>
+    </Style>
+
+    <Style x:Key="ToolTipError" TargetType="ToolTip">
+        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="HasDropShadow" Value="False" />
+        <Setter Property="Foreground" Value="{DynamicResource Col_ToolTipForeground}" />
+        <Setter Property="Template" Value="{StaticResource CT_ToolTipError}" />
+    </Style>
+
+</ResourceDictionary>

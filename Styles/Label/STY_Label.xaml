@@ -2,5 +2,10 @@
 
     <Style TargetType="Label">
         <Setter Property="Foreground" Value="{DynamicResource Col_LabelText}" />
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{DynamicResource Col_TextLight}"></Setter>
+            </Trigger> 
+        </Style.Triggers>
     </Style>
 </ResourceDictionary>

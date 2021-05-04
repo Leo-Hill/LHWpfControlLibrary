@@ -1,0 +1,46 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- ******************************************************************************************
+    *
+    * Control Templates
+    *
+    ****************************************************************************************** -->
+    <ControlTemplate x:Key="CT_RadioButton" TargetType="{x:Type RadioButton}">
+        <BulletDecorator x:Name="BDecorator" Background="Transparent" VerticalAlignment="Center">
+            <BulletDecorator.Bullet>
+                <Grid Width="13" Height="13">
+                    <Border x:Name="Border" BorderThickness="1" BorderBrush="{DynamicResource Col_RadioButtonBorder}" Background="{DynamicResource Col_RadioButtonBackground}" CornerRadius="{DynamicResource Dim_ControlCornerRadius}"  />
+                    <Border x:Name="CheckMark" Margin="4" Visibility="Collapsed" Background="{DynamicResource Col_RadioButtonCheckmark}" />
+                </Grid>
+            </BulletDecorator.Bullet>
+            <ContentPresenter Margin="4,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left" RecognizesAccessKey="True" />
+        </BulletDecorator>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="BorderBrush" TargetName="Border" Value="{DynamicResource Col_RadioButtonBorderMouseOver}" />
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Background" TargetName="Border" Value="{DynamicResource Col_RadioButtonBackgroundPressed}" />
+            </Trigger>
+            <Trigger Property="IsChecked" Value="True" >
+                <Setter Property="Visibility" TargetName="CheckMark" Value="Visible" />
+            </Trigger>
+        </ControlTemplate.Triggers>
+
+    </ControlTemplate>
+
+    <!-- ******************************************************************************************
+    *
+    * Styles
+    *
+    ****************************************************************************************** -->
+
+    <Style  TargetType="RadioButton">
+        <Setter Property="SnapsToDevicePixels" Value="true" />
+        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="FocusVisualStyle" Value="{DynamicResource RadioButtonFocusVisual}" />
+        <Setter Property="Foreground" Value="{DynamicResource Col_RadioButtonText}" />
+        <Setter Property="Template" Value="{StaticResource CT_RadioButton}" />
+    </Style>
+
+</ResourceDictionary>

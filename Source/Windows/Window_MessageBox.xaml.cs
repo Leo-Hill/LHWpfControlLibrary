@@ -103,7 +103,7 @@ namespace LHWpfControlLibrary.Source.Windows
             Window_MessageBox window_MessageBox = new Window_MessageBox();
             if (qRDTheme != null)
             {
-                window_MessageBox.Resources.MergedDictionaries.Add(qRDTheme);                           //Set the GUI theme
+                window_MessageBox.Resources.MergedDictionaries.Add(qRDTheme);                       //Set the GUI theme
             }
             window_MessageBox.LTitle.Content = qsTitle;
             window_MessageBox.LText.Content = qsText;
@@ -118,7 +118,7 @@ namespace LHWpfControlLibrary.Source.Windows
             Window_MessageBox window_MessageBox = new Window_MessageBox();
             if (qRDTheme != null)
             {
-                window_MessageBox.Resources.MergedDictionaries.Add(qRDTheme);                           //Set the GUI theme
+                window_MessageBox.Resources.MergedDictionaries.Add(qRDTheme);                       //Set the GUI theme
             }
             window_MessageBox.FInsert.Content = qInsertPage;
             window_MessageBox.LTitle.Content = qsTitle;

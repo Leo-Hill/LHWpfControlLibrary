@@ -1,0 +1,61 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:usercontrols="clr-namespace:LHWpfControlLibrary.Source.UserControls">
+    <!-- ******************************************************************************************
+    *
+    * Control Templates
+    *
+    ****************************************************************************************** -->
+    <ControlTemplate x:Key="CT_ImageButtonWithText" TargetType="{x:Type Button}">
+        <Border x:Name="border" Background="{DynamicResource Col_UC_ImageButtonWithTextBackground}" BorderBrush="{DynamicResource Col_UC_ImageButtonWithTextBorder}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="{DynamicResource Dim_ControlCornerRadius}" SnapsToDevicePixels="True">
+            <ContentPresenter x:Name="contentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsDefaulted" Value="True">
+                <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource Col_UC_ImageButtonWithTextBorder}" />
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" TargetName="border" Value="{DynamicResource Col_UC_ImageButtonWithTextBackgroundMouseOver}" />
+                <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource Col_UC_ImageButtonWithTextBorderMouseOver}" />
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Background" TargetName="border" Value="{DynamicResource Col_UC_ImageButtonWithTextBackroundPressed}" />
+                <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource Col_UC_ImageButtonWithTextBorderPressed}" />
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Background" TargetName="border" Value="{DynamicResource Col_UC_ImageButtonWithTextBackground}" />
+                <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource Col_UC_ImageButtonWithTextBorder}" />
+                <Setter Property="Foreground" Value="{DynamicResource Col_TextLight}" />
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+    <!-- ******************************************************************************************
+    *
+    * Styles
+    *
+    ****************************************************************************************** -->
+    <Style TargetType="usercontrols:UC_ImageButtonWithText">
+        <Style.Resources>
+            <Style TargetType="Button">
+                <Setter Property="Template" Value="{DynamicResource CT_ImageButtonWithText}" />
+            </Style>
+            <Style TargetType="Image">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding Path=IsMouseOver,RelativeSource={RelativeSource AncestorType={x:Type Button}}}" Value="True">
+                        <Setter Property="RenderTransform">
+                            <Setter.Value>
+                                <ScaleTransform ScaleX="1" ScaleY="1" />    <!-- Scale 1 if mouse over parent button -->
+                            </Setter.Value>
+                        </Setter>
+                    </DataTrigger>
+                </Style.Triggers>
+                <Setter Property="RenderTransformOrigin" Value="0.5,0.5" />
+                <Setter Property="RenderTransform">
+                    <Setter.Value>
+                        <ScaleTransform ScaleX="0.8" ScaleY="0.8" /> <!-- Scale 0.8 by default -->
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </Style.Resources>
+        <Setter Property="Foreground" Value="{DynamicResource Col_ButtonForeground}" />
+
+    </Style>
+</ResourceDictionary>

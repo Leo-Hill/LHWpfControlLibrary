@@ -26,7 +26,7 @@
                 </Microsoft_Windows_Themes:SystemDropShadowChrome>
             </Popup>
             <ToggleButton x:Name="toggleButton" Style="{DynamicResource ComboBoxToggleButton}" Background="{DynamicResource Col_ComboBoxDropDownToggleButtonBackground}" BorderBrush="{DynamicResource Col_ComboBoxDropDownToggleButtonBorder}" BorderThickness="{TemplateBinding BorderThickness}" Grid.ColumnSpan="2" IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" UseLayoutRounding="True" d:DesignUseLayoutRounding="True" />
-            <Border x:Name="border" Background="{DynamicResource Col_ComboBoxTextBoxBackground}" Margin="{TemplateBinding BorderThickness}" UseLayoutRounding="True" d:DesignUseLayoutRounding="True">
+            <Border x:Name="border" Background="{DynamicResource Col_ComboBoxTextBoxBackground}" BorderThickness="0"  Margin="{TemplateBinding BorderThickness}" UseLayoutRounding="True" d:DesignUseLayoutRounding="True">
                 <TextBox x:Name="PART_EditableTextBox" Style="{DynamicResource ComboBoxTextBox}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" InputMethod.IsInputMethodEnabled="False" IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource TemplatedParent}}" Margin="{TemplateBinding Padding}" UseLayoutRounding="True" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" d:DesignUseLayoutRounding="True" />
             </Border>
             <ContentPresenter x:Name="ContentSite" TextElement.Foreground="{DynamicResource  Col_TextBoxForeground}" IsHitTestVisible="False" Content="{TemplateBinding SelectionBoxItem}" ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}" ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}" Margin="3,3,23,3" VerticalAlignment="Stretch" HorizontalAlignment="Left" />
@@ -50,7 +50,7 @@
                 <Setter Property="IsReadOnly" TargetName="PART_EditableTextBox" Value="True" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Opacity" TargetName="border" Value="0.56" />
+                <Setter Property="Background" TargetName="toggleButton" Value="{DynamicResource Col_ComboBoxDropDownToggleButtonBackgroundDisabled}" />
             </Trigger>
             <Trigger Property="IsKeyboardFocusWithin" Value="True">
                 <Setter Property="Foreground" Value="Black" />

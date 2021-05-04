@@ -207,7 +207,7 @@ namespace LHWpfControlLibrary.Source.UserControls
             if (qSLDataPoints.Count > 0)                                                            //Check if the sd contains data
             {
                 //Find the maximum value for the time 
-                int iMaxTimeValue = qSLDataPoints.Keys.Last();                         //Maximum time value of the added list
+                int iMaxTimeValue = qSLDataPoints.Keys.Last();                                      //Maximum time value of the added list
                 while (iMaxTimeValue > iAxisXMaxValue)
                 {
                     vIncrementMaxTime();                                                            //Recalculate the maximum time of the X-Axis
@@ -397,7 +397,7 @@ namespace LHWpfControlLibrary.Source.UserControls
                 dX = dOriginX + actDataPoint.Key * dPixelsPerSecond;
                 if (dX < (dOriginX + dAxisXLength))
                 {
-                    if (actDataPoint.Value > iAxisYMaxValue)                                 //Maximum value exceeds the X-Axis
+                    if (actDataPoint.Value > iAxisYMaxValue)                                        //Maximum value exceeds the X-Axis
                     {
                         qSeries.polyline.Points.Add(new Point(dX, dOriginY - dAxisYLength));
                     }
@@ -483,7 +483,7 @@ namespace LHWpfControlLibrary.Source.UserControls
             foreach (Class_Series series in SDSeries.Values)
             {
                 iLastIndex = series.SLDataPoints.Count()-1;
-                iMaxTimeValue = series.SLDataPoints.Keys[iLastIndex]; //Maximum time value of the list
+                iMaxTimeValue = series.SLDataPoints.Keys[iLastIndex];                               //Maximum time value of the list
                 if (iMaxTimeValue > iAxisXMaxValue)                                                 //X-Axis needs to be resized -> redraw entire chart
                 {
                     while (iMaxTimeValue > iAxisXMaxValue)
@@ -512,11 +512,11 @@ namespace LHWpfControlLibrary.Source.UserControls
                             dX = dOriginX + iTimeStamp* dPixelsPerSecond;
                             if (dX < (dOriginX + dAxisXLength))
                             {
-                                if (dValue > iAxisYMaxValue)                               //Maximum value exceeds the Y-Axis
+                                if (dValue > iAxisYMaxValue)                                        //Maximum value exceeds the Y-Axis
                                 {
                                     series.polyline.Points.Add(new Point(dX, dOriginY - dAxisYLength));
                                 }
-                                else                                                                    //Maximum value is within the Y-Axis range
+                                else                                                                //Maximum value is within the Y-Axis range
                                 {
                                     dY = dOriginY - dValue * dPixelsPerValue;
                                     series.polyline.Points.Add(new Point(dX, dY));
@@ -528,7 +528,7 @@ namespace LHWpfControlLibrary.Source.UserControls
                                 dMaxSeriesValue = dValue;
                                 if (dMaxSeriesValue > iAxisYMaxValue)
                                 {
-                                    bRescaleY = true;   //Indicator for rescaling after all points were added
+                                    bRescaleY = true;                                               //Indicator for rescaling after all points were added
                                 }
                             }
                         }
@@ -553,7 +553,7 @@ namespace LHWpfControlLibrary.Source.UserControls
             //Objects
             public Canvas canvas;                                                                   //A canvas to draw the series to
             public Polyline polyline;                                                               //The line of the series
-            public SortedList<int, double> SLDataPoints;                     //List contains all datapoints
+            public SortedList<int, double> SLDataPoints;                                            //List contains all datapoints
             public SolidColorBrush SCBStroke;                                                       //Stroke of the series
             public UC_CheckBoxFilled uC_CheckBoxFilled;                                             //The checkbox for the series
             //Primitive

@@ -1,25 +1,16 @@
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
+using System.ComponentModel;
+using System.Globalization;
 using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace LHWpfControlLibrary.Source.UserControls
 {
 
-    public partial class UC_NumericUpDown : UserControl
+    public partial class UC_NumericUpDown : UserControl, INotifyPropertyChanged
     {
         /***********************************************************************************************
         * 
@@ -34,21 +25,73 @@ namespace LHWpfControlLibrary.Source.UserControls
         **********************************************************************************************/
         //Objects
         public event EventHandler EHValueChanged;
-        private Regex RXNoLetters;                                                                  //Regex that matches disallowed text
-        //Primitive
-        //Bindings
-        private double _dCurrentNumber; public double dCurrentNumber
-        {
-            get { return _dCurrentNumber; }
-            set { _dCurrentNumber = value; if (_dCurrentNumber < iMinValue) { _dCurrentNumber = iMinValue; } else if (_dCurrentNumber > iMaxValue) { _dCurrentNumber = iMaxValue; } vConvertNumberToTextBox(); }
-        }                                                                                                                            //The current number in double format
-        public double dIncrement { get; set; }                                                                                       //Increment and decrement value
-        private int _iMaxValue; public int iMaxValue { get { return _iMaxValue; } set { _iMaxValue = value; vValidateInput(); } }    //Maximum value                                                        
-        private int _iMinValue; public int iMinValue { get { return _iMinValue; } set { _iMinValue = value; vValidateInput(); } }    //Minimum value                                                      
-        public int iNumOfDecimals { get; set; }                                                                                      //Number of decimals
+        public event PropertyChangedEventHandler PropertyChanged;
 
-        private String sNumerFormat;                                                                //The format to convert the number to text
+        private Regex RXNoLetters;                                                                  //Regex that matches disallowed text
+
+        //Primitive
+        public double dCurrentNumber                                                                //The current number in double format
+        {
+            get { return (double)GetValue(DPdCurrentNumber); }
+            set
+            {
+                SetValue(DPdCurrentNumber, (double)value);
+                if ((double)GetValue(DPdCurrentNumber) < iMinValue)
+                {
+                    SetValue(DPdCurrentNumber, (double)iMinValue);
+                }
+                else if ((double)GetValue(DPdCurrentNumber) > iMaxValue)
+                {
+                    SetValue(DPdCurrentNumber, (double)iMaxValue);
+                }
+                OnPropertyChanged(nameof(dCurrentNumber));
+            }
+        }
+        public static readonly DependencyProperty DPdCurrentNumber = DependencyProperty.Register(nameof(dCurrentNumber), typeof(double), typeof(UC_NumericUpDown), new UIPropertyMetadata(null));
+
+        private double _dIncrement = 1; public double dIncrement { get => _dIncrement; set => _dIncrement = value; }    //Increment and decrement value
+
+        public int iMaxValue                                                                        //Maximum value of the NUD     
+        {
+            get
+            {
+                return (int)GetValue(DPiMaxValue);
+            }
+            set
+            {
+                SetValue(DPiMaxValue, (int)value);
+                vValidateInput();
+            }
+        }
+        public static readonly DependencyProperty DPiMaxValue = DependencyProperty.Register(nameof(iMaxValue), typeof(int), typeof(UC_NumericUpDown), new UIPropertyMetadata(null));
+
+        public int iMinValue                                                                        //Minimum value of the NUD
+        {
+            get
+            {
+                return (int)GetValue(DPiMinValue);
+            }
+            set
+            {
+                SetValue(DPiMinValue, (int)value);
+                vValidateInput();
+            }
+        }
+        public static readonly DependencyProperty DPiMinValue = DependencyProperty.Register(nameof(iMinValue), typeof(int), typeof(UC_NumericUpDown), new UIPropertyMetadata(null));
+
+        private int _iNumOfDecimals; public int iNumOfDecimals                                      //Number of decimals
+        {
+            get => _iNumOfDecimals;
+            set
+            {
+                _iNumOfDecimals = value;
+                vSetNumberFormat();
+            }
+        }                                                                                     
+
+        private String sNumberFormat;                                                               //The format to convert the number to text
         public String sText { get { return TBMain.Text; } }                                         //The text of the textbox
+
 
         /***********************************************************************************************
         * 
@@ -58,38 +101,8 @@ namespace LHWpfControlLibrary.Source.UserControls
         public UC_NumericUpDown()
         {
             InitializeComponent();
-            DataContext = this;
-            iNumOfDecimals = 0;                                                                     //Default value no decimals
-            dIncrement = 1;                                                                         //Default increment is 1
-
-            //Check if a decimal point is allowed
-            if (iNumOfDecimals == 0)
-            {
-                if (iMinValue >= 0)
-                {
-                    RXNoLetters = new Regex("[^0-9]+");                                             //No decimal and minus alowed
-                }
-                else
-                {
-                    RXNoLetters = new Regex("[^0-9-]+");                                            //No decimal alowed
-                }
-                TBMain.Text = "0";
-            }
-            else
-            {
-                if (iMinValue >= 0)
-                {
-                    RXNoLetters = new Regex("[^0-9.,]+");                                           //Decimal but no minus alowed
-
-                }
-                else
-                {
-                    RXNoLetters = new Regex("[^0-9.,-]+");                                          //Decimal alowed
-                }
-            }
-            _dCurrentNumber = iMinValue;                                                            //Set the initial value of the number
-            sNumerFormat = "N" + iNumOfDecimals.ToString();                                         //String for formatting the number to the textbox
-            vConvertNumberToTextBox();
+            dCurrentNumber = 0;                                                                     //Set the initial value of the number
+            vSetNumberFormat();
         }
 
         /***********************************************************************************************
@@ -151,26 +164,75 @@ namespace LHWpfControlLibrary.Source.UserControls
         private void UCNumericUpDown_Loaded(object sender, RoutedEventArgs e)
         {
         }
+
+        //This event is an event of the INotifyChanged interface
+        public void OnPropertyChanged(String qSPropertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(qSPropertyName));
+        }
+       
         /***********************************************************************************************
         * 
         * Functions
         * 
         **********************************************************************************************/
-        //This function sets the textbox according to the current number
-        private void vConvertNumberToTextBox()
+        //This function initializes the binding converter to enable according to the num of decimals
+        public void vSetNumberFormat()
         {
-            TBMain.Text = _dCurrentNumber.ToString(sNumerFormat);
+            //Check if a decimal point is allowed
+            if (iNumOfDecimals == 0)
+            {
+                if (iMinValue >= 0)
+                {
+                    RXNoLetters = new Regex("[^0-9]+");                                             //No decimal and minus alowed
+                }
+                else
+                {
+                    RXNoLetters = new Regex("[^0-9-]+");                                            //No decimal alowed
+                }
+            }
+            else
+            {
+                if (iMinValue >= 0)
+                {
+                    RXNoLetters = new Regex("[^0-9.,]+");                                           //Decimal but no minus alowed
+
+                }
+                else
+                {
+                    RXNoLetters = new Regex("[^0-9.,-]+");                                          //Decimal alowed
+                }
+            }
+
+            sNumberFormat = "N" + iNumOfDecimals.ToString();                                        //String for formatting the number to the textbox
+
+            //Bind the textbox text to the double value
+            //This binding takes care, that the textbox is updated, if the dCurrentNumber is updated via binding
+            IVCDoubleToString iVCDoubleToString = new IVCDoubleToString(sNumberFormat);
+            Binding TextBoxBinding = new Binding();
+            TextBoxBinding.Path = new PropertyPath(nameof(dCurrentNumber));
+            TextBoxBinding.Converter = iVCDoubleToString;
+            TextBoxBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+            TextBoxBinding.Mode = BindingMode.OneWay;
+            TBMain.SetBinding(TextBox.TextProperty, TextBoxBinding);
+
+            OnPropertyChanged(nameof(dCurrentNumber));                                              //Trigger the converter
         }
 
         //This function decrements the number according to the increment step
         private void vDecrementNumber()
         {
-            _dCurrentNumber -= dIncrement;
-            if (_dCurrentNumber < iMinValue)
+            double dValue = (double)GetValue(DPdCurrentNumber);
+            dValue -= dIncrement;
+            if (dValue < iMinValue)
             {
-                _dCurrentNumber = iMinValue;
+                SetValue(DPdCurrentNumber, (double)iMinValue);
             }
-            vConvertNumberToTextBox();
+            else
+            {
+                SetValue(DPdCurrentNumber, dValue);
+            }
+            OnPropertyChanged(nameof(dCurrentNumber));
             if (EHValueChanged != null)
             {
                 EHValueChanged(this, EventArgs.Empty);
@@ -180,18 +242,23 @@ namespace LHWpfControlLibrary.Source.UserControls
         //This function returns the current value as int
         public int iGetInt()
         {
-            return (int)Math.Round(_dCurrentNumber);
+            return (int)Math.Round((double)GetValue(DPdCurrentNumber));
         }
 
         //This function increments the number according to the increment step
         private void vIncrementNumber()
         {
-            _dCurrentNumber += dIncrement;
-            if (_dCurrentNumber > iMaxValue)
+            double dValue = (double)GetValue(DPdCurrentNumber);
+            dValue += dIncrement;
+            if (dValue > iMaxValue)
             {
-                _dCurrentNumber = iMaxValue;
+                SetValue(DPdCurrentNumber, (double)iMaxValue);
             }
-            vConvertNumberToTextBox();
+            else
+            {
+                SetValue(DPdCurrentNumber, dValue);
+            }
+            OnPropertyChanged(nameof(dCurrentNumber));
             if (EHValueChanged != null)
             {
                 EHValueChanged(this, EventArgs.Empty);
@@ -207,57 +274,85 @@ namespace LHWpfControlLibrary.Source.UserControls
         //This function finally checks if the input is valid. If not it resets the textbox text to the current number
         private void vValidateInput()
         {
-            double dSaveValue = _dCurrentNumber;
+            double dSaveValue = (double)GetValue(DPdCurrentNumber);
             if (iNumOfDecimals == 0)                                                                //No decimals -> parsing int
             {
                 try
                 {
-                    _dCurrentNumber = int.Parse(TBMain.Text);                                       //Try to convert to int
-                    if (_dCurrentNumber < iMinValue)
+                    SetValue(DPdCurrentNumber, (double)int.Parse(TBMain.Text));                     //Try to convert to int
+                    if ((double)GetValue(DPdCurrentNumber) < iMinValue)
                     {
-                        _dCurrentNumber = iMinValue;
+                        SetValue(DPdCurrentNumber, (double)iMinValue);
+                        OnPropertyChanged(nameof(dCurrentNumber));
                     }
-                    else if (_dCurrentNumber > iMaxValue)
+                    else if ((double)GetValue(DPdCurrentNumber) > iMaxValue)
                     {
-                        _dCurrentNumber = iMaxValue;
+                        SetValue(DPdCurrentNumber, (double)iMaxValue);
+                        OnPropertyChanged(nameof(dCurrentNumber));
                     }
                 }
                 catch
                 {
 
-                }
-                finally
-                {
-                    vConvertNumberToTextBox();
                 }
             }
             else                                                                                    //Decimals -> parsing double
             {
                 try
                 {
-                    _dCurrentNumber = double.Parse(TBMain.Text);                                    //Try to convert to int
-                    if (_dCurrentNumber < iMinValue)
+                    SetValue(DPdCurrentNumber, double.Parse(TBMain.Text));                          //Try to convert to double
+                    if ((double)GetValue(DPdCurrentNumber) < iMinValue)
                     {
-                        _dCurrentNumber = iMinValue;
+                        SetValue(DPdCurrentNumber, (double)iMinValue);
+                        OnPropertyChanged(nameof(dCurrentNumber));
                     }
-                    else if (_dCurrentNumber > iMaxValue)
+                    else if ((double)GetValue(DPdCurrentNumber) > iMaxValue)
                     {
-                        _dCurrentNumber = iMaxValue;
+                        SetValue(DPdCurrentNumber, (double)iMaxValue);
+                        OnPropertyChanged(nameof(dCurrentNumber));
                     }
                 }
                 catch
                 {
 
                 }
-                finally
-                {
-                    vConvertNumberToTextBox();
-                }
             }
-            if (EHValueChanged != null && dSaveValue != _dCurrentNumber && this.IsLoaded)           //The event should be triggered if the value has changed and the control is fully loaded
+            if (EHValueChanged != null && dSaveValue != (double)GetValue(DPdCurrentNumber) && this.IsLoaded)    //The event should be triggered if the value has changed and the control is fully loaded
             {
                 EHValueChanged(this, EventArgs.Empty);
             }
         }
+
+
+        /***********************************************************************************************
+        * 
+        * Converter
+        * 
+        **********************************************************************************************/
+        //This converter is used for updtaing a property if it is chagned in a window via binding. Dataflow from Viewmodel->Property
+        public class IVCDoubleToString : IValueConverter
+        {
+            String sNumberFormat;
+
+            public IVCDoubleToString(String qsNumberFormat)
+            {
+                sNumberFormat = qsNumberFormat;
+            }
+
+            public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+            {
+                double dInput = (double)value;
+                return dInput.ToString(sNumberFormat);
+            }
+
+            public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+            {
+                throw new NotImplementedException();
+            }
+
+        }
+
     }
+
+
 }
