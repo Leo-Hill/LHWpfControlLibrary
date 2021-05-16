@@ -51,11 +51,11 @@ namespace LHWpfControlLibrary.Source.UserControls
 
         //Status
         public bool bIsChecked { get { return (bool)GetValue(DPIsChecked); } set { SetValue(DPIsChecked, value); } }    //IsChecked
-        public static readonly DependencyProperty DPIsChecked = DependencyProperty.Register("IsChecked", typeof(bool), typeof(UC_CheckBoxFilled), new UIPropertyMetadata(false));
+        public static readonly DependencyProperty DPIsChecked = DependencyProperty.Register("bIsChecked", typeof(bool), typeof(UC_CheckBoxFilled), new UIPropertyMetadata(false));
         public bool bMouseDown { get { return (bool)GetValue(DPMouseDown); } set { SetValue(DPMouseDown, value); } }    //MouseDown
-        public static readonly DependencyProperty DPMouseDown = DependencyProperty.Register("IsMouseDown", typeof(bool), typeof(UC_CheckBoxFilled), new UIPropertyMetadata(false));
+        public static readonly DependencyProperty DPMouseDown = DependencyProperty.Register("bMouseDown", typeof(bool), typeof(UC_CheckBoxFilled), new UIPropertyMetadata(false));
         public bool bPressed { get { return (bool)GetValue(DPPressed); } set { SetValue(DPPressed, value); } }    //MouseDown
-        public static readonly DependencyProperty DPPressed = DependencyProperty.Register("IsPressed", typeof(bool), typeof(UC_CheckBoxFilled), new UIPropertyMetadata(false));
+        public static readonly DependencyProperty DPPressed = DependencyProperty.Register("bPressed", typeof(bool), typeof(UC_CheckBoxFilled), new UIPropertyMetadata(false));
 
         /***********************************************************************************************
         * 
@@ -65,7 +65,7 @@ namespace LHWpfControlLibrary.Source.UserControls
         public UC_CheckBoxFilled()
         {
             InitializeComponent();
-            this.DataContext = this;
+            //this.DataContext = this;
             this.Cursor = Cursors.Hand;
         }
 

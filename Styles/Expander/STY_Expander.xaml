@@ -243,6 +243,7 @@
     <Style TargetType="{x:Type Expander}">
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Template" Value="{StaticResource CT_Expander}" />
+        <Setter Property="Foreground" Value="{DynamicResource Col_Text}" />
     </Style>
 
     <Style x:Key="ExpanderToggleButton" TargetType="{x:Type ToggleButton}">

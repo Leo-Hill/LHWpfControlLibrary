@@ -68,9 +68,13 @@
     <Compile Include="Source\UserControls\UC_TitleBar.xaml.cs">
       <DependentUpon>UC_TitleBar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Source\Windows\Window_MessageBox.xaml.cs">
+    <Compile Include="Source\Windows\Window_MessageBox\Window_MessageBox.xaml.cs">
       <DependentUpon>Window_MessageBox.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Source\Windows\Window_ProgressBox\Window_ProgressBox.xaml.cs">
+      <DependentUpon>Window_ProgressBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Source\Windows\Window_ProgressBox\Window_ProgressBoxVM.cs" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="Icons\Microsoft\AddressEditor_16x.xaml">
@@ -181,9 +185,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Source\Windows\Window_MessageBox.xaml">
+    <Page Include="Source\Windows\Window_MessageBox\Window_MessageBox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Source\Windows\Window_ProgressBox\Window_ProgressBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Styles\Calendar\STY_Calendar.xaml">
       <Generator>MSBuild:Compile</Generator>

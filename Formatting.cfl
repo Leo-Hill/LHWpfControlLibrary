@@ -1,9 +1,10 @@
-C:\Code\C#\WPF\Ressourcen\Bibliotheken\LHWpfControlLibrary\Source\UserControls\TextBoxes\UC_HexEditor.xaml.cs
+C:\Code\C#\WPF\Ressourcen\Bibliotheken\LHWpfControlLibrary\Source\Windows\Window_ProgressBox\Window_ProgressBoxVM.cs
+C:\Code\C#\WPF\Ressourcen\Bibliotheken\LHWpfControlLibrary\Source\Windows\Window_ProgressBox\Window_ProgressBox.xaml.cs
 C:\Code\C#\WPF\Ressourcen\Bibliotheken\LHWpfControlLibrary\Source\UserControls\UC_NumericUpDown.xaml.cs
-C:\Code\C#\WPF\Ressourcen\Bibliotheken\LHWpfControlLibrary\Source\UserControls\ChekBoxes\UC_CheckBoxFilled.xaml.cs
-C:\Code\C#\WPF\Ressourcen\Bibliotheken\LHWpfControlLibrary\Source\UserControls\Buttons\UC_ImageButtonWithText.xaml.cs
-C:\Code\C#\WPF\Ressourcen\Bibliotheken\LHWpfControlLibrary\Source\UserControls\UC_LineChart.xaml.cs
-C:\Code\C#\WPF\Ressourcen\Bibliotheken\LHWpfControlLibrary\Source\UserControls\UC_TitleBar.xaml.cs
-C:\Code\C#\WPF\Ressourcen\Bibliotheken\LHWpfControlLibrary\Source\UserControls\Buttons\UC_ToolBarButtonWithText.xaml.cs
-C:\Code\C#\WPF\Ressourcen\Bibliotheken\LHWpfControlLibrary\Source\Windows\Window_MessageBox.xaml.cs
 C:\Code\C#\WPF\Ressourcen\Bibliotheken\LHWpfControlLibrary\Source\CustomConverters.cs
+C:\Code\C#\WPF\Ressourcen\Bibliotheken\LHWpfControlLibrary\Source\Windows\WIndow_MessageBox\Window_MessageBox.xaml.cs
+C:\Code\C#\WPF\Ressourcen\Bibliotheken\LHWpfControlLibrary\Source\UserControls\Buttons\UC_ToolBarButtonWithText.xaml.cs
+C:\Code\C#\WPF\Ressourcen\Bibliotheken\LHWpfControlLibrary\Source\UserControls\UC_TitleBar.xaml.cs
+C:\Code\C#\WPF\Ressourcen\Bibliotheken\LHWpfControlLibrary\Source\UserControls\UC_LineChart.xaml.cs
+C:\Code\C#\WPF\Ressourcen\Bibliotheken\LHWpfControlLibrary\Source\UserControls\Buttons\UC_ImageButtonWithText.xaml.cs
+C:\Code\C#\WPF\Ressourcen\Bibliotheken\LHWpfControlLibrary\Source\UserControls\ChekBoxes\UC_CheckBoxFilled.xaml.cs

@@ -15,19 +15,19 @@
 
     <!-- The order of the following elements must NOT be changed!!! (see UC_CheckBoxFilled ) -->
     <Style x:Key="STY_CheckBoxFilledBorder" TargetType="Border">
-        <Setter Property="BorderBrush" Value="{DynamicResource Col_CheckBoxBorder}" />
-        <Setter Property="Background" Value="{DynamicResource Col_CheckBoxBackground}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource UC_CheckBoxFilledBorder}" />
+        <Setter Property="Background" Value="{DynamicResource UC_CheckBoxFilledBackground}" />
         <Style.Triggers>
-            <DataTrigger Binding="{Binding IsChecked, RelativeSource={RelativeSource FindAncestor, AncestorType=UserControl}}" Value="True">
-                <Setter Property="BorderBrush" Value="{DynamicResource Col_CheckBoxBorderChecked}"></Setter>
-                <Setter Property="Background" Value="{DynamicResource Col_CheckBoxBackgroundChecked}"></Setter>
+            <DataTrigger Binding="{Binding bIsChecked, RelativeSource={RelativeSource FindAncestor, AncestorType=UserControl}}" Value="True">
+                <Setter Property="BorderBrush" Value="{DynamicResource UC_CheckBoxFilledBorderChecked}"></Setter>
+                <Setter Property="Background" Value="{DynamicResource UC_CheckBoxFilledBackgroundChecked}"></Setter>
             </DataTrigger>
             <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource FindAncestor, AncestorType=UserControl}}" Value="True">
-                <Setter Property="BorderBrush" Value="{DynamicResource Col_CheckBoxBorderMouseOver}"></Setter>
+                <Setter Property="BorderBrush" Value="{DynamicResource UC_CheckBoxFilledBorderMouseOver}"></Setter>
             </DataTrigger>
-            <DataTrigger Binding="{Binding IsPressed, RelativeSource={RelativeSource FindAncestor, AncestorType=UserControl}}" Value="True">
-                <Setter Property="BorderBrush" Value="{DynamicResource Col_CheckBoxBorderPressed}"></Setter>
-                <Setter Property="Background" Value="{DynamicResource Col_CheckBoxBackgroundPressed}"></Setter>
+            <DataTrigger Binding="{Binding bPressed, RelativeSource={RelativeSource FindAncestor, AncestorType=UserControl}}" Value="True">
+                <Setter Property="BorderBrush" Value="{DynamicResource UC_CheckBoxFilledBorderPressed}"></Setter>
+                <Setter Property="Background" Value="{DynamicResource UC_CheckBoxFilledBackgroundPressed}"></Setter>
             </DataTrigger>
         </Style.Triggers>
     </Style>

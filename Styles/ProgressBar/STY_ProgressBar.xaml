@@ -12,7 +12,7 @@
                     <SolidColorBrush Color="Transparent" />
                 </Border.BorderBrush>
             </Border>
-            <Border x:Name="PART_Indicator" CornerRadius="2" BorderThickness="1" HorizontalAlignment="Center" Background="{DynamicResource Col_ProgressbarForeground}" Margin="0,-1,0,1">
+            <Border x:Name="PART_Indicator" CornerRadius="2" BorderThickness="1" HorizontalAlignment="Left" Background="{DynamicResource Col_ProgressbarForeground}" Margin="0,-1,0,1">
             </Border>
         </Grid>
     </ControlTemplate>

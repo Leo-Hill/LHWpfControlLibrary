@@ -87,7 +87,7 @@ namespace LHWpfControlLibrary.Source.UserControls
                 _iNumOfDecimals = value;
                 vSetNumberFormat();
             }
-        }                                                                                     
+        }
 
         private String sNumberFormat;                                                               //The format to convert the number to text
         public String sText { get { return TBMain.Text; } }                                         //The text of the textbox
@@ -170,7 +170,7 @@ namespace LHWpfControlLibrary.Source.UserControls
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(qSPropertyName));
         }
-       
+
         /***********************************************************************************************
         * 
         * Functions
@@ -182,6 +182,8 @@ namespace LHWpfControlLibrary.Source.UserControls
             //Check if a decimal point is allowed
             if (iNumOfDecimals == 0)
             {
+                sNumberFormat = "0";                                                                //String for formatting the number to the textbox
+
                 if (iMinValue >= 0)
                 {
                     RXNoLetters = new Regex("[^0-9]+");                                             //No decimal and minus alowed
@@ -193,6 +195,12 @@ namespace LHWpfControlLibrary.Source.UserControls
             }
             else
             {
+                sNumberFormat = "0.";                                                               //String for formatting the number to the textbox
+                for (int iCnt = 0; iCnt < iNumOfDecimals; iCnt++)
+                {
+                    sNumberFormat += '#';
+                }
+
                 if (iMinValue >= 0)
                 {
                     RXNoLetters = new Regex("[^0-9.,]+");                                           //Decimal but no minus alowed
@@ -203,8 +211,6 @@ namespace LHWpfControlLibrary.Source.UserControls
                     RXNoLetters = new Regex("[^0-9.,-]+");                                          //Decimal alowed
                 }
             }
-
-            sNumberFormat = "N" + iNumOfDecimals.ToString();                                        //String for formatting the number to the textbox
 
             //Bind the textbox text to the double value
             //This binding takes care, that the textbox is updated, if the dCurrentNumber is updated via binding
@@ -233,6 +239,7 @@ namespace LHWpfControlLibrary.Source.UserControls
                 SetValue(DPdCurrentNumber, dValue);
             }
             OnPropertyChanged(nameof(dCurrentNumber));
+
             if (EHValueChanged != null)
             {
                 EHValueChanged(this, EventArgs.Empty);

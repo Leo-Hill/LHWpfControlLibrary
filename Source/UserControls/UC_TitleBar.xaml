@@ -14,7 +14,7 @@
 
         <!-- Icon -->
         <StackPanel Grid.Column="0" MouseMove="StackPanel_MouseMove" Orientation="Horizontal"   >
-            <Image Margin="5,5,5,0" HorizontalAlignment="Left" Height="18" RenderOptions.BitmapScalingMode="HighQuality" />
+            <Image Margin="10,5,5,0" HorizontalAlignment="Left" Height="18" RenderOptions.BitmapScalingMode="HighQuality" />
             <Label Margin="0,1,0,0" x:Name="LTitle" Content="{Binding Title}" VerticalAlignment="Bottom"></Label>
             
         </StackPanel>
