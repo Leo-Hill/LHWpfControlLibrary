@@ -38,8 +38,7 @@ namespace LHWpfControlLibrary.Source.UserControls
         * 
         **********************************************************************************************/
         //Axes
-        private const double D_AXIS_X_SIZE_FACTOR = 0.8;
-        private const double D_AXIS_TICK_MARK_SIZE = 4;
+        private const int I_AXIS_TICK_MARK_LENGTH = 4;   //Length of the tickmark
         private const int I_MODULO_MAIN_LABELS_X = 2, I_MODULO_MAIN_LABELS_Y = 2;                   //Place a label every n-th tickmark 
         private const int I_NUM_OF_MAIN_TICK_MARKS_X = 12, I_NUM_OF_MAIN_TICK_MARKS_Y = 10;
         private const int I_TIME_INCREMENT = 30 * 60;                                               //The timestep to increment the X-Axis in seconds
@@ -70,7 +69,6 @@ namespace LHWpfControlLibrary.Source.UserControls
         private Canvas CVSAxis, CVSSeries;
         private DispatcherTimer TIMResize;                                                          //This timer starts when the control is resized. It detects if the resize is finished by checking a timeout
         ResourceDictionary RDSeriesColors = new ResourceDictionary();                               //Colors of the series
-
         public SortedDictionary<String, Class_Series> SDSeries;
         private SolidColorBrush SCBGridStroke, SCBMainStroke, SCBText;                              //Colors of the chart
 
@@ -78,17 +76,14 @@ namespace LHWpfControlLibrary.Source.UserControls
         private bool bAutoScaleMode = true;                                                         //Auto scale mode
         private double dAxisXLength, dAxisYLength;                                                  //Length of X and Y Axes
         private double dOriginX, dOriginY;                                                          //Position of the origin
-        private double dPixelsPerSecond, dPixelsPerValue;                                           //Number of pixels per second on the X-Axis and valueon the Y-Axis
+        private double dPixelsPerSecond, dPixelsPerValue;                                           //Number of pixels per second on the X-Axis and pixel per value on the Y-Axis
         private double dMaxSeriesValue;                                                             //Maximum value of all series
-        private double dAxisYIncrementValue, dAxisYDecrementValue;                                  //Values for decrement and increment the Y-Axis max value on user scaling
-        private int iAxisXMaxValue = 0, iAxisYMaxValue = 100, iAxisYMaxValueFirstDigit = 1;         //Initial values for the axes maximums. 
-
-
+        private double dAxisYZoomIncrementValue, dAxisYZoomDecrementValue;                                  //Values for decrement and increment the Y-Axis max value on user zoom scaling
+        private int iAxisXMaxValue = 0, iAxisYMaxValue = 100;         //Initial values for the axes maximums. 
+        private int iAxisYMaxValueFirstDigit = 1;         //First digit of the Y axis maximum. Used for calculating the amount of zooming on the next user scale event
 
         private String[] asAxisXLabels = new String[I_NUM_OF_MAIN_TICK_MARKS_X / I_MODULO_MAIN_LABELS_X];    //Labels for the X-Axis
-
-        //Bindings
-
+        public String sAxisXTitle="{TIME}",sAxisYTitle = "";
         /***********************************************************************************************
         * 
         * Construtor
@@ -118,7 +113,6 @@ namespace LHWpfControlLibrary.Source.UserControls
             TIMResize = new DispatcherTimer();
             TIMResize.Interval = TimeSpan.FromMilliseconds(I_INTERVAL_RESIZE_TIMER);
             TIMResize.Tick += TIMResize_Tick;
-
 
             vIncrementMaxTime();                                                                    //Set the initial max time value
         }
@@ -150,34 +144,34 @@ namespace LHWpfControlLibrary.Source.UserControls
             if (e.Delta > 0)
             {
                 bAutoScaleMode = false;                                                             //Disable auto scale mode
-                iAxisYMaxValue += (int)dAxisYIncrementValue;                                        //Increment the max value
+                iAxisYMaxValue += (int)dAxisYZoomIncrementValue;                                        //Increment the max value
                 iAxisYMaxValueFirstDigit++;                                                         //Increment the first digit 
                 if (iAxisYMaxValueFirstDigit == 10)                                                 //Transition from 9 to 10 -> increment value * 10
                 {
                     iAxisYMaxValueFirstDigit = 1;
-                    dAxisYIncrementValue *= 10;
+                    dAxisYZoomIncrementValue *= 10;
                 }
                 else if (iAxisYMaxValueFirstDigit == 2)                                             //Transition from 1 to 2 -> Decrement value * 10 ( = increment value)  
                 {
-                    dAxisYDecrementValue = dAxisYIncrementValue;
+                    dAxisYZoomDecrementValue = dAxisYZoomIncrementValue;
                 }
             }
             else if (e.Delta < 0 && iAxisYMaxValue > 1)
             {
                 bAutoScaleMode = false;                                                             //Disable auto scale mode
-                iAxisYMaxValue -= (int)dAxisYDecrementValue;
+                iAxisYMaxValue -= (int)dAxisYZoomDecrementValue;
                 iAxisYMaxValueFirstDigit--;
                 if (iAxisYMaxValueFirstDigit == 1)                                                  //Transition from 2 to 1 -> decrement value / 10
                 {
-                    dAxisYDecrementValue /= 10;
+                    dAxisYZoomDecrementValue /= 10;
                 }
                 else if (iAxisYMaxValueFirstDigit == 0)                                             //Transition from 1 to 0 (10 to 9) -> increment value / 10 ( = decrement value)
                 {
                     iAxisYMaxValueFirstDigit = 9;
-                    dAxisYIncrementValue = dAxisYDecrementValue;
+                    dAxisYZoomIncrementValue = dAxisYZoomDecrementValue;
                 }
             }
-            vDrawAll();
+             vDrawAll(); //Redraw entire chart
         }
 
 
@@ -192,7 +186,7 @@ namespace LHWpfControlLibrary.Source.UserControls
         private void TIMResize_Tick(object sender, EventArgs e)
         {
             TIMResize.Stop();
-            vDrawAll();
+             vDrawAll(); //Redraw entire chart
         }
 
         /***********************************************************************************************
@@ -201,7 +195,7 @@ namespace LHWpfControlLibrary.Source.UserControls
         * 
         **********************************************************************************************/
         //This function inserts a new series to the chart
-        public void vAddNewSeries(String qsSeriesName, SortedList<int, double> qSLDataPoints)
+        public void vAddNewSeries(String qsSeriesName, SortedList<int, float> qSLDataPoints)
         {
             Class_Series addingSeries = new Class_Series(qsSeriesName, qSLDataPoints);
             if (qSLDataPoints.Count > 0)                                                            //Check if the sd contains data
@@ -256,18 +250,24 @@ namespace LHWpfControlLibrary.Source.UserControls
             TextBlock TBLAxisYTitle = new TextBlock();                                              //TextBlock for Y-Axis
             TBLAxisYTitle.FontSize = I_FONT_SIZE_AXIS_TITLE;
             TBLAxisYTitle.Foreground = SCBText;
-            TBLAxisYTitle.Text = "$_Unit$";
-            Size SZTBLAxisYTitle = LHStringFunctions.SZMeasureString(TBLAxisYTitle);                //Measure the size of the textbox
+            TBLAxisYTitle.Text = sAxisYTitle;
+            Size SZTBLAxisYTitle = LHStringFunctions.SZMeasureString(TBLAxisYTitle);                //Measure the size of the Y-Axis tile textbox
+
+            TextBlock TBLAxisXTitle = new TextBlock();                                              //TextBlock for X-Axis
+            TBLAxisXTitle.FontSize = I_FONT_SIZE_AXIS_TITLE;
+            TBLAxisXTitle.Foreground = SCBText;
+            TBLAxisXTitle.Text = sAxisXTitle;
+            Size SZTBLAxisXTitle = LHStringFunctions.SZMeasureString(TBLAxisXTitle);                  //Measure the size of the X-Axis tile textbox
 
             TextBlock TBLAxisYLabel = new TextBlock();                                              //Biggest tickmark of the Y-Axis
             TBLAxisYLabel.FontSize = I_FONT_SIZE_LABEL;
             TBLAxisYLabel.Foreground = SCBText;
             TBLAxisYLabel.Text = iAxisYMaxValue.ToString();
-            Size SZTBLAxisYLabel = LHStringFunctions.SZMeasureString(TBLAxisYLabel);                //Measure the size of the textbox
+            Size SZTBLAxisYLabel = LHStringFunctions.SZMeasureString(TBLAxisYLabel);                //Measure the size of the 
 
             //Calculate the origin of the chart
-            dOriginY = canvas.ActualHeight - D_TEXT_MARGIN - SZTBLAxisYTitle.Height - D_TEXT_MARGIN - SZTBLAxisYLabel.Height - D_LABEL_MARGIN - D_AXIS_TICK_MARK_SIZE;    //OriginY is constraint by the bottom
-            dOriginX = D_TEXT_MARGIN + SZTBLAxisYTitle.Height + D_TEXT_MARGIN + SZTBLAxisYLabel.Width + D_LABEL_MARGIN + D_AXIS_TICK_MARK_SIZE;                           //OriginX is constraint by the left
+            dOriginY = canvas.ActualHeight - D_TEXT_MARGIN - SZTBLAxisXTitle.Height - D_TEXT_MARGIN - SZTBLAxisYLabel.Height - D_LABEL_MARGIN - I_AXIS_TICK_MARK_LENGTH;    //OriginY is constraint by the bottom
+            dOriginX = D_TEXT_MARGIN + SZTBLAxisYTitle.Height + D_TEXT_MARGIN + SZTBLAxisYLabel.Width + D_LABEL_MARGIN + I_AXIS_TICK_MARK_LENGTH;                           //OriginX is constraint by the left
             dAxisYLength = dOriginY - D_TEXT_MARGIN;                                                                                                                      //Calculate the size of the Y-Axis
             dAxisXLength = canvas.ActualWidth - dOriginX;                                                                                                                 //Calculate the size of the X-Axis
             dPixelsPerSecond = dAxisXLength / (iAxisXMaxValue);                                                                                                           //Calculate pixels per second for setting the series points
@@ -296,7 +296,7 @@ namespace LHWpfControlLibrary.Source.UserControls
             {
                 //Line
                 Line LITickMark = new Line();
-                LITickMark.X1 = dTickMarkYPosX; LITickMark.X2 = dTickMarkYPosX - D_AXIS_TICK_MARK_SIZE;
+                LITickMark.X1 = dTickMarkYPosX; LITickMark.X2 = dTickMarkYPosX - I_AXIS_TICK_MARK_LENGTH;
                 LITickMark.Y1 = LITickMark.Y2 = dTickMarkSpacingY * iTickMarkYCnt + D_TEXT_MARGIN;
                 LITickMark.Stroke = SCBMainStroke;
                 LITickMark.StrokeThickness = D_TICK_MARK_STROKE_WIDTH;
@@ -320,20 +320,15 @@ namespace LHWpfControlLibrary.Source.UserControls
                     TBLLabel.Text = (iAxisYMaxValue - iTickMarkYCnt * dLabelStep).ToString();
                     TBLLabel.TextAlignment = TextAlignment.Right;
                     Canvas.SetTop(TBLLabel, dTickMarkSpacingY * iTickMarkYCnt - SZTBLAxisYLabel.Height / 2 + D_TEXT_MARGIN);
-                    Canvas.SetRight(TBLLabel, CVSAxis.ActualWidth - dOriginX + D_AXIS_TICK_MARK_SIZE + D_LABEL_MARGIN);
+                    Canvas.SetRight(TBLLabel, CVSAxis.ActualWidth - dOriginX + I_AXIS_TICK_MARK_LENGTH + D_LABEL_MARGIN);
                     CVSAxis.Children.Add(TBLLabel);
                 }
             }
 
             //X-Axis
             //X-Axis title
-            TextBlock TBLAxisXTitle = new TextBlock();                                              //TextBlock for Y-Axis
-            TBLAxisXTitle.FontSize = I_FONT_SIZE_AXIS_TITLE;
-            TBLAxisXTitle.Foreground = SCBText;
-            TBLAxisXTitle.Text = "$_Time$";
-            Size SZTBLAxisXLabel = LHStringFunctions.SZMeasureString(TBLAxisXTitle);                                                     //Measure the size of the textbox
-            Canvas.SetTop(TBLAxisXTitle, dOriginY + D_AXIS_TICK_MARK_SIZE + D_LABEL_MARGIN + SZTBLAxisXLabel.Height + D_TEXT_MARGIN);    //Set X-Position of the Textblock
-            Canvas.SetLeft(TBLAxisXTitle, dOriginX + dAxisXLength / 2 - SZTBLAxisXLabel.Width / 2);                                      //Center the X-Axis title
+            Canvas.SetTop(TBLAxisXTitle, dOriginY + I_AXIS_TICK_MARK_LENGTH + D_LABEL_MARGIN + SZTBLAxisXTitle.Height + D_TEXT_MARGIN);    //Set X-Position of the Textblock
+            Canvas.SetLeft(TBLAxisXTitle, dOriginX + dAxisXLength / 2 - SZTBLAxisXTitle.Width / 2);                                      //Center the X-Axis title
             CVSAxis.Children.Add(TBLAxisXTitle);
 
             //X-Axis line
@@ -352,7 +347,7 @@ namespace LHWpfControlLibrary.Source.UserControls
             {
                 Line LITickMark = new Line();
                 LITickMark.X1 = LITickMark.X2 = dOriginX + dTickMarkSpacingX * iTickMarkXCnt;
-                LITickMark.Y1 = dTickMarkXPosY; LITickMark.Y2 = dTickMarkXPosY + D_AXIS_TICK_MARK_SIZE;
+                LITickMark.Y1 = dTickMarkXPosY; LITickMark.Y2 = dTickMarkXPosY + I_AXIS_TICK_MARK_LENGTH;
                 LITickMark.Stroke = SCBMainStroke;
                 LITickMark.StrokeThickness = D_TICK_MARK_STROKE_WIDTH;
                 CVSAxis.Children.Add(LITickMark);
@@ -374,7 +369,7 @@ namespace LHWpfControlLibrary.Source.UserControls
                     TBLLabel.Foreground = SCBText;
                     TBLLabel.Text = asAxisXLabels[iTickMarkXCnt / I_MODULO_MAIN_LABELS_X - 1];
                     TBLLabel.TextAlignment = TextAlignment.Right;
-                    Canvas.SetTop(TBLLabel, dOriginY + D_AXIS_TICK_MARK_SIZE + D_LABEL_MARGIN);
+                    Canvas.SetTop(TBLLabel, dOriginY + I_AXIS_TICK_MARK_LENGTH + D_LABEL_MARGIN);
                     Canvas.SetLeft(TBLLabel, dOriginX + dTickMarkSpacingX * iTickMarkXCnt - LHStringFunctions.SZMeasureString(TBLLabel).Width / 2);
                     CVSAxis.Children.Add(TBLLabel);
                 }
@@ -392,7 +387,7 @@ namespace LHWpfControlLibrary.Source.UserControls
             qSeries.iSLReadIndex = 0;
             qSeries.polyline.Points.Clear();
             double dX, dY;
-            foreach (KeyValuePair<int, double> actDataPoint in qSeries.SLDataPoints)
+            foreach (KeyValuePair<int, float> actDataPoint in qSeries.SLDataPoints)
             {
                 dX = dOriginX + actDataPoint.Key * dPixelsPerSecond;
                 if (dX < (dOriginX + dAxisXLength))
@@ -441,17 +436,17 @@ namespace LHWpfControlLibrary.Source.UserControls
                 dMaxSeriesValueTemp /= 10;
                 iPowCnt++;
             }
-            iAxisYMaxValue = (int)Math.Pow(10, iPowCnt - 1);                                        //Calculate the step size for increase decrease
-            dAxisYIncrementValue = dAxisYDecrementValue = iAxisYMaxValue;                           //Save the value for zoom step
+            iAxisYMaxValue = (int)Math.Pow(10, iPowCnt - 1);                                        //Calculate the step size for zooming
+            dAxisYZoomIncrementValue = dAxisYZoomDecrementValue = iAxisYMaxValue;                           //Save the value for zoom step
             iAxisYMaxValueFirstDigit = (1 + (int)(dMaxSeriesValue / iAxisYMaxValue));               //Save the first digit of the new max value
             iAxisYMaxValue *= iAxisYMaxValueFirstDigit;                                             //Calculate the new max value
 
-            if (iAxisYMaxValueFirstDigit == 10)
+            if (iAxisYMaxValueFirstDigit == 10) //Hanle calculation overflow and set the next decade as first digit and zoom factor
             {
                 iAxisYMaxValueFirstDigit = 1;
-                dAxisYIncrementValue *= 10;
+                dAxisYZoomIncrementValue *= 10;
             }
-            vDrawAll();
+            vDrawAll(); //Redraw entire chart
         }
 
         //This function sets the color theme of the chart
@@ -472,17 +467,17 @@ namespace LHWpfControlLibrary.Source.UserControls
                 RDSeriesColors.Source = new Uri("pack://application:,,,/LHWpfControlLibrary;Component/Styles/UC_LineChart/THM_LineChartSeries.Night.xaml", UriKind.Absolute);
             }
 
+            vDrawAll();
         }
 
         //This function calls the update mechanism of all series
         public void vUpdateAllSeries()
         {
-            bool  bRescaleY = false;
             double dX, dY;
             int iLastIndex, iMaxTimeValue;
             foreach (Class_Series series in SDSeries.Values)
             {
-                iLastIndex = series.SLDataPoints.Count()-1;
+                iLastIndex = series.SLDataPoints.Count() - 1;
                 iMaxTimeValue = series.SLDataPoints.Keys[iLastIndex];                               //Maximum time value of the list
                 if (iMaxTimeValue > iAxisXMaxValue)                                                 //X-Axis needs to be resized -> redraw entire chart
                 {
@@ -490,26 +485,27 @@ namespace LHWpfControlLibrary.Source.UserControls
                     {
                         vIncrementMaxTime();                                                        //Recalculate the maximum time of the X-Axis
                     }
-                    vDrawAll();
+                     vDrawAll(); //Redraw entire chart
                     return;
                 }
-                else if(series.iSLReadIndex>=series.SLDataPoints.Count)
+                else if (series.iSLReadIndex >= series.SLDataPoints.Count)
                 {
-                    vDrawAll();
+                     vDrawAll(); //Redraw entire chart
                     return;
                 }
                 else                                                                                //X-Axis needs no resize -> only add new points to the polyline and dont redraw
                 {
+                    bool bRescaleY = false;
                     int iTimeStamp;
                     double dValue;
                     while (iLastIndex != series.iSLReadIndex)
                     {
                         series.iSLReadIndex++;
                         iTimeStamp = series.SLDataPoints.Keys[series.iSLReadIndex];
-                        dValue= series.SLDataPoints.Values[series.iSLReadIndex];
+                        dValue = series.SLDataPoints.Values[series.iSLReadIndex];
                         if (series.SLDataPoints.ContainsKey(series.iSLReadIndex))
                         {
-                            dX = dOriginX + iTimeStamp* dPixelsPerSecond;
+                            dX = dOriginX + iTimeStamp * dPixelsPerSecond;
                             if (dX < (dOriginX + dAxisXLength))
                             {
                                 if (dValue > iAxisYMaxValue)                                        //Maximum value exceeds the Y-Axis
@@ -522,7 +518,7 @@ namespace LHWpfControlLibrary.Source.UserControls
                                     series.polyline.Points.Add(new Point(dX, dY));
                                 }
                             }
-                            //Check if the new valueis the new biggest value
+                            //Check if the new value is the new biggest value
                             if (dValue > dMaxSeriesValue)
                             {
                                 dMaxSeriesValue = dValue;
@@ -533,7 +529,7 @@ namespace LHWpfControlLibrary.Source.UserControls
                             }
                         }
                     }
-                    if(bRescaleY)
+                    if (bRescaleY)
                     {
                         vRescaleY();
                     }
@@ -553,7 +549,7 @@ namespace LHWpfControlLibrary.Source.UserControls
             //Objects
             public Canvas canvas;                                                                   //A canvas to draw the series to
             public Polyline polyline;                                                               //The line of the series
-            public SortedList<int, double> SLDataPoints;                                            //List contains all datapoints
+            public SortedList<int, float> SLDataPoints;                                            //List contains all datapoints
             public SolidColorBrush SCBStroke;                                                       //Stroke of the series
             public UC_CheckBoxFilled uC_CheckBoxFilled;                                             //The checkbox for the series
             //Primitive
@@ -561,7 +557,7 @@ namespace LHWpfControlLibrary.Source.UserControls
             public String sSeriesName;                                                              //Name of the series. Is shown in the legend
 
             //Constructor
-            public Class_Series(String qsSeriesName, SortedList<int, double> qSLDataPoints)
+            public Class_Series(String qsSeriesName, SortedList<int, float> qSLDataPoints)
             {
                 canvas = new Canvas();
                 sSeriesName = qsSeriesName;
@@ -603,8 +599,6 @@ namespace LHWpfControlLibrary.Source.UserControls
                 uC_CheckBoxFilled.vSetCheckedColor(SCBStroke);
                 polyline.Stroke = SCBStroke;
             }
-
-
         }
 
     }

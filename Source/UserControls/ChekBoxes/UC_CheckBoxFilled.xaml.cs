@@ -51,11 +51,11 @@ namespace LHWpfControlLibrary.Source.UserControls
 
         //Status
         public bool bIsChecked { get { return (bool)GetValue(DPIsChecked); } set { SetValue(DPIsChecked, value); } }    //IsChecked
-        public static readonly DependencyProperty DPIsChecked = DependencyProperty.Register("bIsChecked", typeof(bool), typeof(UC_CheckBoxFilled), new UIPropertyMetadata(false));
+        public static readonly DependencyProperty DPIsChecked = DependencyProperty.Register(nameof(bIsChecked), typeof(bool), typeof(UC_CheckBoxFilled), new UIPropertyMetadata(false));
         public bool bMouseDown { get { return (bool)GetValue(DPMouseDown); } set { SetValue(DPMouseDown, value); } }    //MouseDown
-        public static readonly DependencyProperty DPMouseDown = DependencyProperty.Register("bMouseDown", typeof(bool), typeof(UC_CheckBoxFilled), new UIPropertyMetadata(false));
-        public bool bPressed { get { return (bool)GetValue(DPPressed); } set { SetValue(DPPressed, value); } }    //MouseDown
-        public static readonly DependencyProperty DPPressed = DependencyProperty.Register("bPressed", typeof(bool), typeof(UC_CheckBoxFilled), new UIPropertyMetadata(false));
+        public static readonly DependencyProperty DPMouseDown = DependencyProperty.Register(nameof(bMouseDown), typeof(bool), typeof(UC_CheckBoxFilled), new UIPropertyMetadata(false));
+        public bool bIsPressed { get { return (bool)GetValue(DPPressed); } set { SetValue(DPPressed, value); } }    //MouseDown
+        public static readonly DependencyProperty DPPressed = DependencyProperty.Register(nameof(bIsPressed), typeof(bool), typeof(UC_CheckBoxFilled), new UIPropertyMetadata(false));
 
         /***********************************************************************************************
         * 
@@ -83,12 +83,12 @@ namespace LHWpfControlLibrary.Source.UserControls
 
         private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            bPressed = true;
+            bIsPressed = true;
         }
 
         private void Grid_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            if (true == bPressed)
+            if (true == bIsPressed)
             {
                 bIsChecked = !bIsChecked;
                 if(null!=EHCheckedChanged)
@@ -96,15 +96,15 @@ namespace LHWpfControlLibrary.Source.UserControls
                     EHCheckedChanged(this, EventArgs.Empty);
                 }
             }
-            bPressed = false;
+            bIsPressed = false;
             
         }
 
         private void Grid_MouseLeave(object sender, MouseEventArgs e)
         {
-            if(true==bPressed)
+            if(true==bIsPressed)
             {
-                bPressed = false;
+                bIsPressed = false;
             }
         }
         /***********************************************************************************************
@@ -123,7 +123,7 @@ namespace LHWpfControlLibrary.Source.UserControls
 
             DataTrigger DTIsChecked = new DataTrigger();                                            //DataTrigger for checked
             Binding binding = new Binding();                                                        //Binding for the datatrigger
-            binding.Path = new PropertyPath("IsChecked");
+            binding.Path = new PropertyPath(nameof(bIsChecked));
             binding.Source = this;
             DTIsChecked.Binding = binding;
             DTIsChecked.Value = true;
@@ -132,7 +132,7 @@ namespace LHWpfControlLibrary.Source.UserControls
 
             DataTrigger DTIsPressed = new DataTrigger();                                            //DataTrigger for is pressed
             binding = new Binding();                                                                //Binding for the datatrigger
-            binding.Path = new PropertyPath("IsPressed");
+            binding.Path = new PropertyPath(nameof(bIsPressed));
             binding.Source = this;
             DTIsPressed.Binding = binding;
             DTIsPressed.Value = true;

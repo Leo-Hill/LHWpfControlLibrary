@@ -171,10 +171,6 @@
     *
     ****************************************************************************************** -->
 
-    <ResourceDictionary x:Key="sepp">
-        
-    </ResourceDictionary>
-
     <Style TargetType="GridViewColumnHeader">
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />

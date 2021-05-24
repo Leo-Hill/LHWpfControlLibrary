@@ -13,19 +13,5 @@
     <SolidColorBrush x:Key="Col_5" Color="#FFE91E63" />
     <SolidColorBrush x:Key="Col_6" Color="#FF9C27B0" />
     
-    <SolidColorBrush x:Key="Col_7" Color="#FF9C27B0" />
-    <SolidColorBrush x:Key="Col_8" Color="#FF9C27B0" />
-    <SolidColorBrush x:Key="Col_9" Color="#FF9C27B0" />
-    <SolidColorBrush x:Key="Col_10" Color="#FF9C27B0" />
-    <SolidColorBrush x:Key="Col_11" Color="#FF9C27B0" />
-    <SolidColorBrush x:Key="Col_12" Color="#FF9C27B0" />
-    <SolidColorBrush x:Key="Col_13" Color="#FF9C27B0" />
-    <SolidColorBrush x:Key="Col_14" Color="#FF9C27B0" />
-    <SolidColorBrush x:Key="Col_15" Color="#FF9C27B0" />
-    <SolidColorBrush x:Key="Col_16" Color="#FF9C27B0" />
-    <SolidColorBrush x:Key="Col_17" Color="#FF9C27B0" />
-    <SolidColorBrush x:Key="Col_18" Color="#FF9C27B0" />
-    <SolidColorBrush x:Key="Col_19" Color="#FF9C27B0" />
-    <SolidColorBrush x:Key="Col_20" Color="#FF9C27B0" />
     
 </ResourceDictionary>
