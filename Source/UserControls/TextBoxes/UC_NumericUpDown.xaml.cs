@@ -163,6 +163,7 @@ namespace LHWpfControlLibrary.Source.UserControls
         //This event is called if the controll is fully loaded
         private void UCNumericUpDown_Loaded(object sender, RoutedEventArgs e)
         {
+            dCurrentNumber = 0;
         }
 
         //This event is an event of the INotifyChanged interface

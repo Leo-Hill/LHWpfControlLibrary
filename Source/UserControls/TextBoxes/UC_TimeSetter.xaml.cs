@@ -37,9 +37,25 @@ namespace LHWpfControlLibrary.Source.UserControls
         }
         public static readonly DependencyProperty DPdateTime = DependencyProperty.Register(nameof(dateTime), typeof(DateTime), typeof(UC_TimeSetter), new UIPropertyMetadata(null));
 
+        private DateTime MinDateTime; //Minimum datetime (calculated with iMinTime)
+
         public event PropertyChangedEventHandler PropertyChanged;
         private Regex RXNoLetters;                                                                  //Regex that matches disallowed text
         private TextBox TBLastSelected;
+
+        //Primitive
+        public int iMinTime //Minimum time in seconds
+        {
+            get
+            {
+                return (int)GetValue(DPiMinTime);
+            }
+            set
+            {
+                SetValue(DPiMinTime, value);
+            }
+        }
+        public static readonly DependencyProperty DPiMinTime = DependencyProperty.Register(nameof(iMinTime), typeof(int), typeof(UC_TimeSetter), new UIPropertyMetadata(null));
 
         /***********************************************************************************************
         * 
@@ -49,7 +65,8 @@ namespace LHWpfControlLibrary.Source.UserControls
         public UC_TimeSetter()
         {
             InitializeComponent();
-            TBLastSelected = TBHours;
+           
+            TBLastSelected = TBSecons;
             RXNoLetters = new Regex("[^0-9]+");                                                     //Only numbers alowed
         }
 
@@ -206,7 +223,14 @@ namespace LHWpfControlLibrary.Source.UserControls
                 e.Handled = true;
             }
         }
-
+        
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            MinDateTime = new DateTime();
+            MinDateTime = MinDateTime.AddSeconds((int)GetValue(DPiMinTime));
+            dateTime = MinDateTime;
+            vTextBoxesFromDateTime();
+        }
 
         /***********************************************************************************************
         * 
@@ -217,12 +241,25 @@ namespace LHWpfControlLibrary.Source.UserControls
         private void vDateTimeFromTextBoxes()
         {
             dateTime = new DateTime();
-            SetValue(DPdateTime, dateTime.AddHours(int.Parse(TBHours.Text)).AddMinutes(int.Parse(TBMinutes.Text)).AddSeconds(int.Parse(TBSecons.Text)));
+            dateTime = dateTime.AddHours(int.Parse(TBHours.Text)).AddMinutes(int.Parse(TBMinutes.Text)).AddSeconds(int.Parse(TBSecons.Text));
+            if (DateTime.Compare(MinDateTime, dateTime) > 0)
+            {
+                dateTime = MinDateTime;
+                vTextBoxesFromDateTime();
+            }
+            SetValue(DPdateTime, dateTime);
             OnPropertyChanged(nameof(dateTime));
+        }
+
+        //This function sets the texboxes according to the datetime
+        private void vTextBoxesFromDateTime()
+        {
+            TBHours.Text = dateTime.Hour.ToString("00");
+            TBMinutes.Text = dateTime.Minute.ToString("00");
+            TBSecons.Text = dateTime.Second.ToString("00");
         }
 
        
     }
-
 
 }

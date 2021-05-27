@@ -646,7 +646,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\LHCommonFunctions\LHCommonFunctions.csproj">
+    <ProjectReference Include="..\LHWpfCommonFunctions\LHCommonFunctions.csproj">
       <Project>{78736005-4136-4c68-b9dd-6068c811b488}</Project>
       <Name>LHCommonFunctions</Name>
     </ProjectReference>
