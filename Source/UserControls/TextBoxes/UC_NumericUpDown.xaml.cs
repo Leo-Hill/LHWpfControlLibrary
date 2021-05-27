@@ -154,7 +154,7 @@ namespace LHWpfControlLibrary.Source.UserControls
         //This event is called before the text of the textbox is changed
         private void TBMain_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            if (!bTextIsAllowed(e.Text))
+            if (RXNoLetters.IsMatch(e.Text))
             {
                 e.Handled = true;
             }
@@ -270,12 +270,6 @@ namespace LHWpfControlLibrary.Source.UserControls
             {
                 EHValueChanged(this, EventArgs.Empty);
             }
-        }
-
-        //This function returns true if the text is allowed in the textbox
-        private bool bTextIsAllowed(string text)
-        {
-            return !RXNoLetters.IsMatch(text);
         }
 
         //This function finally checks if the input is valid. If not it resets the textbox text to the current number

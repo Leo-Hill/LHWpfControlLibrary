@@ -18,6 +18,10 @@
                 <Setter Property="Background" TargetName="border" Value="{DynamicResource Col_UC_NumericUpDownButtonBackgroundPressed}" />
                 <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource Col_UC_NumericUpDownButtonBorderPressed}" />
             </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Background" TargetName="border" Value="{DynamicResource Col_UC_NumericUpDownButtonBackgroundDisabled}" />
+                <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource Col_UC_NumericUpDownButtonBorderDisabled}" />
+            </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
 

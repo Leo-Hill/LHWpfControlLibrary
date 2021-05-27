@@ -56,10 +56,13 @@
     <Compile Include="Source\UserControls\ChekBoxes\UC_CheckBoxFilled.xaml.cs">
       <DependentUpon>UC_CheckBoxFilled.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Source\UserControls\TextBoxes\UC_TimeSetter.xaml.cs">
+      <DependentUpon>UC_TimeSetter.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Source\UserControls\UC_LineChart.xaml.cs">
       <DependentUpon>UC_LineChart.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Source\UserControls\UC_NumericUpDown.xaml.cs">
+    <Compile Include="Source\UserControls\TextBoxes\UC_NumericUpDown.xaml.cs">
       <DependentUpon>UC_NumericUpDown.xaml</DependentUpon>
     </Compile>
     <Compile Include="Source\UserControls\Buttons\UC_ToolBarButtonWithText.xaml.cs">
@@ -82,6 +85,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Icons\Microsoft\16x\Add_16x.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Icons\Microsoft\16x\SearchNode_16x.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Icons\Microsoft\16x\CloudSearch_16x.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -121,7 +132,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Icons\Microsoft\16x\IOTChip_16x.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Icons\Microsoft\16x\PopOut_16x.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Icons\Microsoft\16x\QuickFind_16x.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -138,6 +157,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Icons\Microsoft\16x\SDK_16x.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Icons\Microsoft\16x\Search_16x.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -177,6 +200,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Icons\Microsoft\24x\CloudSearch_24x.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Icons\Microsoft\24x\DeleteTable_24x.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -213,11 +240,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Icons\Microsoft\24x\IOTChip_24x.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Icons\Microsoft\24x\OpenFolder_24x.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Icons\Microsoft\24x\PopOut_24x.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Icons\Microsoft\24x\QuickFind_24x.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -238,6 +273,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Icons\Microsoft\24x\SDK_24x.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Icons\Microsoft\24x\SearchNode_24x.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Icons\Microsoft\24x\Search_24x.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -281,6 +324,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Icons\Microsoft\32x\CloudSearch_32x.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Icons\Microsoft\32x\DeleteTable_32x.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -317,11 +364,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Icons\Microsoft\32x\IOTChip_32x.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Icons\Microsoft\32x\OpenFolder_32x.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Icons\Microsoft\32x\PopOut_32x.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Icons\Microsoft\32x\QuickFind_32x.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -342,6 +397,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Icons\Microsoft\32x\SDK_32x.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Icons\Microsoft\32x\SearchNode_32x.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Icons\Microsoft\32x\Search_32x.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -405,11 +468,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Source\UserControls\TextBoxes\UC_TimeSetter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Source\UserControls\UC_LineChart.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Source\UserControls\UC_NumericUpDown.xaml">
+    <Page Include="Source\UserControls\TextBoxes\UC_NumericUpDown.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -557,6 +624,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Styles\UC_TimeSetter\STY_UC_TimeSetter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Styles\UC_TitleBar\STY_UC_TitleBar.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -580,8 +651,6 @@
       <Name>LHCommonFunctions</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Source\UserControls\TextBoxes\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -6,7 +6,7 @@
     ****************************************************************************************** -->
 
     <ControlTemplate x:Key="CT_DatePicker" TargetType="{x:Type DatePicker}">
-        <Border x:Name="OuterBorder" BorderBrush="{DynamicResource Col_DatePickerBorder}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" CornerRadius="{DynamicResource Dim_ControlCornerRadius}" Padding="{TemplateBinding Padding}">
+        <Border x:Name="OuterBorder" BorderBrush="{DynamicResource Col_DatePickerBorder}"  BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" CornerRadius="{DynamicResource Dim_ControlCornerRadius}" Padding="{TemplateBinding Padding}">
             <Grid x:Name="PART_Root" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
                 <Grid.Resources>
                     <SolidColorBrush x:Key="Ģ" Color="#A5FFFFFF" />
@@ -108,7 +108,7 @@
                     </Grid.ColumnDefinitions>
                     <Rectangle Grid.Column="0" Fill="#A5FFFFFF" RadiusY="1" Grid.Row="0" RadiusX="1" />
                     <Rectangle Grid.Column="1" Fill="#A5FFFFFF" Height="18" Margin="3,0" RadiusY="1" Grid.Row="0" RadiusX="1" Width="19" />
-                    <Popup x:Name="PART_Popup" AllowsTransparency="True" Placement="Bottom" StaysOpen="False" />
+                    <Popup x:Name="PART_Popup" AllowsTransparency="True" Placement="Bottom" StaysOpen="False"  />
                 </Grid>
             </Grid>
         </Border>
@@ -155,6 +155,11 @@
         <Setter Property="Foreground" Value="{DynamicResource Col_TextBoxForeground}" />
         <Setter Property="SelectionBrush" Value="{DynamicResource Col_TextBoxSelection}" />
         <Setter Property="Template" Value="{StaticResource CT_DatepickerTextBox}" />
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Background" Value="{DynamicResource Col_TextBoxBackgroundDisabled}" />
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
     <Style TargetType="DatePicker">

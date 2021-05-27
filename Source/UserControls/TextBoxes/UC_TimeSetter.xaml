@@ -1,0 +1,32 @@
+﻿<UserControl x:Name="UserControl" x:Class="LHWpfControlLibrary.Source.UserControls.UC_TimeSetter" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:LHWpfControlLibrary.Source.UserControls" mc:Ignorable="d" d:DesignHeight="25" d:DesignWidth="200" PreviewKeyDown="UserControl_PreviewKeyDown">
+
+    <Border BorderThickness="1" CornerRadius="{DynamicResource Dim_ControlCornerRadius}" DataContext="{Binding ElementName=UserControl}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="17" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <TextBox x:Name="TBHours" Grid.Column="0" Grid.RowSpan="2" BorderThickness="0" GotFocus="TBInput_GotFocus" LostFocus="TBHours_LostFocus" PreviewTextInput="TBInput_PreviewTextInput" PreviewMouseDown="TBInput_PreviewMouseDown"  Text="00" VerticalAlignment="Center" />
+            <Label Grid.Column="1" Grid.RowSpan="2" Content=":" HorizontalAlignment="Center" Padding="0" VerticalAlignment="Center" />
+            <TextBox x:Name="TBMinutes" Grid.Column="2" Grid.RowSpan="2" BorderThickness="0" GotFocus="TBInput_GotFocus" LostFocus="TBHours_LostFocus" PreviewTextInput="TBInput_PreviewTextInput" PreviewMouseDown="TBInput_PreviewMouseDown" Text="00" VerticalAlignment="Center" />
+            <Label Grid.Column="3" Grid.RowSpan="2" Content=":" HorizontalAlignment="Center" Padding="0" VerticalAlignment="Center" />
+            <TextBox x:Name="TBSecons" Grid.Column="4" Grid.RowSpan="2" BorderThickness="0" GotFocus="TBInput_GotFocus" LostFocus="TBHours_LostFocus" PreviewTextInput="TBInput_PreviewTextInput" PreviewMouseDown="TBInput_PreviewMouseDown" Text="00" VerticalAlignment="Center" />
+
+            <Button Grid.Column="5" Grid.Row="0" GotFocus="B_GotFocus" PreviewMouseLeftButtonDown="BUp_MouseDown" >
+                <Path Data="M1,5 L4,1 7,5" Fill="White" HorizontalAlignment="Center" Margin="0" SnapsToDevicePixels="True" UseLayoutRounding="True" VerticalAlignment="Center" />
+            </Button>
+            <Button Grid.Column="5" Grid.Row="1" GotFocus="B_GotFocus" PreviewMouseLeftButtonDown="BDown_MouseDown">
+                <Path Data="M1,1 L4,5 7,1" Fill="White" HorizontalAlignment="Center" Margin="0" SnapsToDevicePixels="True" UseLayoutRounding="True" VerticalAlignment="Center" />
+            </Button>
+        </Grid>
+    </Border>
+
+</UserControl>

@@ -30,6 +30,7 @@
         <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Styles/UC_Buttons/STY_UC_ToolBarButtonWithText.xaml" />
         <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Styles/UC_Checkboxes/STY_UC_CheckBoxFilled.xaml" />
         <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Styles/UC_NumericUpDown/STY_UC_NumericUpDown.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Styles/UC_TimeSetter/STY_UC_TimeSetter.xaml" />
         <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Styles/UC_TitleBar/STY_UC_TitleBar.xaml" />
         <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Styles/Window/STY_Window.xaml" />
         <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Styles/Window_MessageBox/STY_Window_MessageBox.xaml" />

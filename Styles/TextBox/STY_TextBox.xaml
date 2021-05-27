@@ -16,6 +16,9 @@
             <Trigger Property="IsFocused" Value="True">
                 <Setter Property="BorderBrush" TargetName="Border" Value="{DynamicResource Col_TextBoxBorderFocus}" />
             </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="BorderBrush" TargetName="Border" Value="{DynamicResource Col_TextBoxBackgroundDisabled}" />
+            </Trigger>
             <Trigger Property="Validation.HasError" Value="true">
                 <Setter Property="BorderBrush" TargetName="Border" Value="{DynamicResource Col_TextBoxValidationError}" />
                 <Setter Property="ToolTip" Value="{Binding RelativeSource={x:Static RelativeSource.Self},Path=(Validation.Errors)/ErrorContent}" />

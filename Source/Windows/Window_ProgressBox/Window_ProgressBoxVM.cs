@@ -33,7 +33,7 @@ namespace LHWpfControlLibrary.Source.Windows
         public abstract int iProgress { get; }                                                      //Progress the progressbar binds to
 
         public abstract String sHeader { get; }                                                     //Header text
-        public abstract String sProgressText { get; set; }                                               //Text above the progressbar
+        public abstract String sProgressText { get; set; }                                          //Text above the progressbar
 
 
         /***********************************************************************************************
@@ -51,7 +51,7 @@ namespace LHWpfControlLibrary.Source.Windows
         public abstract Class_RelayCommand Command_OK { get; }
         public virtual void vCommand_OK_Executed(Object qObject)
         {
-            EHOnRequestClose.Invoke(this, new EventArgs()); //Close the window
+            EHOnRequestClose.Invoke(this, new EventArgs());                                         //Close the window
         }
         public abstract bool bCommand_OK_CanExecute(Object qObject);
 
