@@ -301,7 +301,7 @@
     <Style TargetType="CalendarButton" x:Key="CalendarButtonStyle">
         <Setter Property="MinWidth" Value="40" />
         <Setter Property="MinHeight" Value="42" />
-        <Setter Property="FontSize" Value="10" />
+        <Setter Property="FontSize" Value="12" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Template" Value="{StaticResource CT_CalendarButton}" />
@@ -316,7 +316,7 @@
     <Style TargetType="CalendarDayButton" x:Key="CalendarDayButtonStyle">
         <Setter Property="MinWidth" Value="5" />
         <Setter Property="MinHeight" Value="5" />
-        <Setter Property="FontSize" Value="10" />
+        <Setter Property="FontSize" Value="12" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Template" Value="{StaticResource CT_CalendarDayButton}">

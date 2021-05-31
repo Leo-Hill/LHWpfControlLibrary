@@ -24,18 +24,18 @@ namespace LHWpfControlLibrary.Source.UserControls
         * 
         **********************************************************************************************/
         //Objects
-        public DateTime dateTime    //Datetime to set
+        public DateTime ActDateTime    //Datetime to set
         {
             get
             {
-                return (DateTime)GetValue(DPdateTime);
+                return (DateTime)GetValue(DPActDateTime);
             }
             set
             {
-                SetValue(DPdateTime, value);
+                SetValue(DPActDateTime, value);
             }
         }
-        public static readonly DependencyProperty DPdateTime = DependencyProperty.Register(nameof(dateTime), typeof(DateTime), typeof(UC_TimeSetter), new UIPropertyMetadata(null));
+        public static readonly DependencyProperty DPActDateTime = DependencyProperty.Register(nameof(ActDateTime), typeof(DateTime), typeof(UC_TimeSetter), new UIPropertyMetadata(null));
 
         private DateTime MinDateTime; //Minimum datetime (calculated with iMinTime)
 
@@ -65,9 +65,40 @@ namespace LHWpfControlLibrary.Source.UserControls
         public UC_TimeSetter()
         {
             InitializeComponent();
-           
+
             TBLastSelected = TBSecons;
             RXNoLetters = new Regex("[^0-9]+");                                                     //Only numbers alowed
+
+            //Intiialite bindings
+            //This binding takes care, that the textbox is updated, if the ActDate is updated via binding
+            IVCDateTimeToString iVCDateTimeToString = new IVCDateTimeToString();
+            Binding TextBoxBinding = new Binding();
+            TextBoxBinding.Path = new PropertyPath(nameof(ActDateTime));
+            TextBoxBinding.Converter = iVCDateTimeToString;
+            TextBoxBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+            TextBoxBinding.Mode = BindingMode.OneWay;
+            TextBoxBinding.ConverterParameter = "HH";
+            TBHours.SetBinding(TextBox.TextProperty, TextBoxBinding);
+
+            iVCDateTimeToString = new IVCDateTimeToString();
+            TextBoxBinding = new Binding();
+            TextBoxBinding.Path = new PropertyPath(nameof(ActDateTime));
+            TextBoxBinding.Converter = iVCDateTimeToString;
+            TextBoxBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+            TextBoxBinding.Mode = BindingMode.OneWay;
+            TextBoxBinding.ConverterParameter = "MM";
+            TBMinutes.SetBinding(TextBox.TextProperty, TextBoxBinding);
+
+             iVCDateTimeToString = new IVCDateTimeToString();
+             TextBoxBinding = new Binding();
+            TextBoxBinding.Path = new PropertyPath(nameof(ActDateTime));
+            TextBoxBinding.Converter = iVCDateTimeToString;
+            TextBoxBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+            TextBoxBinding.Mode = BindingMode.OneWay;
+            TextBoxBinding.ConverterParameter = "SS";
+            TBSecons.SetBinding(TextBox.TextProperty, TextBoxBinding);
+
+
         }
 
 
@@ -93,51 +124,36 @@ namespace LHWpfControlLibrary.Source.UserControls
         //This event is called if the mouse is down on the up button
         private void BUp_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            int iCurrentNumber;
-            int iMaxNumber;
             if (TBLastSelected == TBHours)
             {
-                iMaxNumber = 23;
+                ActDateTime = ActDateTime.Add(new TimeSpan(1, 0, 0));
             }
-            else
+            else if (TBLastSelected == TBMinutes)
             {
-                iMaxNumber = 59;
+                ActDateTime = ActDateTime.Add(new TimeSpan(0, 1, 0));
             }
-
-            iCurrentNumber = int.Parse(TBLastSelected.Text);
-            iCurrentNumber++;
-            if (iCurrentNumber > iMaxNumber)
+            else if (TBLastSelected == TBSecons)
             {
-                iCurrentNumber = 0;
+                ActDateTime = ActDateTime.Add(new TimeSpan(0, 0, 1));
             }
-            TBLastSelected.Text = iCurrentNumber.ToString("00");
             TBLastSelected.SelectAll(); //Select entire text of the textbox
         }
 
         //This event is called if the mouse is down on the down button
         private void BDown_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            int iCurrentNumber;
-            int iMaxNumber;
             if (TBLastSelected == TBHours)
             {
-                iMaxNumber = 23;
+                ActDateTime=ActDateTime.Subtract(new TimeSpan(1, 0, 0));
             }
-            else
+            else if (TBLastSelected == TBMinutes)
             {
-                iMaxNumber = 59;
+                ActDateTime= ActDateTime.Subtract(new TimeSpan(0, 1, 0));
             }
-
-            iCurrentNumber = int.Parse(TBLastSelected.Text);
-            if (iCurrentNumber == 0)
+            else if (TBLastSelected == TBSecons)
             {
-                iCurrentNumber = iMaxNumber;
+                ActDateTime = ActDateTime.Subtract(new TimeSpan(0, 0, 1));
             }
-            else
-            {
-                iCurrentNumber--;
-            }
-            TBLastSelected.Text = iCurrentNumber.ToString("00");
             TBLastSelected.SelectAll(); //Select entire text of the textbox
         }
 
@@ -223,13 +239,15 @@ namespace LHWpfControlLibrary.Source.UserControls
                 e.Handled = true;
             }
         }
-        
+
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             MinDateTime = new DateTime();
             MinDateTime = MinDateTime.AddSeconds((int)GetValue(DPiMinTime));
-            dateTime = MinDateTime;
-            vTextBoxesFromDateTime();
+            if (DateTime.Compare(MinDateTime, ActDateTime) > 0)
+            {
+                ActDateTime = MinDateTime;
+            }
         }
 
         /***********************************************************************************************
@@ -240,26 +258,54 @@ namespace LHWpfControlLibrary.Source.UserControls
         //This function sets the datetie accroding to the textboxes
         private void vDateTimeFromTextBoxes()
         {
-            dateTime = new DateTime();
+            DateTime dateTime = new DateTime();
             dateTime = dateTime.AddHours(int.Parse(TBHours.Text)).AddMinutes(int.Parse(TBMinutes.Text)).AddSeconds(int.Parse(TBSecons.Text));
             if (DateTime.Compare(MinDateTime, dateTime) > 0)
             {
                 dateTime = MinDateTime;
-                vTextBoxesFromDateTime();
             }
-            SetValue(DPdateTime, dateTime);
-            OnPropertyChanged(nameof(dateTime));
+            ActDateTime = dateTime;
         }
 
-        //This function sets the texboxes according to the datetime
-        private void vTextBoxesFromDateTime()
+
+        /***********************************************************************************************
+        * 
+        * Converter
+        * 
+        **********************************************************************************************/
+
+        //This converter is used for updtaing a property if it is chagned in a window via binding. Dataflow from Viewmodel->Property
+        public class IVCDateTimeToString : IValueConverter
         {
-            TBHours.Text = dateTime.Hour.ToString("00");
-            TBMinutes.Text = dateTime.Minute.ToString("00");
-            TBSecons.Text = dateTime.Second.ToString("00");
+            String sMode;
+            DateTime dateTime;
+         
+            public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+            {
+                sMode = (String)parameter;
+                dateTime = (DateTime)value;
+                if(sMode=="HH")
+                {
+                    return dateTime.Hour.ToString("00");
+                }
+                else if (sMode == "MM")
+                {
+                    return dateTime.Minute.ToString("00");
+                }
+                else if (sMode == "SS")
+                {
+                    return dateTime.Second.ToString("00");
+                }
+                return "";
+            }
+
+            public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+            {
+                throw new NotImplementedException();
+            }
+
         }
 
-       
     }
 
 }

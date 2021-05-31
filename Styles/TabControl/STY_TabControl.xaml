@@ -13,7 +13,7 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <!--<TabPanel x:Name="HeaderPanel" Grid.Row="0"  Panel.ZIndex="1" Margin="0" IsItemsHost="True" KeyboardNavigation.TabIndex="1" Background="Transparent"  />-->
-            <UniformGrid x:Name="HeaderPanel" Rows="1"  IsItemsHost="True"></UniformGrid>
+            <UniformGrid x:Name="HeaderPanel" Rows="1" IsItemsHost="True"></UniformGrid>
             <Border Grid.Row="1" Background="{DynamicResource Col_TabItemBackgroundSelected}" />
             <Border x:Name="Border" Background="{DynamicResource Col_TabControlBackground}" BorderBrush="{DynamicResource Col_TabControlBorder}" Grid.Row="2" CornerRadius="{DynamicResource Dim_ControlCornerRadiusBottom}" BorderThickness="1" KeyboardNavigation.TabNavigation="Local" KeyboardNavigation.DirectionalNavigation="Contained" KeyboardNavigation.TabIndex="2">
                 <ContentPresenter x:Name="PART_SelectedContentHost" Margin="4" ContentSource="SelectedContent" />
@@ -22,9 +22,9 @@
     </ControlTemplate>
 
     <ControlTemplate x:Key="CT_TabItem" TargetType="{x:Type TabItem}">
-        <Grid x:Name="Root" >
-            <Border x:Name="Border" Background="{DynamicResource Col_TabItemBackground}" BorderBrush="{DynamicResource Col_TabItemBorder}"   BorderThickness="4,4,4,0" MinWidth="200" Height="40">
-                <ContentPresenter x:Name="ContentSite" TextElement.Foreground="{DynamicResource Col_TabItemForeground}"  VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Header" Margin="12,2,12,2" RecognizesAccessKey="True" />
+        <Grid x:Name="Root">
+            <Border x:Name="Border" Background="{DynamicResource Col_TabItemBackground}" BorderBrush="{DynamicResource Col_TabItemBorder}" BorderThickness="4,4,4,0" MinWidth="200" Height="40">
+                <ContentPresenter x:Name="ContentSite" TextElement.Foreground="{DynamicResource Col_TabItemForeground}" VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Header" Margin="12,2,12,2" RecognizesAccessKey="True" />
             </Border>
         </Grid>
         <ControlTemplate.Triggers>
@@ -54,7 +54,7 @@
     </Style>
 
     <Style TargetType="TabItem">
-        <Setter Property="Template" Value="{StaticResource CT_TabItem}"/>
+        <Setter Property="Template" Value="{StaticResource CT_TabItem}" />
     </Style>
 
 </ResourceDictionary>

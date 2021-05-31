@@ -35,16 +35,18 @@ namespace LHWpfControlLibrary.Source.UserControls
             get { return (double)GetValue(DPdCurrentNumber); }
             set
             {
-                SetValue(DPdCurrentNumber, (double)value);
-                if ((double)GetValue(DPdCurrentNumber) < iMinValue)
+                if (value < iMinValue)
                 {
                     SetValue(DPdCurrentNumber, (double)iMinValue);
                 }
-                else if ((double)GetValue(DPdCurrentNumber) > iMaxValue)
+                else if (value > iMaxValue)
                 {
                     SetValue(DPdCurrentNumber, (double)iMaxValue);
                 }
-                OnPropertyChanged(nameof(dCurrentNumber));
+                else
+                {
+                    SetValue(DPdCurrentNumber, (double)value);
+                }
             }
         }
         public static readonly DependencyProperty DPdCurrentNumber = DependencyProperty.Register(nameof(dCurrentNumber), typeof(double), typeof(UC_NumericUpDown), new UIPropertyMetadata(null));
@@ -163,7 +165,10 @@ namespace LHWpfControlLibrary.Source.UserControls
         //This event is called if the controll is fully loaded
         private void UCNumericUpDown_Loaded(object sender, RoutedEventArgs e)
         {
-            dCurrentNumber = 0;
+            if (iMinValue > dCurrentNumber)
+            {
+                dCurrentNumber = iMinValue;
+            }
         }
 
         //This event is an event of the INotifyChanged interface
@@ -229,18 +234,7 @@ namespace LHWpfControlLibrary.Source.UserControls
         //This function decrements the number according to the increment step
         private void vDecrementNumber()
         {
-            double dValue = (double)GetValue(DPdCurrentNumber);
-            dValue -= dIncrement;
-            if (dValue < iMinValue)
-            {
-                SetValue(DPdCurrentNumber, (double)iMinValue);
-            }
-            else
-            {
-                SetValue(DPdCurrentNumber, dValue);
-            }
-            OnPropertyChanged(nameof(dCurrentNumber));
-
+            dCurrentNumber = dCurrentNumber - dIncrement;
             if (EHValueChanged != null)
             {
                 EHValueChanged(this, EventArgs.Empty);
@@ -250,23 +244,13 @@ namespace LHWpfControlLibrary.Source.UserControls
         //This function returns the current value as int
         public int iGetInt()
         {
-            return (int)Math.Round((double)GetValue(DPdCurrentNumber));
+            return (int)Math.Round(dCurrentNumber);
         }
 
         //This function increments the number according to the increment step
         private void vIncrementNumber()
         {
-            double dValue = (double)GetValue(DPdCurrentNumber);
-            dValue += dIncrement;
-            if (dValue > iMaxValue)
-            {
-                SetValue(DPdCurrentNumber, (double)iMaxValue);
-            }
-            else
-            {
-                SetValue(DPdCurrentNumber, dValue);
-            }
-            OnPropertyChanged(nameof(dCurrentNumber));
+            dCurrentNumber = dCurrentNumber + dIncrement;
             if (EHValueChanged != null)
             {
                 EHValueChanged(this, EventArgs.Empty);
@@ -276,50 +260,24 @@ namespace LHWpfControlLibrary.Source.UserControls
         //This function finally checks if the input is valid. If not it resets the textbox text to the current number
         private void vValidateInput()
         {
-            double dSaveValue = (double)GetValue(DPdCurrentNumber);
-            if (iNumOfDecimals == 0)                                                                //No decimals -> parsing int
-            {
-                try
-                {
-                    SetValue(DPdCurrentNumber, (double)int.Parse(TBMain.Text));                     //Try to convert to int
-                    if ((double)GetValue(DPdCurrentNumber) < iMinValue)
-                    {
-                        SetValue(DPdCurrentNumber, (double)iMinValue);
-                        OnPropertyChanged(nameof(dCurrentNumber));
-                    }
-                    else if ((double)GetValue(DPdCurrentNumber) > iMaxValue)
-                    {
-                        SetValue(DPdCurrentNumber, (double)iMaxValue);
-                        OnPropertyChanged(nameof(dCurrentNumber));
-                    }
-                }
-                catch
-                {
+            double dSaveValue = dCurrentNumber;
 
+            try
+            {
+                if (iNumOfDecimals == 0)                                                                //No decimals -> parsing int
+                {
+                    dCurrentNumber = (double)int.Parse(TBMain.Text);                     //Try to convert to int
+                }
+
+                else                                                                                    //Decimals -> parsing double
+                {
+                    dCurrentNumber = double.Parse(TBMain.Text);                          //Try to convert to double
                 }
             }
-            else                                                                                    //Decimals -> parsing double
+            catch
             {
-                try
-                {
-                    SetValue(DPdCurrentNumber, double.Parse(TBMain.Text));                          //Try to convert to double
-                    if ((double)GetValue(DPdCurrentNumber) < iMinValue)
-                    {
-                        SetValue(DPdCurrentNumber, (double)iMinValue);
-                        OnPropertyChanged(nameof(dCurrentNumber));
-                    }
-                    else if ((double)GetValue(DPdCurrentNumber) > iMaxValue)
-                    {
-                        SetValue(DPdCurrentNumber, (double)iMaxValue);
-                        OnPropertyChanged(nameof(dCurrentNumber));
-                    }
-                }
-                catch
-                {
-
-                }
             }
-            if (EHValueChanged != null && dSaveValue != (double)GetValue(DPdCurrentNumber) && this.IsLoaded)    //The event should be triggered if the value has changed and the control is fully loaded
+            if (EHValueChanged != null && dSaveValue != dCurrentNumber && this.IsLoaded)    //The event should be triggered if the value has changed and the control is fully loaded
             {
                 EHValueChanged(this, EventArgs.Empty);
             }
