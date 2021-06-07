@@ -28,7 +28,6 @@
             <Trigger Property="IsSelected" Value="true">
                 <Setter TargetName="Border" Property="Background" Value="{DynamicResource Col_ListBoxItemBackgroundSelected}" />
             </Trigger>
-           
         </ControlTemplate.Triggers>
     </ControlTemplate>
 

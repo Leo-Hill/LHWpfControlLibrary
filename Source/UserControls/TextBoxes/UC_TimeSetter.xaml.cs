@@ -24,7 +24,9 @@ namespace LHWpfControlLibrary.Source.UserControls
         * 
         **********************************************************************************************/
         //Objects
-        public DateTime ActDateTime    //Datetime to set
+        Binding TextBoxBindingHours, TextBoxBindingMinutes, TextBoxBindingSeconds;                  //Bindings for the textboxes
+
+        public DateTime ActDateTime                                                                 //Datetime to set
         {
             get
             {
@@ -37,14 +39,28 @@ namespace LHWpfControlLibrary.Source.UserControls
         }
         public static readonly DependencyProperty DPActDateTime = DependencyProperty.Register(nameof(ActDateTime), typeof(DateTime), typeof(UC_TimeSetter), new UIPropertyMetadata(null));
 
-        private DateTime MinDateTime; //Minimum datetime (calculated with iMinTime)
+        private DateTime MaxDateTime;                                                               //Maximum datetime (calculated with iMaxTime)
+        private DateTime MinDateTime;                                                               //Minimum datetime (calculated with iMinTime)
 
         public event PropertyChangedEventHandler PropertyChanged;
         private Regex RXNoLetters;                                                                  //Regex that matches disallowed text
         private TextBox TBLastSelected;
 
         //Primitive
-        public int iMinTime //Minimum time in seconds
+        private bool bTextBoxesUnbound;                                                             //Flag indicates if a textbox was updated in code behind -> binding is lost and has to be reset
+        public int iMaxTime                                                                         //Maximum time in seconds
+        {
+            get
+            {
+                return (int)GetValue(DPiMaxTime);
+            }
+            set
+            {
+                SetValue(DPiMaxTime, value);
+            }
+        }
+        public static readonly DependencyProperty DPiMaxTime = DependencyProperty.Register(nameof(iMaxTime), typeof(int), typeof(UC_TimeSetter), new UIPropertyMetadata(null));
+        public int iMinTime                                                                         //Minimum time in seconds
         {
             get
             {
@@ -69,34 +85,33 @@ namespace LHWpfControlLibrary.Source.UserControls
             TBLastSelected = TBSecons;
             RXNoLetters = new Regex("[^0-9]+");                                                     //Only numbers alowed
 
-            //Intiialite bindings
+            //Intiialize bindings
             //This binding takes care, that the textbox is updated, if the ActDate is updated via binding
             IVCDateTimeToString iVCDateTimeToString = new IVCDateTimeToString();
-            Binding TextBoxBinding = new Binding();
-            TextBoxBinding.Path = new PropertyPath(nameof(ActDateTime));
-            TextBoxBinding.Converter = iVCDateTimeToString;
-            TextBoxBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-            TextBoxBinding.Mode = BindingMode.OneWay;
-            TextBoxBinding.ConverterParameter = "HH";
-            TBHours.SetBinding(TextBox.TextProperty, TextBoxBinding);
+            TextBoxBindingHours = new Binding();
+            TextBoxBindingHours.Path = new PropertyPath(nameof(ActDateTime));
+            TextBoxBindingHours.Converter = iVCDateTimeToString;
+            TextBoxBindingHours.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+            TextBoxBindingHours.Mode = BindingMode.OneWay;
+            TextBoxBindingHours.ConverterParameter = "HH";
 
             iVCDateTimeToString = new IVCDateTimeToString();
-            TextBoxBinding = new Binding();
-            TextBoxBinding.Path = new PropertyPath(nameof(ActDateTime));
-            TextBoxBinding.Converter = iVCDateTimeToString;
-            TextBoxBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-            TextBoxBinding.Mode = BindingMode.OneWay;
-            TextBoxBinding.ConverterParameter = "MM";
-            TBMinutes.SetBinding(TextBox.TextProperty, TextBoxBinding);
+            TextBoxBindingMinutes = new Binding();
+            TextBoxBindingMinutes.Path = new PropertyPath(nameof(ActDateTime));
+            TextBoxBindingMinutes.Converter = iVCDateTimeToString;
+            TextBoxBindingMinutes.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+            TextBoxBindingMinutes.Mode = BindingMode.OneWay;
+            TextBoxBindingMinutes.ConverterParameter = "MM";
 
-             iVCDateTimeToString = new IVCDateTimeToString();
-             TextBoxBinding = new Binding();
-            TextBoxBinding.Path = new PropertyPath(nameof(ActDateTime));
-            TextBoxBinding.Converter = iVCDateTimeToString;
-            TextBoxBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-            TextBoxBinding.Mode = BindingMode.OneWay;
-            TextBoxBinding.ConverterParameter = "SS";
-            TBSecons.SetBinding(TextBox.TextProperty, TextBoxBinding);
+            iVCDateTimeToString = new IVCDateTimeToString();
+            TextBoxBindingSeconds = new Binding();
+            TextBoxBindingSeconds.Path = new PropertyPath(nameof(ActDateTime));
+            TextBoxBindingSeconds.Converter = iVCDateTimeToString;
+            TextBoxBindingSeconds.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+            TextBoxBindingSeconds.Mode = BindingMode.OneWay;
+            TextBoxBindingSeconds.ConverterParameter = "SS";
+
+            vSetTextBoxBindings();
 
 
         }
@@ -117,8 +132,8 @@ namespace LHWpfControlLibrary.Source.UserControls
         //This event is called if the down on the up button is focused
         private void B_GotFocus(object sender, RoutedEventArgs e)
         {
-            TBLastSelected.Focus(); //Select entire text of the last selected textbox
-            TBLastSelected.SelectAll(); //Select entire text of the last selected textbox
+            TBLastSelected.Focus();                                                                 //Select entire text of the last selected textbox
+            TBLastSelected.SelectAll();                                                             //Select entire text of the last selected textbox
         }
 
         //This event is called if the mouse is down on the up button
@@ -136,25 +151,33 @@ namespace LHWpfControlLibrary.Source.UserControls
             {
                 ActDateTime = ActDateTime.Add(new TimeSpan(0, 0, 1));
             }
-            TBLastSelected.SelectAll(); //Select entire text of the textbox
+            TBLastSelected.SelectAll();                                                             //Select entire text of the textbox
         }
 
         //This event is called if the mouse is down on the down button
         private void BDown_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (TBLastSelected == TBHours)
+            try
             {
-                ActDateTime=ActDateTime.Subtract(new TimeSpan(1, 0, 0));
+
+                if (TBLastSelected == TBHours)
+                {
+                    ActDateTime = ActDateTime.Subtract(new TimeSpan(1, 0, 0));
+                }
+                else if (TBLastSelected == TBMinutes)
+                {
+                    ActDateTime = ActDateTime.Subtract(new TimeSpan(0, 1, 0));
+                }
+                else if (TBLastSelected == TBSecons)
+                {
+                    ActDateTime = ActDateTime.Subtract(new TimeSpan(0, 0, 1));
+                }
             }
-            else if (TBLastSelected == TBMinutes)
+            catch
             {
-                ActDateTime= ActDateTime.Subtract(new TimeSpan(0, 1, 0));
+
             }
-            else if (TBLastSelected == TBSecons)
-            {
-                ActDateTime = ActDateTime.Subtract(new TimeSpan(0, 0, 1));
-            }
-            TBLastSelected.SelectAll(); //Select entire text of the textbox
+            TBLastSelected.SelectAll();                                                             //Select entire text of the textbox
         }
 
         //This event is called if a textbox got focus
@@ -202,7 +225,7 @@ namespace LHWpfControlLibrary.Source.UserControls
             }
             //Check if the textbox should be set to " x"
             if (
-                (String.IsNullOrEmpty(textBox.Text)) ||                                            //Check if text was deleted and is empty
+                (String.IsNullOrEmpty(textBox.Text)) ||                                             //Check if text was deleted and is empty
                 (textBox.Text[0] != ' ' || textBox.Text[1] > cMaxFirstDigit) ||                     //Check if the first digit exceeds the maximum to limit 24/59
                 (textBox == TBHours && textBox.Text[1] == '2' && e.Text[0] > '3')                   //Chek if the second hour digit exceeds 3
                )
@@ -216,7 +239,7 @@ namespace LHWpfControlLibrary.Source.UserControls
                 textBox.Text = textBox.Text[1] + e.Text;
                 e.Handled = true;
             }
-
+            bTextBoxesUnbound = true;                                                               //Text was changed in code behind
             textBox.SelectAll();                                                                    //Select entire text
         }
 
@@ -242,11 +265,22 @@ namespace LHWpfControlLibrary.Source.UserControls
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
+            //Min and max date time settings
             MinDateTime = new DateTime();
             MinDateTime = MinDateTime.AddSeconds((int)GetValue(DPiMinTime));
             if (DateTime.Compare(MinDateTime, ActDateTime) > 0)
             {
                 ActDateTime = MinDateTime;
+            }
+            MaxDateTime = new DateTime();
+            if (iMaxTime == 0)
+            {
+                MaxDateTime = DateTime.MaxValue;
+
+            }
+            else
+            {
+                MaxDateTime = MaxDateTime.AddSeconds((int)GetValue(DPiMaxTime));
             }
         }
 
@@ -264,9 +298,25 @@ namespace LHWpfControlLibrary.Source.UserControls
             {
                 dateTime = MinDateTime;
             }
+            else if (DateTime.Compare(dateTime, MaxDateTime) > 0)
+            {
+                dateTime = MaxDateTime;
+            }
             ActDateTime = dateTime;
+            if (true == bTextBoxesUnbound)
+            {
+                vSetTextBoxBindings();
+            }
         }
 
+        //Set the binding from the datetime to the textboxes
+        private void vSetTextBoxBindings()
+        {
+            TBHours.SetBinding(TextBox.TextProperty, TextBoxBindingHours);
+            TBMinutes.SetBinding(TextBox.TextProperty, TextBoxBindingMinutes);
+            TBSecons.SetBinding(TextBox.TextProperty, TextBoxBindingSeconds);
+            bTextBoxesUnbound = false;
+        }
 
         /***********************************************************************************************
         * 
@@ -279,12 +329,12 @@ namespace LHWpfControlLibrary.Source.UserControls
         {
             String sMode;
             DateTime dateTime;
-         
+
             public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
             {
                 sMode = (String)parameter;
                 dateTime = (DateTime)value;
-                if(sMode=="HH")
+                if (sMode == "HH")
                 {
                     return dateTime.Hour.ToString("00");
                 }

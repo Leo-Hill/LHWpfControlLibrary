@@ -95,6 +95,10 @@ namespace LHWpfControlLibrary.Source.Windows
                 BPositiveButton.Visibility = Visibility.Collapsed;
                 BNegativeButton.Visibility = Visibility.Collapsed;
             }
+            else if (qMessageBoxButton == MessageBoxButton.YesNoCancel)
+            {
+                BNeutralButton.Visibility = Visibility.Collapsed;
+            }
         }
 
         //This function shows the messagebox

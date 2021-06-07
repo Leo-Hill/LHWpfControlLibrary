@@ -264,20 +264,20 @@ namespace LHWpfControlLibrary.Source.UserControls
 
             try
             {
-                if (iNumOfDecimals == 0)                                                                //No decimals -> parsing int
+                if (iNumOfDecimals == 0)                                                            //No decimals -> parsing int
                 {
-                    dCurrentNumber = (double)int.Parse(TBMain.Text);                     //Try to convert to int
+                    dCurrentNumber = (double)int.Parse(TBMain.Text);                                //Try to convert to int
                 }
 
-                else                                                                                    //Decimals -> parsing double
+                else                                                                                //Decimals -> parsing double
                 {
-                    dCurrentNumber = double.Parse(TBMain.Text);                          //Try to convert to double
+                    dCurrentNumber = double.Parse(TBMain.Text);                                     //Try to convert to double
                 }
             }
             catch
             {
             }
-            if (EHValueChanged != null && dSaveValue != dCurrentNumber && this.IsLoaded)    //The event should be triggered if the value has changed and the control is fully loaded
+            if (EHValueChanged != null && dSaveValue != dCurrentNumber && this.IsLoaded)            //The event should be triggered if the value has changed and the control is fully loaded
             {
                 EHValueChanged(this, EventArgs.Empty);
             }
