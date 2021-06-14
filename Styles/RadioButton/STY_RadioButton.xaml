@@ -36,6 +36,7 @@
     ****************************************************************************************** -->
 
     <Style TargetType="RadioButton">
+        <Setter Property="Cursor" Value="Hand" />
         <Setter Property="SnapsToDevicePixels" Value="true" />
         <Setter Property="OverridesDefaultStyle" Value="true" />
         <Setter Property="FocusVisualStyle" Value="{DynamicResource RadioButtonFocusVisual}" />
