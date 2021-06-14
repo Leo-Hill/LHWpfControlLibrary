@@ -9,7 +9,7 @@
         <BulletDecorator x:Name="BDecorator" Background="Transparent" VerticalAlignment="Center">
             <BulletDecorator.Bullet>
                 <Grid Width="13" Height="13">
-                    <Border x:Name="Border" BorderThickness="1" BorderBrush="{DynamicResource Col_RadioButtonBorder}" Background="{DynamicResource Col_RadioButtonBackground}" CornerRadius="{DynamicResource Dim_ControlCornerRadius}"  />
+                    <Border x:Name="Border" BorderThickness="1" BorderBrush="{DynamicResource Col_RadioButtonBorder}" Background="{DynamicResource Col_RadioButtonBackground}" />
                     <Border x:Name="CheckMark" Margin="4" Visibility="Collapsed" Background="{DynamicResource Col_RadioButtonCheckmark}" />
                 </Grid>
             </BulletDecorator.Bullet>
@@ -22,7 +22,7 @@
             <Trigger Property="IsPressed" Value="True">
                 <Setter Property="Background" TargetName="Border" Value="{DynamicResource Col_RadioButtonBackgroundPressed}" />
             </Trigger>
-            <Trigger Property="IsChecked" Value="True" >
+            <Trigger Property="IsChecked" Value="True">
                 <Setter Property="Visibility" TargetName="CheckMark" Value="Visible" />
             </Trigger>
         </ControlTemplate.Triggers>
@@ -35,11 +35,11 @@
     *
     ****************************************************************************************** -->
 
-    <Style  TargetType="RadioButton">
+    <Style TargetType="RadioButton">
         <Setter Property="SnapsToDevicePixels" Value="true" />
         <Setter Property="OverridesDefaultStyle" Value="true" />
         <Setter Property="FocusVisualStyle" Value="{DynamicResource RadioButtonFocusVisual}" />
-        <Setter Property="Foreground" Value="{DynamicResource Col_RadioButtonText}" />
+        <Setter Property="Foreground" Value="{DynamicResource Col_Text}" />
         <Setter Property="Template" Value="{StaticResource CT_RadioButton}" />
     </Style>
 

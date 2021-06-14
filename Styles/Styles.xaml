@@ -5,9 +5,11 @@
         <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Styles/Button/STY_Button_Warning.xaml" />
         <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Styles/Calendar/STY_Calendar.xaml" />
         <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Styles/CheckBox/STY_CheckBox.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Styles/CheckBox/STY_CheckBox_Filled.xaml" />
         <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Styles/ComboBox/STY_ComboBox.xaml" />
         <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Styles/DatePicker/STY_DatePicker.xaml" />
         <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Styles/Expander/STY_Expander.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Styles/Expander/STY_Expander_FilledHeader_50.xaml" />
         <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Styles/GroupBox/STY_GroupBox.xaml" />
         <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Styles/GroupBox/STY_GroupBoxWithHeader.xaml" />
         <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Styles/Image/STY_Image.xaml"/>

@@ -12,7 +12,6 @@
                 <RowDefinition Height="10" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <!--<TabPanel x:Name="HeaderPanel" Grid.Row="0"  Panel.ZIndex="1" Margin="0" IsItemsHost="True" KeyboardNavigation.TabIndex="1" Background="Transparent"  />-->
             <UniformGrid x:Name="HeaderPanel" Rows="1" IsItemsHost="True"></UniformGrid>
             <Border Grid.Row="1" Background="{DynamicResource Col_TabItemBackgroundSelected}" />
             <Border x:Name="Border" Background="{DynamicResource Col_TabControlBackground}" BorderBrush="{DynamicResource Col_TabControlBorder}" Grid.Row="2" CornerRadius="{DynamicResource Dim_ControlCornerRadiusBottom}" BorderThickness="1" KeyboardNavigation.TabNavigation="Local" KeyboardNavigation.DirectionalNavigation="Contained" KeyboardNavigation.TabIndex="2">
