@@ -68,7 +68,7 @@ namespace LHWpfControlLibrary.Source.UserControls
         //Objects
         private Canvas CVSAxis, CVSSeries;
         private DispatcherTimer TIMResize;                                                          //This timer starts when the control is resized. It detects if the resize is finished by checking a timeout
-        ResourceDictionary RDSeriesColors = new ResourceDictionary();                               //Colors of the series
+        ResourceDictionary RDTheme;                             //Color theme
         public SortedDictionary<String, Class_Series> SDSeries;
         private SolidColorBrush SCBGridStroke, SCBMainStroke, SCBText;                              //Colors of the chart
 
@@ -83,7 +83,7 @@ namespace LHWpfControlLibrary.Source.UserControls
         private int iAxisYMaxValueFirstDigit = 1;                                                   //First digit of the Y axis maximum. Used for calculating the amount of zooming on the next user scale event
 
         private String[] asAxisXLabels = new String[I_NUM_OF_MAIN_TICK_MARKS_X / I_MODULO_MAIN_LABELS_X];    //Labels for the X-Axis
-        public String sAxisXTitle="{TIME}",sAxisYTitle = "";
+        public String sAxisXTitle = "{TIME}", sAxisYTitle = "";
         /***********************************************************************************************
         * 
         * Construtor
@@ -103,7 +103,7 @@ namespace LHWpfControlLibrary.Source.UserControls
             canvas.Children.Add(CVSSeries);
 
             //ResourceDictionary
-            RDSeriesColors = new ResourceDictionary();
+            RDTheme = new ResourceDictionary();
 
 
             //Sorted Dictionary
@@ -171,9 +171,8 @@ namespace LHWpfControlLibrary.Source.UserControls
                     dAxisYZoomIncrementValue = dAxisYZoomDecrementValue;
                 }
             }
-             vDrawAll();                                                                            //Redraw entire chart
+            vDrawAll();                                                                            //Redraw entire chart
         }
-
 
         //This event is called if the auto scale menu item was clicked
         private void MIAutoScale_Click(object sender, RoutedEventArgs e)
@@ -186,7 +185,7 @@ namespace LHWpfControlLibrary.Source.UserControls
         private void TIMResize_Tick(object sender, EventArgs e)
         {
             TIMResize.Stop();
-             vDrawAll();                                                                            //Redraw entire chart
+            vDrawAll();                                                                            //Redraw entire chart
         }
 
         /***********************************************************************************************
@@ -194,8 +193,8 @@ namespace LHWpfControlLibrary.Source.UserControls
         * Functions
         * 
         **********************************************************************************************/
-        //This function inserts a new series to the chart
-        public void vAddNewSeries(String qsSeriesName, SortedList<int, float> qSLDataPoints)
+        //This function inserts a new series to the chart, with the qiSeriesId an existing series can be replaced
+        public void vAddNewSeries(String qsSeriesName, SortedList<int, float> qSLDataPoints, int qiSeriesId = 1000)
         {
             Class_Series addingSeries = new Class_Series(qsSeriesName, qSLDataPoints);
             if (qSLDataPoints.Count > 0)                                                            //Check if the sd contains data
@@ -220,8 +219,17 @@ namespace LHWpfControlLibrary.Source.UserControls
             {
                 vRescaleY();
             }
-            addingSeries.vSetColor((SolidColorBrush)RDSeriesColors[$"Col_{SDSeries.Count}"]);       //Set the color of the series
-            CVSSeries.Children.Add(addingSeries.canvas);                                            //Add the series canvas to the canvas of series
+            addingSeries.vSetColor((SolidColorBrush)RDTheme[$"Col_{SDSeries.Count}"]);       //Set the color of the series
+            if (CVSSeries.Children.Count < qiSeriesId)
+            {
+                CVSSeries.Children.Add(addingSeries.canvas);                                            //Add the series canvas to the canvas of series
+            }
+            else
+            {
+                CVSSeries.Children.RemoveAt(qiSeriesId);                                            //Remove the existing series canvas from the canvas of series
+                CVSSeries.Children.Insert(qiSeriesId, addingSeries.canvas);                                            //Add the new series canvas to the canvas of series
+
+            }
             SDSeries.Add(addingSeries.sSeriesName, addingSeries);                                   //Add series to the dictionary of series
             WPLegend.Children.Add(addingSeries.uC_CheckBoxFilled);                                  //Add the ckeckbox control
         }
@@ -317,7 +325,7 @@ namespace LHWpfControlLibrary.Source.UserControls
                     TextBlock TBLLabel = new TextBlock();
                     TBLLabel.FontSize = I_FONT_SIZE_LABEL;
                     TBLLabel.Foreground = SCBText;
-                    TBLLabel.Text = (iAxisYMaxValue - iTickMarkYCnt * dLabelStep).ToString();
+                    TBLLabel.Text = (iAxisYMaxValue - iTickMarkYCnt * dLabelStep).ToString("0.##");
                     TBLLabel.TextAlignment = TextAlignment.Right;
                     Canvas.SetTop(TBLLabel, dTickMarkSpacingY * iTickMarkYCnt - SZTBLAxisYLabel.Height / 2 + D_TEXT_MARGIN);
                     Canvas.SetRight(TBLLabel, CVSAxis.ActualWidth - dOriginX + D_AXIS_TICK_MARK_LENGTH + D_LABEL_MARGIN);
@@ -429,44 +437,37 @@ namespace LHWpfControlLibrary.Source.UserControls
         //This function calculates the maximum Y-Axis value using the max value of all series
         public void vRescaleY()
         {
-            int iPowCnt = 0;                                                                        //Counts the power of 10 of the max value
-            double dMaxSeriesValueTemp = dMaxSeriesValue;
-            while (dMaxSeriesValueTemp >= 1)
+            if (dMaxSeriesValue > 0)
             {
-                dMaxSeriesValueTemp /= 10;
-                iPowCnt++;
-            }
-            iAxisYMaxValue = (int)Math.Pow(10, iPowCnt - 1);                                        //Calculate the step size for zooming
-            dAxisYZoomIncrementValue = dAxisYZoomDecrementValue = iAxisYMaxValue;                   //Save the value for zoom step
-            iAxisYMaxValueFirstDigit = (1 + (int)(dMaxSeriesValue / iAxisYMaxValue));               //Save the first digit of the new max value
-            iAxisYMaxValue *= iAxisYMaxValueFirstDigit;                                             //Calculate the new max value
+                int iPowCnt = 0;                                                                        //Counts the power of 10 of the max value
+                double dMaxSeriesValueTemp = dMaxSeriesValue;
+                while (dMaxSeriesValueTemp >= 1)
+                {
+                    dMaxSeriesValueTemp /= 10;
+                    iPowCnt++;
+                }
+                iAxisYMaxValue = (int)Math.Pow(10, iPowCnt - 1);                                        //Calculate the step size for zooming
+                dAxisYZoomIncrementValue = dAxisYZoomDecrementValue = iAxisYMaxValue;                   //Save the value for zoom step
+                iAxisYMaxValueFirstDigit = (1 + (int)(dMaxSeriesValue / iAxisYMaxValue));               //Save the first digit of the new max value
+                iAxisYMaxValue *= iAxisYMaxValueFirstDigit;                                             //Calculate the new max value
 
-            if (iAxisYMaxValueFirstDigit == 10)                                                     //Hanle calculation overflow and set the next decade as first digit and zoom factor
-            {
-                iAxisYMaxValueFirstDigit = 1;
-                dAxisYZoomIncrementValue *= 10;
+                if (iAxisYMaxValueFirstDigit == 10)                                                     //Hanle calculation overflow and set the next decade as first digit and zoom factor
+                {
+                    iAxisYMaxValueFirstDigit = 1;
+                    dAxisYZoomIncrementValue *= 10;
+                }
+                vDrawAll();                                                                             //Redraw entire chart
             }
-            vDrawAll();                                                                             //Redraw entire chart
         }
 
         //This function sets the color theme of the chart
         public void vSetColorTheme(ResourceDictionary qRDTheme)
         {
-            canvas.Background = (SolidColorBrush)qRDTheme["Col_UC_LineChartBackground"];            //Background of the canvas
-            SCBGridStroke = (SolidColorBrush)qRDTheme["Col_UC_LineChartGridStroke"];                //Main stroke
-            SCBMainStroke = (SolidColorBrush)qRDTheme["Col_UC_LineChartMainStroke"];                //Main stroke
-            SCBText = (SolidColorBrush)qRDTheme["Col_UC_LineChartText"];                            //TextColor
-            //Series colors
-            String sThemeID = (String)qRDTheme["Str_ID"];
-            if ("Light" == sThemeID)
-            {
-                RDSeriesColors.Source = new Uri("pack://application:,,,/LHWpfControlLibrary;Component/Styles/UC_LineChart/THM_LineChartSeries.xaml", UriKind.Absolute);
-            }
-            else if ("Dark" == sThemeID)
-            {
-                RDSeriesColors.Source = new Uri("pack://application:,,,/LHWpfControlLibrary;Component/Styles/UC_LineChart/THM_LineChartSeries.Night.xaml", UriKind.Absolute);
-            }
-
+            RDTheme = qRDTheme;
+            canvas.Background = (SolidColorBrush)RDTheme["Col_UC_LineChartBackground"];            //Background of the canvas
+            SCBGridStroke = (SolidColorBrush)RDTheme["Col_UC_LineChartGridStroke"];                //Main stroke
+            SCBMainStroke = (SolidColorBrush)RDTheme["Col_UC_LineChartMainStroke"];                //Main stroke
+            SCBText = (SolidColorBrush)RDTheme["Col_UC_LineChartText"];                            //TextColor
             vDrawAll();
         }
 
@@ -485,12 +486,12 @@ namespace LHWpfControlLibrary.Source.UserControls
                     {
                         vIncrementMaxTime();                                                        //Recalculate the maximum time of the X-Axis
                     }
-                     vDrawAll();                                                                    //Redraw entire chart
+                    vDrawAll();                                                                    //Redraw entire chart
                     return;
                 }
                 else if (series.iSLReadIndex >= series.SLDataPoints.Count)
                 {
-                     vDrawAll();                                                                    //Redraw entire chart
+                    vDrawAll();                                                                    //Redraw entire chart
                     return;
                 }
                 else                                                                                //X-Axis needs no resize -> only add new points to the polyline and dont redraw

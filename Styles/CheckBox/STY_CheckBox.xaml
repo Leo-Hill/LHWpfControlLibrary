@@ -27,6 +27,9 @@
                 <Setter Property="Background" TargetName="Border" Value="{DynamicResource Col_CheckboxBackgroundChecked}" />
                 <Setter Property="Visibility" TargetName="CheckMark" Value="Visible" />
             </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Background" TargetName="Border" Value="{DynamicResource Col_CheckboxBackgroundDisabled}" />
+            </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
     <!-- ******************************************************************************************

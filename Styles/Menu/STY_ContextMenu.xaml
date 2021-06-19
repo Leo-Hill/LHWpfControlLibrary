@@ -1,13 +1,44 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Styles/Menu/STY_MenuScrollViewer.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+    
+    <!-- ******************************************************************************************
+    *
+    * Control Templates
+    *
+    ****************************************************************************************** -->
+
     <ControlTemplate x:Key="CT_ContextMenu" TargetType="{x:Type ContextMenu}">
         <Border x:Name="Border" Background="{DynamicResource Col_ContextMenuBackground}" BorderThickness="1" BorderBrush="{DynamicResource Col_MenuBorder}" Padding="2">
-            <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" />
+            <ScrollViewer>
+                <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" />
+            </ScrollViewer>
         </Border>
-        
     </ControlTemplate>
 
+    <!-- ******************************************************************************************
+    *
+    * Styles
+    *
+    ****************************************************************************************** -->
+
     <Style TargetType="ContextMenu">
+        <Style.Resources>
+            <Style TargetType="{x:Type ScrollViewer}">
+                <Setter Property="HorizontalScrollBarVisibility" Value="Hidden" />
+                <Setter Property="VerticalScrollBarVisibility" Value="Auto" />
+                <Setter Property="Template" Value="{StaticResource CT_MenuScrollViewer}" />
+            </Style>
+            <Style TargetType="{x:Type RepeatButton}">
+                <Setter Property="ClickMode" Value="Hover" />
+                <Setter Property="MinWidth" Value="0" />
+                <Setter Property="MinHeight" Value="20" />
+                <Setter Property="Template" Value="{StaticResource CT_MenuRepeatButton}" />
+            </Style>
+        </Style.Resources>
+        <Setter Property="MaxHeight" Value="800" />
         <Setter Property="Template" Value="{StaticResource CT_ContextMenu}" />
     </Style>
 </ResourceDictionary>

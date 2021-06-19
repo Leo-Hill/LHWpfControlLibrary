@@ -24,6 +24,9 @@
             </Trigger>
             <Trigger Property="IsChecked" Value="True">
                 <Setter Property="Visibility" TargetName="CheckMark" Value="Visible" />
+            </Trigger> 
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Background" TargetName="Border" Value="{DynamicResource Col_RadioButtonBackgroundDisabled}" />
             </Trigger>
         </ControlTemplate.Triggers>
 

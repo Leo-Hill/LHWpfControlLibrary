@@ -1,5 +1,9 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:CommentFormatter.Resources.Dictionaries.Templates">
 
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Styles/Menu/STY_MenuScrollViewer.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
     <!-- ******************************************************************************************
     *
     * Control Templates
@@ -29,7 +33,7 @@
                 <Path x:Name="RightArrow" Grid.Column="5" Data="M0,0L4,3.5 0,7z" Fill="{DynamicResource Col_MenuItemArrow}" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" />
                 <Popup x:Name="PART_Popup" AllowsTransparency="True" Focusable="False" HorizontalOffset="-2" IsOpen="{Binding IsSubmenuOpen, RelativeSource={RelativeSource TemplatedParent}}" PopupAnimation="{DynamicResource {x:Static SystemParameters.MenuPopupAnimationKey}}" Placement="Right" VerticalOffset="-3">
                     <Border x:Name="SubMenuBorder" BorderBrush="{DynamicResource Col_MenuBorder}" BorderThickness="1" Background="{TemplateBinding Background}" Padding="2">
-                        <ScrollViewer x:Name="SubMenuScrollViewer" Style="{DynamicResource {ComponentResourceKey ResourceId=MenuScrollViewer, TypeInTargetAssembly={x:Type FrameworkElement}}}">
+                        <ScrollViewer x:Name="SubMenuScrollViewer">
                             <Grid RenderOptions.ClearTypeHint="Enabled">
                                 <Canvas HorizontalAlignment="Left" Height="0" VerticalAlignment="Top" Width="0">
                                     <Rectangle x:Name="OpaqueRect" Fill="{Binding Background, ElementName=SubMenuBorder}" Height="{Binding ActualHeight, ElementName=SubMenuBorder}" Width="{Binding ActualWidth, ElementName=SubMenuBorder}" />
@@ -82,7 +86,7 @@
                 </Grid.ColumnDefinitions>
                 <ContentPresenter x:Name="Icon" ContentSource="Icon" HorizontalAlignment="Center" Height="16" Margin="3" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="Center" Width="16">
                     <ContentPresenter.Content>
-                        <ContentControl ContentTemplate="{TemplateBinding Icon}"/>
+                        <ContentControl ContentTemplate="{TemplateBinding Icon}" />
                     </ContentPresenter.Content>
                 </ContentPresenter>
 
@@ -132,7 +136,7 @@
                 <ContentPresenter ContentTemplate="{TemplateBinding HeaderTemplate}" Content="{TemplateBinding Header}" Grid.Column="1" ContentStringFormat="{TemplateBinding HeaderStringFormat}" ContentSource="Header" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                 <Popup x:Name="PART_Popup" AllowsTransparency="True" Focusable="False" IsOpen="{Binding IsSubmenuOpen, RelativeSource={RelativeSource TemplatedParent}}" PopupAnimation="{DynamicResource {x:Static SystemParameters.MenuPopupAnimationKey}}" Placement="Bottom">
                     <Border x:Name="SubMenuBorder" BorderBrush="{DynamicResource Col_MenuBorder}" BorderThickness="1" Background="{DynamicResource Col_BackgroundHighlight}" Padding="2">
-                        <ScrollViewer x:Name="SubMenuScrollViewer" Style="{DynamicResource {ComponentResourceKey ResourceId=MenuScrollViewer, TypeInTargetAssembly={x:Type FrameworkElement}}}">
+                        <ScrollViewer x:Name="SubMenuScrollViewer">
                             <Grid RenderOptions.ClearTypeHint="Enabled">
                                 <Canvas HorizontalAlignment="Left" Height="0" VerticalAlignment="Top" Width="0">
                                     <Rectangle x:Name="OpaqueRect" Fill="{Binding Background, ElementName=SubMenuBorder}" Height="{Binding ActualHeight, ElementName=SubMenuBorder}" Width="{Binding ActualWidth, ElementName=SubMenuBorder}" />
@@ -191,7 +195,7 @@
                 <Path x:Name="RightArrow" Grid.Column="5" Data="M0,0L4,3.5 0,7z" Fill="{DynamicResource Col_MenuItemArrow}" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" />
                 <Popup x:Name="PART_Popup" AllowsTransparency="True" Focusable="False" HorizontalOffset="-2" IsOpen="{Binding IsSubmenuOpen, RelativeSource={RelativeSource TemplatedParent}}" PopupAnimation="{DynamicResource {x:Static SystemParameters.MenuPopupAnimationKey}}" Placement="Right" VerticalOffset="-3">
                     <Border x:Name="SubMenuBorder" BorderBrush="#FF999999" BorderThickness="1" Background="{TemplateBinding Background}" Padding="2">
-                        <ScrollViewer x:Name="SubMenuScrollViewer" Style="{DynamicResource {ComponentResourceKey ResourceId=MenuScrollViewer, TypeInTargetAssembly={x:Type FrameworkElement}}}">
+                        <ScrollViewer x:Name="SubMenuScrollViewer">
                             <Grid RenderOptions.ClearTypeHint="Enabled">
                                 <Canvas HorizontalAlignment="Left" Height="0" VerticalAlignment="Top" Width="0">
                                     <Rectangle x:Name="OpaqueRect" Fill="{Binding Background, ElementName=SubMenuBorder}" Height="{Binding ActualHeight, ElementName=SubMenuBorder}" Width="{Binding ActualWidth, ElementName=SubMenuBorder}" />
@@ -237,8 +241,25 @@
     *
     ****************************************************************************************** -->
     <Style TargetType="MenuItem">
+        <Style.Resources>
+            <Style TargetType="{x:Type ScrollViewer}">
+                <Setter Property="HorizontalScrollBarVisibility" Value="Hidden" />
+                <Setter Property="VerticalScrollBarVisibility" Value="Auto" />
+                <Setter Property="MaxHeight" Value="800" />
+                <Setter Property="Template" Value="{StaticResource CT_MenuScrollViewer}" />
+            </Style>
+            <Style TargetType="{x:Type RepeatButton}">
+                <Setter Property="ClickMode" Value="Hover" />
+                <Setter Property="MinWidth" Value="0" />
+                <Setter Property="MinHeight" Value="20" />
+                <Setter Property="Template" Value="{StaticResource CT_MenuRepeatButton}" />
+            </Style>
+        </Style.Resources>
         <Setter Property="Background" Value="{DynamicResource Col_BackgroundHighlight}" />
         <Setter Property="Foreground" Value="{DynamicResource Col_Text}" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="VerticalContentAlignment" Value="Top" />
+
         <Style.Triggers>
             <Trigger Property="Role" Value="SubmenuHeader">
                 <Setter Property="Foreground" Value="{DynamicResource Col_Text}" />
