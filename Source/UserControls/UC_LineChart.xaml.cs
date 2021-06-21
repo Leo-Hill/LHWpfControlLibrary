@@ -67,9 +67,9 @@ namespace LHWpfControlLibrary.Source.UserControls
         **********************************************************************************************/
         //Objects
         private Canvas CVSAxis, CVSSeries;
-        private DispatcherTimer TIMResize;                                                          //This timer starts when the control is resized. It detects if the resize is finished by checking a timeout
-        ResourceDictionary RDTheme;                             //Color theme
-        public SortedDictionary<String, Class_Series> SDSeries;
+        private DispatcherTimer TIMResize;                                                          //This timer starts when the control is resized. It detects if the resize is finished by checking a timeout. Prevents multiple redrawing while resizing
+        ResourceDictionary RDTheme;                                                                 //Color theme
+        public List<Class_Series> LSeries;
         private SolidColorBrush SCBGridStroke, SCBMainStroke, SCBText;                              //Colors of the chart
 
         //Primitive
@@ -78,7 +78,7 @@ namespace LHWpfControlLibrary.Source.UserControls
         private double dOriginX, dOriginY;                                                          //Position of the origin
         private double dPixelsPerSecond, dPixelsPerValue;                                           //Number of pixels per second on the X-Axis and pixel per value on the Y-Axis
         private double dMaxSeriesValue;                                                             //Maximum value of all series
-        private double dAxisYZoomIncrementValue, dAxisYZoomDecrementValue;                          //Values for decrement and increment the Y-Axis max value on user zoom scaling
+        private double dAxisYZoomIncrementValue = 100, dAxisYZoomDecrementValue = 10;                          //Values for decrement and increment the Y-Axis max value on user zoom scaling
         private int iAxisXMaxValue = 0, iAxisYMaxValue = 100;                                       //Initial values for the axes maximums. 
         private int iAxisYMaxValueFirstDigit = 1;                                                   //First digit of the Y axis maximum. Used for calculating the amount of zooming on the next user scale event
 
@@ -93,21 +93,16 @@ namespace LHWpfControlLibrary.Source.UserControls
         {
             InitializeComponent();
 
-            //Initialize objects
-
-            //Canvas
+            //Initialize variables
+            //Objects
             CVSAxis = new Canvas();
             CVSSeries = new Canvas();
             //Adding the canvases to the main canvas
             canvas.Children.Add(CVSAxis);
             canvas.Children.Add(CVSSeries);
 
-            //ResourceDictionary
             RDTheme = new ResourceDictionary();
-
-
-            //Sorted Dictionary
-            SDSeries = new SortedDictionary<String, Class_Series>();
+            LSeries = new List<Class_Series>();
 
             //Timer
             TIMResize = new DispatcherTimer();
@@ -171,7 +166,7 @@ namespace LHWpfControlLibrary.Source.UserControls
                     dAxisYZoomIncrementValue = dAxisYZoomDecrementValue;
                 }
             }
-            vDrawAll();                                                                            //Redraw entire chart
+            vDrawAll();                                                                             //Redraw entire chart
         }
 
         //This event is called if the auto scale menu item was clicked
@@ -185,7 +180,7 @@ namespace LHWpfControlLibrary.Source.UserControls
         private void TIMResize_Tick(object sender, EventArgs e)
         {
             TIMResize.Stop();
-            vDrawAll();                                                                            //Redraw entire chart
+            vDrawAll();                                                                             //Redraw entire chart
         }
 
         /***********************************************************************************************
@@ -193,7 +188,7 @@ namespace LHWpfControlLibrary.Source.UserControls
         * Functions
         * 
         **********************************************************************************************/
-        //This function inserts a new series to the chart, with the qiSeriesId an existing series can be replaced
+        //This function inserts a new series to the chart. With the qiSeriesId an existing series can be replaced
         public void vAddNewSeries(String qsSeriesName, SortedList<int, float> qSLDataPoints, int qiSeriesId = 1000)
         {
             Class_Series addingSeries = new Class_Series(qsSeriesName, qSLDataPoints);
@@ -219,19 +214,26 @@ namespace LHWpfControlLibrary.Source.UserControls
             {
                 vRescaleY();
             }
-            addingSeries.vSetColor((SolidColorBrush)RDTheme[$"Col_{SDSeries.Count}"]);       //Set the color of the series
-            if (CVSSeries.Children.Count < qiSeriesId)
+            if (LSeries.Count < qiSeriesId)                                                         //Check if series should be added at the end or replaces an existing one
             {
-                CVSSeries.Children.Add(addingSeries.canvas);                                            //Add the series canvas to the canvas of series
+                CVSSeries.Children.Add(addingSeries.canvas);                                        //Add the series canvas to the canvas of series
+                LSeries.Add(addingSeries);                                                          //Add series to the dictionary of series
+                WPLegend.Children.Add(addingSeries.uC_CheckBoxFilled);                              //Add the ckeckbox control
+
+                addingSeries.vSetColor((SolidColorBrush)RDTheme[$"Col_{LSeries.Count - 1}"]);       //Set the color of the series
             }
             else
             {
                 CVSSeries.Children.RemoveAt(qiSeriesId);                                            //Remove the existing series canvas from the canvas of series
-                CVSSeries.Children.Insert(qiSeriesId, addingSeries.canvas);                                            //Add the new series canvas to the canvas of series
+                LSeries.RemoveAt(qiSeriesId);                                                       //Remove the existing series
+                WPLegend.Children.RemoveAt(qiSeriesId);                                             //Remove the existing ckeckbox control
 
+                CVSSeries.Children.Insert(qiSeriesId, addingSeries.canvas);                         //Add the new series canvas to the canvas of series
+                LSeries.Insert(qiSeriesId, addingSeries);                                           //Add the new series to the dictionary of series
+                WPLegend.Children.Insert(qiSeriesId, addingSeries.uC_CheckBoxFilled);               //Add the new ckeckbox control
+
+                addingSeries.vSetColor((SolidColorBrush)RDTheme[$"Col_{qiSeriesId}"]);              //Set the color of the series
             }
-            SDSeries.Add(addingSeries.sSeriesName, addingSeries);                                   //Add series to the dictionary of series
-            WPLegend.Children.Add(addingSeries.uC_CheckBoxFilled);                                  //Add the ckeckbox control
         }
 
         //This function redraws the entire chart
@@ -242,7 +244,7 @@ namespace LHWpfControlLibrary.Source.UserControls
 
             //Series
             CVSSeries.Visibility = Visibility.Visible;                                              //Show all series
-            foreach (Class_Series class_Series in SDSeries.Values)
+            foreach (Class_Series class_Series in LSeries)
             {
                 vDrawSeries(class_Series);
             }
@@ -411,7 +413,7 @@ namespace LHWpfControlLibrary.Source.UserControls
                     }
                 }
             }
-            qSeries.iSLReadIndex = qSeries.SLDataPoints.Last().Key;
+            qSeries.iSLReadIndex = qSeries.SLDataPoints.Count;
         }
 
         //This function increments the max time of the X-Axis and calculates the neccessary values
@@ -439,24 +441,24 @@ namespace LHWpfControlLibrary.Source.UserControls
         {
             if (dMaxSeriesValue > 0)
             {
-                int iPowCnt = 0;                                                                        //Counts the power of 10 of the max value
+                int iPowCnt = 0;                                                                    //Counts the power of 10 of the max value
                 double dMaxSeriesValueTemp = dMaxSeriesValue;
                 while (dMaxSeriesValueTemp >= 1)
                 {
                     dMaxSeriesValueTemp /= 10;
                     iPowCnt++;
                 }
-                iAxisYMaxValue = (int)Math.Pow(10, iPowCnt - 1);                                        //Calculate the step size for zooming
-                dAxisYZoomIncrementValue = dAxisYZoomDecrementValue = iAxisYMaxValue;                   //Save the value for zoom step
-                iAxisYMaxValueFirstDigit = (1 + (int)(dMaxSeriesValue / iAxisYMaxValue));               //Save the first digit of the new max value
-                iAxisYMaxValue *= iAxisYMaxValueFirstDigit;                                             //Calculate the new max value
+                iAxisYMaxValue = (int)Math.Pow(10, iPowCnt - 1);                                    //Calculate the step size for zooming
+                dAxisYZoomIncrementValue = dAxisYZoomDecrementValue = iAxisYMaxValue;               //Save the value for zoom step
+                iAxisYMaxValueFirstDigit = (1 + (int)(dMaxSeriesValue / iAxisYMaxValue));           //Save the first digit of the new max value
+                iAxisYMaxValue *= iAxisYMaxValueFirstDigit;                                         //Calculate the new max value
 
-                if (iAxisYMaxValueFirstDigit == 10)                                                     //Hanle calculation overflow and set the next decade as first digit and zoom factor
+                if (iAxisYMaxValueFirstDigit == 10)                                                 //Hanle calculation overflow and set the next decade as first digit and zoom factor
                 {
                     iAxisYMaxValueFirstDigit = 1;
                     dAxisYZoomIncrementValue *= 10;
                 }
-                vDrawAll();                                                                             //Redraw entire chart
+                vDrawAll();                                                                         //Redraw entire chart
             }
         }
 
@@ -464,10 +466,10 @@ namespace LHWpfControlLibrary.Source.UserControls
         public void vSetColorTheme(ResourceDictionary qRDTheme)
         {
             RDTheme = qRDTheme;
-            canvas.Background = (SolidColorBrush)RDTheme["Col_UC_LineChartBackground"];            //Background of the canvas
-            SCBGridStroke = (SolidColorBrush)RDTheme["Col_UC_LineChartGridStroke"];                //Main stroke
-            SCBMainStroke = (SolidColorBrush)RDTheme["Col_UC_LineChartMainStroke"];                //Main stroke
-            SCBText = (SolidColorBrush)RDTheme["Col_UC_LineChartText"];                            //TextColor
+            canvas.Background = (SolidColorBrush)RDTheme["Col_UC_LineChartBackground"];             //Background of the canvas
+            SCBGridStroke = (SolidColorBrush)RDTheme["Col_UC_LineChartGridStroke"];                 //Main stroke
+            SCBMainStroke = (SolidColorBrush)RDTheme["Col_UC_LineChartMainStroke"];                 //Main stroke
+            SCBText = (SolidColorBrush)RDTheme["Col_UC_LineChartText"];                             //TextColor
             vDrawAll();
         }
 
@@ -476,36 +478,35 @@ namespace LHWpfControlLibrary.Source.UserControls
         {
             double dX, dY;
             int iLastIndex, iMaxTimeValue;
-            foreach (Class_Series series in SDSeries.Values)
+            foreach (Class_Series series in LSeries)
             {
                 iLastIndex = series.SLDataPoints.Count() - 1;
-                iMaxTimeValue = series.SLDataPoints.Keys[iLastIndex];                               //Maximum time value of the list
-                if (iMaxTimeValue > iAxisXMaxValue)                                                 //X-Axis needs to be resized -> redraw entire chart
+                if (series.SLDataPoints.Count > 0)
                 {
-                    while (iMaxTimeValue > iAxisXMaxValue)
+                    iMaxTimeValue = series.SLDataPoints.Keys[iLastIndex];                               //Maximum time value of the list
+                    if (iMaxTimeValue > iAxisXMaxValue)                                                 //X-Axis needs to be resized -> redraw entire chart
                     {
-                        vIncrementMaxTime();                                                        //Recalculate the maximum time of the X-Axis
-                    }
-                    vDrawAll();                                                                    //Redraw entire chart
-                    return;
-                }
-                else if (series.iSLReadIndex >= series.SLDataPoints.Count)
-                {
-                    vDrawAll();                                                                    //Redraw entire chart
-                    return;
-                }
-                else                                                                                //X-Axis needs no resize -> only add new points to the polyline and dont redraw
-                {
-                    bool bRescaleY = false;
-                    int iTimeStamp;
-                    double dValue;
-                    while (iLastIndex != series.iSLReadIndex)
-                    {
-                        series.iSLReadIndex++;
-                        iTimeStamp = series.SLDataPoints.Keys[series.iSLReadIndex];
-                        dValue = series.SLDataPoints.Values[series.iSLReadIndex];
-                        if (series.SLDataPoints.ContainsKey(series.iSLReadIndex))
+                        while (iMaxTimeValue > iAxisXMaxValue)
                         {
+                            vIncrementMaxTime();                                                        //Recalculate the maximum time of the X-Axis
+                        }
+                        vDrawAll();                                                                     //Redraw entire chart
+                        return;
+                    }
+                    else if (series.iSLReadIndex > series.SLDataPoints.Count)
+                    {
+                        vDrawAll();                                                                     //Redraw entire chart
+                        return;
+                    }
+                    else                                                                                //X-Axis needs no resize -> only add new points to the polyline and dont redraw
+                    {
+                        bool bRescaleY = false;
+                        int iTimeStamp;
+                        double dValue;
+                        while (iLastIndex >= series.iSLReadIndex)
+                        {
+                            iTimeStamp = series.SLDataPoints.Keys[series.iSLReadIndex];
+                            dValue = series.SLDataPoints.Values[series.iSLReadIndex];
                             dX = dOriginX + iTimeStamp * dPixelsPerSecond;
                             if (dX < (dOriginX + dAxisXLength))
                             {
@@ -528,11 +529,12 @@ namespace LHWpfControlLibrary.Source.UserControls
                                     bRescaleY = true;                                               //Indicator for rescaling after all points were added
                                 }
                             }
+                            series.iSLReadIndex++;
                         }
-                    }
-                    if (bRescaleY)
-                    {
-                        vRescaleY();
+                        if (bRescaleY)
+                        {
+                            vRescaleY();
+                        }
                     }
                 }
             }
@@ -550,11 +552,11 @@ namespace LHWpfControlLibrary.Source.UserControls
             //Objects
             public Canvas canvas;                                                                   //A canvas to draw the series to
             public Polyline polyline;                                                               //The line of the series
-            public SortedList<int, float> SLDataPoints;                                             //List contains all datapoints
+            public SortedList<int, float> SLDataPoints;                                             //List contains all datapoints. Int is relative time in seconds
             public SolidColorBrush SCBStroke;                                                       //Stroke of the series
             public UC_CheckBoxFilled uC_CheckBoxFilled;                                             //The checkbox for the series
             //Primitive
-            public int iSLReadIndex = 0;                                                            //The index of the last added point from SLDataPoint to the chart
+            public int iSLReadIndex = 0;                                                            //The index of the next unread value from the SLDatapoints
             public String sSeriesName;                                                              //Name of the series. Is shown in the legend
 
             //Constructor
