@@ -78,9 +78,9 @@ namespace LHWpfControlLibrary.Source.UserControls
         private double dOriginX, dOriginY;                                                          //Position of the origin
         private double dPixelsPerSecond, dPixelsPerValue;                                           //Number of pixels per second on the X-Axis and pixel per value on the Y-Axis
         private double dMaxSeriesValue;                                                             //Maximum value of all series
-        private double dAxisYZoomIncrementValue = 100, dAxisYZoomDecrementValue = 10;                          //Values for decrement and increment the Y-Axis max value on user zoom scaling
-        private int iAxisXMaxValue = 0, iAxisYMaxValue = 100;                                       //Initial values for the axes maximums. 
-        private int iAxisYMaxValueFirstDigit = 1;                                                   //First digit of the Y axis maximum. Used for calculating the amount of zooming on the next user scale event
+        private double dAxisYZoomIncrementValue, dAxisYZoomDecrementValue;                          //Values for decrement and increment the Y-Axis max value on user zoom scaling
+        private int iAxisXMaxValue, iAxisYMaxValue;                                       //Values for the axes maximums. 
+        private int iAxisYMaxValueFirstDigit;                                                   //First digit of the Y axis maximum. Used for calculating the amount of zooming on the next user scale event
 
         private String[] asAxisXLabels = new String[I_NUM_OF_MAIN_TICK_MARKS_X / I_MODULO_MAIN_LABELS_X];    //Labels for the X-Axis
         public String sAxisXTitle = "{TIME}", sAxisYTitle = "";
@@ -109,7 +109,7 @@ namespace LHWpfControlLibrary.Source.UserControls
             TIMResize.Interval = TimeSpan.FromMilliseconds(I_INTERVAL_RESIZE_TIMER);
             TIMResize.Tick += TIMResize_Tick;
 
-            vIncrementMaxTime();                                                                    //Set the initial max time value
+            vReset();
         }
 
         /***********************************************************************************************
@@ -462,6 +462,25 @@ namespace LHWpfControlLibrary.Source.UserControls
             }
         }
 
+        public void vReset()
+        {
+            bAutoScaleMode = true;
+            dMaxSeriesValue = 0;    //Set the max value back to 0
+            dAxisYZoomIncrementValue = 100; //Initial values for zooming
+            dAxisYZoomDecrementValue = 10;  //Initial values for zooming
+            iAxisXMaxValue = 0;   //Initial values for the axes maximums
+            iAxisYMaxValue = 100;  //Initial values for the axes maximums
+            iAxisYMaxValueFirstDigit = 1; //First digit is 1 because iAxisYMaxValue = 100
+
+            for (int iSeriesCnt = 0; iSeriesCnt < LSeries.Count; iSeriesCnt++)
+            {
+                LSeries[iSeriesCnt].vReset();              //Reset the series
+                LSeries[iSeriesCnt].vSetColor((SolidColorBrush)RDTheme[$"Col_{iSeriesCnt}"]);              //Reset the color of the series
+            }
+            vIncrementMaxTime();
+            vDrawAxes();
+        }
+
         //This function sets the color theme of the chart
         public void vSetColorTheme(ResourceDictionary qRDTheme)
         {
@@ -470,6 +489,11 @@ namespace LHWpfControlLibrary.Source.UserControls
             SCBGridStroke = (SolidColorBrush)RDTheme["Col_UC_LineChartGridStroke"];                 //Main stroke
             SCBMainStroke = (SolidColorBrush)RDTheme["Col_UC_LineChartMainStroke"];                 //Main stroke
             SCBText = (SolidColorBrush)RDTheme["Col_UC_LineChartText"];                             //TextColor
+
+            for(int iSeriesCnt=0;iSeriesCnt<LSeries.Count;iSeriesCnt++)
+            {
+                LSeries[iSeriesCnt].vSetColor((SolidColorBrush)RDTheme[$"Col_{iSeriesCnt}"]);              //Set the color of the series
+            }
             vDrawAll();
         }
 
@@ -556,7 +580,7 @@ namespace LHWpfControlLibrary.Source.UserControls
             public SolidColorBrush SCBStroke;                                                       //Stroke of the series
             public UC_CheckBoxFilled uC_CheckBoxFilled;                                             //The checkbox for the series
             //Primitive
-            public int iSLReadIndex = 0;                                                            //The index of the next unread value from the SLDatapoints
+            public int iSLReadIndex;                                                            //The index of the next unread value from the SLDatapoints
             public String sSeriesName;                                                              //Name of the series. Is shown in the legend
 
             //Constructor
@@ -573,11 +597,7 @@ namespace LHWpfControlLibrary.Source.UserControls
                 uC_CheckBoxFilled.EHCheckedChanged += CBF_CheckedChanged;
                 uC_CheckBoxFilled.FontSize = D_FONSTIZE_CHECKBOX;
 
-                //Initialize the polyline
-                polyline = new Polyline();
-                polyline.StrokeThickness = 2;
-                polyline.StrokeLineJoin = PenLineJoin.Round;
-                canvas.Children.Add(polyline);
+                vReset();
             }
 
             //Events
@@ -595,6 +615,17 @@ namespace LHWpfControlLibrary.Source.UserControls
             }
 
             //Functions
+            //This function resets the series
+            public void vReset()
+            {
+                iSLReadIndex = 0;
+                canvas.Children.Clear();
+                //Create a new polyline
+                polyline = new Polyline();
+                polyline.StrokeThickness = 2;
+                polyline.StrokeLineJoin = PenLineJoin.Round;
+                canvas.Children.Add(polyline);
+            }
             //This function sets the color of the series
             public void vSetColor(SolidColorBrush SCBColor)
             {
