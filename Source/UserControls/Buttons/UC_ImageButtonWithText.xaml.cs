@@ -38,10 +38,17 @@ namespace LHWpfControlLibrary.Source.UserControls
         * 
         **********************************************************************************************/
         //Command of the button
-        public ICommand Command { get { return (ICommand)GetValue(DPButton); } set { SetValue(DPButton, value); } }
+        public ICommand Command { get { return (ICommand)GetValue(DPCommand); } set { SetValue(DPCommand, value); } }
         //DependencyProperty for the button command
-        public static readonly DependencyProperty DPButton =
+        public static readonly DependencyProperty DPCommand =
             DependencyProperty.Register(nameof(Command), typeof(ICommand), typeof(UC_ImageButtonWithText), new UIPropertyMetadata(null));
+
+        //Command parameter of the button
+        public Object CommandParameter { get { return (Object)GetValue(DPCommandParameter); } set { SetValue(DPCommandParameter, value); } }
+        //DependencyProperty for the button command parameter
+        public static readonly DependencyProperty DPCommandParameter =
+            DependencyProperty.Register(nameof(CommandParameter), typeof(Object), typeof(UC_ImageButtonWithText), new UIPropertyMetadata(null));
+
 
         //Label for the text
         public String Text { get { return (String)GetValue(DPText); } set { SetValue(DPText, value); } }
