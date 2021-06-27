@@ -1,0 +1,25 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" >
+
+    <!--Dummy button is a transparent invisible button-->
+    <!-- ******************************************************************************************
+    *
+    * Control Templates
+    *
+    ****************************************************************************************** -->
+    <ControlTemplate x:Key="CT_Button_Dummy" TargetType="{x:Type Button}">
+        <Border x:Name="border" Background="Transparent" BorderBrush="Transparent" BorderThickness="0" SnapsToDevicePixels="True">
+            <ContentPresenter x:Name="contentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+        </Border>
+    </ControlTemplate>
+
+    <!-- ******************************************************************************************
+    *
+    * Styles
+    *
+    ****************************************************************************************** -->
+    <Style x:Key="STY_Button_Dummy" TargetType="Button">
+        <Setter Property="Foreground" Value="Transparent" />
+        <Setter Property="Padding" Value="{DynamicResource Dim_ThButtonPadding}" />
+        <Setter Property="Template" Value="{DynamicResource CT_Button_Dummy}" />
+    </Style>
+</ResourceDictionary>
