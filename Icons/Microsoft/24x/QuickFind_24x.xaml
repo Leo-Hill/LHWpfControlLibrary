@@ -2,7 +2,7 @@
 <!-- Tool Version: 14.0.22307.0 -->
 
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
-    <DataTemplate x:Key="Ico_QuickFind_x24" x:Shared="False">
+    <DataTemplate x:Key="Ico_QuickFind_24x" x:Shared="False">
         <ContentControl>
             <ContentControl.Style>
                 <Style TargetType="ContentControl">

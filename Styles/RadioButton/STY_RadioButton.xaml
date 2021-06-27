@@ -8,8 +8,8 @@
     <ControlTemplate x:Key="CT_RadioButton" TargetType="{x:Type RadioButton}">
         <BulletDecorator x:Name="BDecorator" Background="Transparent" VerticalAlignment="Center">
             <BulletDecorator.Bullet>
-                <Grid Width="13" Height="13">
-                    <Border x:Name="Border" BorderThickness="1" BorderBrush="{DynamicResource Col_RadioButtonBorder}" Background="{DynamicResource Col_RadioButtonBackground}" />
+                <Grid Width="14" Height="14">
+                    <Border x:Name="Border" BorderThickness="1" BorderBrush="{DynamicResource Col_RadioButtonBorder}" Background="{DynamicResource Col_RadioButtonBackground}" CornerRadius="3" />
                     <Border x:Name="CheckMark" Margin="4" Visibility="Collapsed" Background="{DynamicResource Col_RadioButtonCheckmark}" />
                 </Grid>
             </BulletDecorator.Bullet>
