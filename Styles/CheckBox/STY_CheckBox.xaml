@@ -29,6 +29,7 @@
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
                 <Setter Property="Background" TargetName="Border" Value="{DynamicResource Col_CheckboxBackgroundDisabled}" />
+                <Setter Property="Foreground" Value="{DynamicResource Col_TextLight}" />
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
