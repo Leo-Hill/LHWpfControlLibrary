@@ -79,8 +79,8 @@ namespace LHWpfControlLibrary.Source.UserControls
         private double dPixelsPerSecond, dPixelsPerValue;                                           //Number of pixels per second on the X-Axis and pixel per value on the Y-Axis
         private double dMaxSeriesValue;                                                             //Maximum value of all series
         private double dAxisYZoomIncrementValue, dAxisYZoomDecrementValue;                          //Values for decrement and increment the Y-Axis max value on user zoom scaling
-        private int iAxisXMaxValue, iAxisYMaxValue;                                       //Values for the axes maximums. 
-        private int iAxisYMaxValueFirstDigit;                                                   //First digit of the Y axis maximum. Used for calculating the amount of zooming on the next user scale event
+        private int iAxisXMaxValue, iAxisYMaxValue;                                                 //Values for the axes maximums. 
+        private int iAxisYMaxValueFirstDigit;                                                       //First digit of the Y axis maximum. Used for calculating the amount of zooming on the next user scale event
 
         private String[] asAxisXLabels = new String[I_NUM_OF_MAIN_TICK_MARKS_X / I_MODULO_MAIN_LABELS_X];    //Labels for the X-Axis
         public String sAxisXTitle = "{TIME}", sAxisYTitle = "";
@@ -139,21 +139,6 @@ namespace LHWpfControlLibrary.Source.UserControls
             if (e.Delta > 0)
             {
                 bAutoScaleMode = false;                                                             //Disable auto scale mode
-                iAxisYMaxValue += (int)dAxisYZoomIncrementValue;                                    //Increment the max value
-                iAxisYMaxValueFirstDigit++;                                                         //Increment the first digit 
-                if (iAxisYMaxValueFirstDigit == 10)                                                 //Transition from 9 to 10 -> increment value * 10
-                {
-                    iAxisYMaxValueFirstDigit = 1;
-                    dAxisYZoomIncrementValue *= 10;
-                }
-                else if (iAxisYMaxValueFirstDigit == 2)                                             //Transition from 1 to 2 -> Decrement value * 10 ( = increment value)  
-                {
-                    dAxisYZoomDecrementValue = dAxisYZoomIncrementValue;
-                }
-            }
-            else if (e.Delta < 0 && iAxisYMaxValue > 1)
-            {
-                bAutoScaleMode = false;                                                             //Disable auto scale mode
                 iAxisYMaxValue -= (int)dAxisYZoomDecrementValue;
                 iAxisYMaxValueFirstDigit--;
                 if (iAxisYMaxValueFirstDigit == 1)                                                  //Transition from 2 to 1 -> decrement value / 10
@@ -164,6 +149,21 @@ namespace LHWpfControlLibrary.Source.UserControls
                 {
                     iAxisYMaxValueFirstDigit = 9;
                     dAxisYZoomIncrementValue = dAxisYZoomDecrementValue;
+                }
+            }
+            else if (e.Delta < 0 && iAxisYMaxValue > 1)
+            {
+                bAutoScaleMode = false;                                                             //Disable auto scale mode
+                iAxisYMaxValue += (int)dAxisYZoomIncrementValue;                                    //Increment the max value
+                iAxisYMaxValueFirstDigit++;                                                         //Increment the first digit 
+                if (iAxisYMaxValueFirstDigit == 10)                                                 //Transition from 9 to 10 -> increment value * 10
+                {
+                    iAxisYMaxValueFirstDigit = 1;
+                    dAxisYZoomIncrementValue *= 10;
+                }
+                else if (iAxisYMaxValueFirstDigit == 2)                                             //Transition from 1 to 2 -> Decrement value * 10 ( = increment value)  
+                {
+                    dAxisYZoomDecrementValue = dAxisYZoomIncrementValue;
                 }
             }
             vDrawAll();                                                                             //Redraw entire chart
@@ -465,17 +465,17 @@ namespace LHWpfControlLibrary.Source.UserControls
         public void vReset()
         {
             bAutoScaleMode = true;
-            dMaxSeriesValue = 0;    //Set the max value back to 0
-            dAxisYZoomIncrementValue = 100; //Initial values for zooming
-            dAxisYZoomDecrementValue = 10;  //Initial values for zooming
-            iAxisXMaxValue = 0;   //Initial values for the axes maximums
-            iAxisYMaxValue = 100;  //Initial values for the axes maximums
-            iAxisYMaxValueFirstDigit = 1; //First digit is 1 because iAxisYMaxValue = 100
+            dMaxSeriesValue = 0;                                                                    //Set the max value back to 0
+            dAxisYZoomIncrementValue = 100;                                                         //Initial values for zooming
+            dAxisYZoomDecrementValue = 10;                                                          //Initial values for zooming
+            iAxisXMaxValue = 0;                                                                     //Initial values for the axes maximums
+            iAxisYMaxValue = 100;                                                                   //Initial values for the axes maximums
+            iAxisYMaxValueFirstDigit = 1;                                                           //First digit is 1 because iAxisYMaxValue = 100
 
             for (int iSeriesCnt = 0; iSeriesCnt < LSeries.Count; iSeriesCnt++)
             {
-                LSeries[iSeriesCnt].vReset();              //Reset the series
-                LSeries[iSeriesCnt].vSetColor((SolidColorBrush)RDTheme[$"Col_{iSeriesCnt}"]);              //Reset the color of the series
+                LSeries[iSeriesCnt].vReset();                                                       //Reset the series
+                LSeries[iSeriesCnt].vSetColor((SolidColorBrush)RDTheme[$"Col_{iSeriesCnt}"]);       //Reset the color of the series
             }
             vIncrementMaxTime();
             vDrawAxes();
@@ -490,9 +490,9 @@ namespace LHWpfControlLibrary.Source.UserControls
             SCBMainStroke = (SolidColorBrush)RDTheme["Col_UC_LineChartMainStroke"];                 //Main stroke
             SCBText = (SolidColorBrush)RDTheme["Col_UC_LineChartText"];                             //TextColor
 
-            for(int iSeriesCnt=0;iSeriesCnt<LSeries.Count;iSeriesCnt++)
+            for (int iSeriesCnt = 0; iSeriesCnt < LSeries.Count; iSeriesCnt++)
             {
-                LSeries[iSeriesCnt].vSetColor((SolidColorBrush)RDTheme[$"Col_{iSeriesCnt}"]);              //Set the color of the series
+                LSeries[iSeriesCnt].vSetColor((SolidColorBrush)RDTheme[$"Col_{iSeriesCnt}"]);       //Set the color of the series
             }
             vDrawAll();
         }
@@ -507,22 +507,22 @@ namespace LHWpfControlLibrary.Source.UserControls
                 iLastIndex = series.SLDataPoints.Count() - 1;
                 if (series.SLDataPoints.Count > 0)
                 {
-                    iMaxTimeValue = series.SLDataPoints.Keys[iLastIndex];                               //Maximum time value of the list
-                    if (iMaxTimeValue > iAxisXMaxValue)                                                 //X-Axis needs to be resized -> redraw entire chart
+                    iMaxTimeValue = series.SLDataPoints.Keys[iLastIndex];                           //Maximum time value of the list
+                    if (iMaxTimeValue > iAxisXMaxValue)                                             //X-Axis needs to be resized -> redraw entire chart
                     {
                         while (iMaxTimeValue > iAxisXMaxValue)
                         {
-                            vIncrementMaxTime();                                                        //Recalculate the maximum time of the X-Axis
+                            vIncrementMaxTime();                                                    //Recalculate the maximum time of the X-Axis
                         }
-                        vDrawAll();                                                                     //Redraw entire chart
+                        vDrawAll();                                                                 //Redraw entire chart
                         return;
                     }
                     else if (series.iSLReadIndex > series.SLDataPoints.Count)
                     {
-                        vDrawAll();                                                                     //Redraw entire chart
+                        vDrawAll();                                                                 //Redraw entire chart
                         return;
                     }
-                    else                                                                                //X-Axis needs no resize -> only add new points to the polyline and dont redraw
+                    else                                                                            //X-Axis needs no resize -> only add new points to the polyline and dont redraw
                     {
                         bool bRescaleY = false;
                         int iTimeStamp;
@@ -580,7 +580,7 @@ namespace LHWpfControlLibrary.Source.UserControls
             public SolidColorBrush SCBStroke;                                                       //Stroke of the series
             public UC_CheckBoxFilled uC_CheckBoxFilled;                                             //The checkbox for the series
             //Primitive
-            public int iSLReadIndex;                                                            //The index of the next unread value from the SLDatapoints
+            public int iSLReadIndex;                                                                //The index of the next unread value from the SLDatapoints
             public String sSeriesName;                                                              //Name of the series. Is shown in the legend
 
             //Constructor
