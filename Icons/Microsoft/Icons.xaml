@@ -10,6 +10,7 @@
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/16x/EditTheme_16x.xaml"/>
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/16x/Edit_16x.xaml"/>
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/16x/ExtractConstant_16x.xaml"/>
+ <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/16x/F1Help_16x.xaml"/>
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/16x/FindSymbol_16x.xaml"/>
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/16x/FontSize_16x.xaml"/>
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/16x/ImportFile_16x.xaml"/>
@@ -45,6 +46,7 @@
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/24x/EditTheme_24x.xaml"/>
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/24x/Edit_24x.xaml"/>
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/24x/ExtractConstant_24x.xaml"/>
+ <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/24x/F1Help_24x.xaml"/>
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/24x/FindSymbol_24x.xaml"/>
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/24x/FontSize_24x.xaml"/>
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/24x/ImportFile_24x.xaml"/>
@@ -80,6 +82,7 @@
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/32x/EditTheme_32x.xaml"/>
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/32x/Edit_32x.xaml"/>
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/32x/ExtractConstant_32x.xaml"/>
+ <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/32x/F1Help_32x.xaml"/>
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/32x/FindSymbol_32x.xaml"/>
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/32x/FontSize_32x.xaml"/>
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/32x/ImportFile_32x.xaml"/>
