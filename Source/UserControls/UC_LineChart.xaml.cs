@@ -555,7 +555,7 @@ namespace LHWpfControlLibrary.Source.UserControls
                             }
                             series.iSLReadIndex++;
                         }
-                        if (bRescaleY)
+                        if (true == bAutoScaleMode && true == bRescaleY)
                         {
                             vRescaleY();
                         }
