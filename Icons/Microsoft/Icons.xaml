@@ -16,6 +16,8 @@
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/16x/ImportFile_16x.xaml"/>
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/16x/InformationSymbol_16x.xaml"/>
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/16x/IOTChip_16x.xaml"/>
+ <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/16x/Log_16x.xaml"/>
+ <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/16x/Network_16x.xaml"/>
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/16x/OpenFolder_16x.xaml"/>
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/16x/PopOut_16x.xaml"/>
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/16x/QuickFind_16x.xaml"/>
@@ -52,6 +54,8 @@
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/24x/ImportFile_24x.xaml"/>
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/24x/InformationSymbol_24x.xaml"/>
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/24x/IOTChip_24x.xaml"/>
+ <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/24x/Log_24x.xaml"/>
+ <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/24x/Network_24x.xaml"/>
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/24x/OpenFolder_24x.xaml"/>
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/24x/PopOut_24x.xaml"/>
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/24x/QuickFind_24x.xaml"/>
@@ -88,6 +92,8 @@
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/32x/ImportFile_32x.xaml"/>
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/32x/InformationSymbol_32x.xaml"/>
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/32x/IOTChip_32x.xaml"/>
+ <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/32x/Log_32x.xaml"/>
+ <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/32x/Network_32x.xaml"/>
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/32x/OpenFolder_32x.xaml"/>
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/32x/PopOut_32x.xaml"/>
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/32x/QuickFind_32x.xaml"/>
