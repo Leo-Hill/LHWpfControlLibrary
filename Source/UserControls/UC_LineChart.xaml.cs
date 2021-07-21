@@ -205,7 +205,7 @@ namespace LHWpfControlLibrary.Source.UserControls
             //Check if a the max value of the series is the new biggest value
             foreach (double dValue in qSLDataPoints.Values)
             {
-                if (dValue > dMaxSeriesValue && false == double.IsInfinity(dMaxSeriesValue) && false == double.IsNaN(dMaxSeriesValue)))
+                if (dValue > dMaxSeriesValue && false == double.IsInfinity(dMaxSeriesValue) && false == double.IsNaN(dMaxSeriesValue))
                 {
                     dMaxSeriesValue = dValue;
                 }
@@ -400,13 +400,17 @@ namespace LHWpfControlLibrary.Source.UserControls
             foreach (KeyValuePair<int, float> actDataPoint in qSeries.SLDataPoints)
             {
                 dX = dOriginX + actDataPoint.Key * dPixelsPerSecond;
-                if (dX < (dOriginX + dAxisXLength))
+                if (dX < (dOriginX + dAxisXLength)) //Check if value is in X-Axis range
                 {
-                    if (actDataPoint.Value > iAxisYMaxValue)                                        //Maximum value exceeds the X-Axis
+                    if (actDataPoint.Value > iAxisYMaxValue)                                        //Value exceeds the Y-Axis positive bounds
                     {
                         qSeries.polyline.Points.Add(new Point(dX, dOriginY - dAxisYLength));
                     }
-                    else                                                                            //Maximum value is within the X-Axis range
+                    else if (actDataPoint.Value < 0)                                        //Value exceeds the Y-Axis negative bounds
+                    {
+                        qSeries.polyline.Points.Add(new Point(dX, dOriginY));
+                    }
+                    else                                                                            //Value is within the Y-Axis range
                     {
                         dY = dOriginY - actDataPoint.Value * dPixelsPerValue;
                         qSeries.polyline.Points.Add(new Point(dX, dY));
@@ -534,9 +538,13 @@ namespace LHWpfControlLibrary.Source.UserControls
                             dX = dOriginX + iTimeStamp * dPixelsPerSecond;
                             if (dX < (dOriginX + dAxisXLength))
                             {
-                                if (dValue > iAxisYMaxValue)                                        //Maximum value exceeds the Y-Axis
+                                if (dValue > iAxisYMaxValue)                                        //Value exceeds the Y-Axis positive bounds
                                 {
                                     series.polyline.Points.Add(new Point(dX, dOriginY - dAxisYLength));
+                                }
+                                else if (dValue < 0)                                        //Value exceeds the Y-Axis negative bounds
+                                {
+                                    series.polyline.Points.Add(new Point(dX, dOriginY));
                                 }
                                 else                                                                //Maximum value is within the Y-Axis range
                                 {
@@ -545,7 +553,7 @@ namespace LHWpfControlLibrary.Source.UserControls
                                 }
                             }
                             //Check if the new value is the new biggest value
-                            if (dValue > dMaxSeriesValue && false==double.IsInfinity(dMaxSeriesValue) &&false== double.IsNaN(dMaxSeriesValue))
+                            if (dValue > dMaxSeriesValue && false == double.IsInfinity(dMaxSeriesValue) && false == double.IsNaN(dMaxSeriesValue))
                             {
                                 dMaxSeriesValue = dValue;
                                 if (dMaxSeriesValue > iAxisYMaxValue)
