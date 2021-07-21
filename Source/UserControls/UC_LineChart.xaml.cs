@@ -205,7 +205,7 @@ namespace LHWpfControlLibrary.Source.UserControls
             //Check if a the max value of the series is the new biggest value
             foreach (double dValue in qSLDataPoints.Values)
             {
-                if (dValue > dMaxSeriesValue)
+                if (dValue > dMaxSeriesValue && false == double.IsInfinity(dMaxSeriesValue) && false == double.IsNaN(dMaxSeriesValue)))
                 {
                     dMaxSeriesValue = dValue;
                 }
@@ -545,7 +545,7 @@ namespace LHWpfControlLibrary.Source.UserControls
                                 }
                             }
                             //Check if the new value is the new biggest value
-                            if (dValue > dMaxSeriesValue)
+                            if (dValue > dMaxSeriesValue && false==double.IsInfinity(dMaxSeriesValue) &&false== double.IsNaN(dMaxSeriesValue))
                             {
                                 dMaxSeriesValue = dValue;
                                 if (dMaxSeriesValue > iAxisYMaxValue)
