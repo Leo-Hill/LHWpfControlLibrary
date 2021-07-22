@@ -30,6 +30,7 @@
         <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Styles/Thumb/STY_Thumb.xaml" />
         <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Styles/ToolBar/STY_ToolBar.xaml" />
         <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Styles/ToolTip/STY_ToolTip.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Styles/TreeView/STY_TreeView.xaml" />
         <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Styles/UC_Buttons/STY_UC_ImageButtonWithText.xaml" />
         <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Styles/UC_Buttons/STY_UC_ToolBarButtonWithText.xaml" />
         <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Styles/UC_Checkboxes/STY_UC_CheckBoxFilled.xaml" />

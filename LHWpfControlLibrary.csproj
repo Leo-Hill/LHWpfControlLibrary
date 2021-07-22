@@ -727,6 +727,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Styles\TreeView\STY_TreeView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Styles\UC_Buttons\STY_UC_ImageButtonWithText.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
