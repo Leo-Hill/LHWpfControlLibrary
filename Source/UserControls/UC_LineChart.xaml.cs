@@ -97,6 +97,7 @@ namespace LHWpfControlLibrary.Source.UserControls
             //Objects
             CVSAxis = new Canvas();
             CVSSeries = new Canvas();
+
             //Adding the canvases to the main canvas
             canvas.Children.Add(CVSAxis);
             canvas.Children.Add(CVSSeries);
@@ -466,6 +467,7 @@ namespace LHWpfControlLibrary.Source.UserControls
             }
         }
 
+        //This function resets the entire line chart
         public void vReset()
         {
             bAutoScaleMode = true;
