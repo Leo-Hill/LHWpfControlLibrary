@@ -1,7 +1,7 @@
-<Page x:Class="LHWpfControlLibrary.Source.Pages.Page_ApplicationError" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"  xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:LHWpfControlLibrary.Source.Pages" mc:Ignorable="d" d:DesignHeight="200" d:DesignWidth="400" Title="Page_SelectPcbDesign">
+<Page x:Class="LHWpfControlLibrary.Source.Pages.Page_ApplicationError" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"  xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:LHWpfControlLibrary.Source.Pages" mc:Ignorable="d" d:DesignHeight="200" d:DesignWidth="400" Title="Page_SelectPcbDesign" Loaded="Page_Loaded" >
 
     <StackPanel Margin="{StaticResource Dim_ThStandardMargin}">
-        <Expander Header="{DynamicResource Str_Details}">
+        <Expander IsExpanded="True" Header="{DynamicResource Str_Details}">
             <Label x:Name="LExceptionDetails" Grid.Row="2" VerticalAlignment="Center" Margin="5,15,5,15">Text</Label>
         </Expander>
     </StackPanel>

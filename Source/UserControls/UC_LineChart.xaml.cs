@@ -77,8 +77,7 @@ namespace LHWpfControlLibrary.Source.UserControls
         private double dAxisXLength, dAxisYLength;                                                  //Length of X and Y Axes
         private double dOriginX, dOriginY;                                                          //Position of the origin
         private double dPixelsPerSecond, dPixelsPerValue;                                           //Number of pixels per second on the X-Axis and pixel per value on the Y-Axis
-        private double dMaxSeriesValue;                                                             //Maximum value of all series
-        private double dAxisYZoomIncrementValue, dAxisYZoomDecrementValue;                          //Values for decrement and increment the Y-Axis max value on user zoom scaling
+        private int iAxisYZoomIncrementValue, iAxisYZoomDecrementValue;                          //Values for decrement and increment the Y-Axis max value on user zoom scaling
         private int iAxisXMaxValue, iAxisYMaxValue;                                                 //Values for the axes maximums. 
         private int iAxisYMaxValueFirstDigit;                                                       //First digit of the Y axis maximum. Used for calculating the amount of zooming on the next user scale event
 
@@ -137,34 +136,34 @@ namespace LHWpfControlLibrary.Source.UserControls
         //This event is called if the mousewheel was moved
         private void Control_MouseWheel(object sender, MouseWheelEventArgs e)
         {
-            if (e.Delta > 0)
+            if (e.Delta > 0 && iAxisYMaxValue > 1)
             {
                 bAutoScaleMode = false;                                                             //Disable auto scale mode
-                iAxisYMaxValue -= (int)dAxisYZoomDecrementValue;
+                iAxisYMaxValue -= iAxisYZoomDecrementValue;
                 iAxisYMaxValueFirstDigit--;
                 if (iAxisYMaxValueFirstDigit == 1)                                                  //Transition from 2 to 1 -> decrement value / 10
                 {
-                    dAxisYZoomDecrementValue /= 10;
+                    iAxisYZoomDecrementValue /= 10;
                 }
                 else if (iAxisYMaxValueFirstDigit == 0)                                             //Transition from 1 to 0 (10 to 9) -> increment value / 10 ( = decrement value)
                 {
                     iAxisYMaxValueFirstDigit = 9;
-                    dAxisYZoomIncrementValue = dAxisYZoomDecrementValue;
+                    iAxisYZoomIncrementValue = iAxisYZoomDecrementValue;
                 }
             }
-            else if (e.Delta < 0 && iAxisYMaxValue > 1)
+            else if (e.Delta < 0)
             {
                 bAutoScaleMode = false;                                                             //Disable auto scale mode
-                iAxisYMaxValue += (int)dAxisYZoomIncrementValue;                                    //Increment the max value
+                iAxisYMaxValue += iAxisYZoomIncrementValue;                                    //Increment the max value
                 iAxisYMaxValueFirstDigit++;                                                         //Increment the first digit 
                 if (iAxisYMaxValueFirstDigit == 10)                                                 //Transition from 9 to 10 -> increment value * 10
                 {
                     iAxisYMaxValueFirstDigit = 1;
-                    dAxisYZoomIncrementValue *= 10;
+                    iAxisYZoomIncrementValue *= 10;
                 }
                 else if (iAxisYMaxValueFirstDigit == 2)                                             //Transition from 1 to 2 -> Decrement value * 10 ( = increment value)  
                 {
-                    dAxisYZoomDecrementValue = dAxisYZoomIncrementValue;
+                    iAxisYZoomDecrementValue = iAxisYZoomIncrementValue;
                 }
             }
             vDrawAll();                                                                             //Redraw entire chart
@@ -203,23 +202,22 @@ namespace LHWpfControlLibrary.Source.UserControls
                 }
             }
 
-            //Check if a the max value of the series is the new biggest value
+            //Find the max value if the series
             foreach (double dValue in qSLDataPoints.Values)
             {
-                if (dValue > dMaxSeriesValue && false == double.IsInfinity(dMaxSeriesValue) && false == double.IsNaN(dMaxSeriesValue))
+                if (true == double.IsFinite(dValue) && dValue > addingSeries.dMaxValue)
                 {
-                    dMaxSeriesValue = dValue;
+                    addingSeries.dMaxValue = dValue;
                 }
             }
-            if (true == bAutoScaleMode)
-            {
-                vRescaleY();
-            }
+
             if (LSeries.Count < qiSeriesId)                                                         //Check if series should be added at the end or replaces an existing one
             {
                 CVSSeries.Children.Add(addingSeries.canvas);                                        //Add the series canvas to the canvas of series
                 LSeries.Add(addingSeries);                                                          //Add series to the dictionary of series
                 WPLegend.Children.Add(addingSeries.uC_CheckBoxFilled);                              //Add the ckeckbox control
+
+                addingSeries.EHVisibilityChanged += new EventHandler(OnSeriesVisibilityChanged); //Suscribe to the visibility changed event
 
                 addingSeries.vSetColor((SolidColorBrush)RDTheme[$"Col_{LSeries.Count - 1}"]);       //Set the color of the series
             }
@@ -227,13 +225,18 @@ namespace LHWpfControlLibrary.Source.UserControls
             {
                 CVSSeries.Children.RemoveAt(qiSeriesId);                                            //Remove the existing series canvas from the canvas of series
                 LSeries.RemoveAt(qiSeriesId);                                                       //Remove the existing series
-                WPLegend.Children.RemoveAt(qiSeriesId);                                             //Remove the existing ckeckbox control
+                WPLegend.Children.RemoveAt(qiSeriesId);                                             //Remove the existing chkeckbox control
 
                 CVSSeries.Children.Insert(qiSeriesId, addingSeries.canvas);                         //Add the new series canvas to the canvas of series
                 LSeries.Insert(qiSeriesId, addingSeries);                                           //Add the new series to the dictionary of series
                 WPLegend.Children.Insert(qiSeriesId, addingSeries.uC_CheckBoxFilled);               //Add the new ckeckbox control
 
                 addingSeries.vSetColor((SolidColorBrush)RDTheme[$"Col_{qiSeriesId}"]);              //Set the color of the series
+            }
+
+            if (true == bAutoScaleMode)
+            {
+                vRescaleY();
             }
         }
 
@@ -441,27 +444,36 @@ namespace LHWpfControlLibrary.Source.UserControls
             dPixelsPerSecond = dAxisXLength / (iAxisXMaxValue);
         }
 
+        //This event is called if the visibility of a series has changed
+        private void OnSeriesVisibilityChanged(object sender, EventArgs e)
+        {
+            vRescaleY(); //Rescale the y axis
+        }
+
         //This function calculates the maximum Y-Axis value using the max value of all series
         public void vRescaleY()
         {
+            double dMaxSeriesValue = 0;                                                             //Maximum value of all series
+
+            //Find the max value
+            foreach (Class_Series series in LSeries)
+            {
+                if (Visibility.Visible == series.canvas.Visibility && series.dMaxValue > dMaxSeriesValue)
+                {
+                    dMaxSeriesValue = series.dMaxValue; //Set the new max value
+                }
+            }
+
             if (dMaxSeriesValue > 0)
             {
-                int iPowCnt = 0;                                                                    //Counts the power of 10 of the max value
                 double dMaxSeriesValueTemp = dMaxSeriesValue;
-                while (dMaxSeriesValueTemp >= 1)
-                {
-                    dMaxSeriesValueTemp /= 10;
-                    iPowCnt++;
-                }
-                iAxisYMaxValue = (int)Math.Pow(10, iPowCnt - 1);                                    //Calculate the step size for zooming
-                dAxisYZoomIncrementValue = dAxisYZoomDecrementValue = iAxisYMaxValue;               //Save the value for zoom step
-                iAxisYMaxValueFirstDigit = (1 + (int)(dMaxSeriesValue / iAxisYMaxValue));           //Save the first digit of the new max value
-                iAxisYMaxValue *= iAxisYMaxValueFirstDigit;                                         //Calculate the new max value
-
+                iAxisYZoomIncrementValue = iAxisYZoomDecrementValue = (int)Math.Pow(10, Math.Floor(Math.Log10(dMaxSeriesValue)));    //Calculate the incremet values for zooming
+                iAxisYMaxValueFirstDigit = (1 + (int)(dMaxSeriesValue / iAxisYZoomIncrementValue));           //Save the first digit of the new max value
+                iAxisYMaxValue = iAxisYZoomIncrementValue * iAxisYMaxValueFirstDigit;                                         //Calculate the new max value
                 if (iAxisYMaxValueFirstDigit == 10)                                                 //Hanle calculation overflow and set the next decade as first digit and zoom factor
                 {
                     iAxisYMaxValueFirstDigit = 1;
-                    dAxisYZoomIncrementValue *= 10;
+                    iAxisYZoomIncrementValue *= 10;
                 }
                 vDrawAll();                                                                         //Redraw entire chart
             }
@@ -471,9 +483,8 @@ namespace LHWpfControlLibrary.Source.UserControls
         public void vReset()
         {
             bAutoScaleMode = true;
-            dMaxSeriesValue = 0;                                                                    //Set the max value back to 0
-            dAxisYZoomIncrementValue = 100;                                                         //Initial values for zooming
-            dAxisYZoomDecrementValue = 10;                                                          //Initial values for zooming
+            iAxisYZoomIncrementValue = 100;                                                         //Initial values for zooming
+            iAxisYZoomDecrementValue = 10;                                                          //Initial values for zooming
             iAxisXMaxValue = 0;                                                                     //Initial values for the axes maximums
             iAxisYMaxValue = 100;                                                                   //Initial values for the axes maximums
             iAxisYMaxValueFirstDigit = 1;                                                           //First digit is 1 because iAxisYMaxValue = 100
@@ -555,10 +566,10 @@ namespace LHWpfControlLibrary.Source.UserControls
                                 }
                             }
                             //Check if the new value is the new biggest value
-                            if (dValue > dMaxSeriesValue && false == double.IsInfinity(dMaxSeriesValue) && false == double.IsNaN(dMaxSeriesValue))
+                            if (true == double.IsFinite(dValue) && dValue > series.dMaxValue)
                             {
-                                dMaxSeriesValue = dValue;
-                                if (dMaxSeriesValue > iAxisYMaxValue)
+                                series.dMaxValue = dValue;
+                                if (series.dMaxValue > iAxisYMaxValue)
                                 {
                                     bRescaleY = true;                                               //Indicator for rescaling after all points were added
                                 }
@@ -585,11 +596,13 @@ namespace LHWpfControlLibrary.Source.UserControls
             //Constants
             //Objects
             public Canvas canvas;                                                                   //A canvas to draw the series to
+            public EventHandler EHVisibilityChanged; //Event is triggered if the visibility of the series has changed
             public Polyline polyline;                                                               //The line of the series
             public SortedList<int, float> SLDataPoints;                                             //List contains all datapoints. Int is relative time in seconds
             public SolidColorBrush SCBStroke;                                                       //Stroke of the series
             public UC_CheckBoxFilled uC_CheckBoxFilled;                                             //The checkbox for the series
             //Primitive
+            public double dMaxValue; //Maximum value of the series
             public int iSLReadIndex;                                                                //The index of the next unread value from the SLDatapoints
             public String sSeriesName;                                                              //Name of the series. Is shown in the legend
 
@@ -622,12 +635,14 @@ namespace LHWpfControlLibrary.Source.UserControls
                 {
                     canvas.Visibility = Visibility.Hidden;
                 }
+                EHVisibilityChanged?.Invoke(null, EventArgs.Empty); //Call the visibility changed event
             }
 
             //Functions
             //This function resets the series
             public void vReset()
             {
+                dMaxValue = 0;
                 iSLReadIndex = 0;
                 canvas.Children.Clear();
                 //Create a new polyline

@@ -1,3 +1,4 @@
+using LHCommonFunctions.Source;
 using System;
 using System.Collections.Generic;
 using System.Windows;
@@ -12,7 +13,7 @@ namespace LHWpfControlLibrary.Source.Pages
    **********************************************************************************************/
     public partial class Page_ApplicationError : Page
     {
-        public Page_ApplicationError(Exception qException,ResourceDictionary qRDLanguage, ResourceDictionary qRDTheme)
+        public Page_ApplicationError(Exception qException, ResourceDictionary qRDLanguage, ResourceDictionary qRDTheme)
         {
             InitializeComponent();
             DataContext = this;
@@ -22,6 +23,14 @@ namespace LHWpfControlLibrary.Source.Pages
             this.Resources.MergedDictionaries.Add(qRDTheme);                          //Set the GUI theme
 
             LExceptionDetails.Content = qException.ToString();
+        }
+
+       
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+
+            Window parentWindow = Window.GetWindow(this);   //Get the parent window
+            LHMiscFunctions.vCenterWindowOnScreen(parentWindow); //Center the window on screen
         }
     }
 }
