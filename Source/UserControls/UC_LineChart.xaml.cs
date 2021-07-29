@@ -222,6 +222,7 @@ namespace LHWpfControlLibrary.Source.UserControls
             else
             {
                 CVSSeries.Children.RemoveAt(qiSeriesId);                                            //Remove the existing series canvas from the canvas of series
+                LSeries[qiSeriesId].EHVisibilityChanged = null;                                         //Clean up the event handler
                 LSeries.RemoveAt(qiSeriesId);                                                       //Remove the existing series
                 WPLegend.Children.RemoveAt(qiSeriesId);                                             //Remove the existing chkeckbox control
 
