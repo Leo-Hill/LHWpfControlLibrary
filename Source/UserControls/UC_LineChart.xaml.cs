@@ -217,8 +217,6 @@ namespace LHWpfControlLibrary.Source.UserControls
                 LSeries.Add(addingSeries);                                                          //Add series to the dictionary of series
                 WPLegend.Children.Add(addingSeries.uC_CheckBoxFilled);                              //Add the ckeckbox control
 
-                addingSeries.EHVisibilityChanged += new EventHandler(OnSeriesVisibilityChanged); //Suscribe to the visibility changed event
-
                 addingSeries.vSetColor((SolidColorBrush)RDTheme[$"Col_{LSeries.Count - 1}"]);       //Set the color of the series
             }
             else
@@ -233,6 +231,7 @@ namespace LHWpfControlLibrary.Source.UserControls
 
                 addingSeries.vSetColor((SolidColorBrush)RDTheme[$"Col_{qiSeriesId}"]);              //Set the color of the series
             }
+            addingSeries.EHVisibilityChanged += new EventHandler(OnSeriesVisibilityChanged); //Suscribe to the visibility changed event
 
             if (true == bAutoScaleMode)
             {
