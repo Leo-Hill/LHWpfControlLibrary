@@ -7,12 +7,8 @@
     ****************************************************************************************** -->
     <ControlTemplate x:Key="CT_Progressbar" TargetType="{x:Type ProgressBar}" >
         <Grid MinHeight="14" MinWidth="200" Background="{DynamicResource Col_ProgressbarBackground}">
-            <Border x:Name="PART_Track" CornerRadius="2" BorderThickness="1">
-                <Border.BorderBrush>
-                    <SolidColorBrush Color="Transparent" />
-                </Border.BorderBrush>
-            </Border>
-            <Border x:Name="PART_Indicator" CornerRadius="2" BorderThickness="1" HorizontalAlignment="Left" Background="{DynamicResource Col_ProgressbarForeground}" Margin="0,-1,0,1">
+            <Border x:Name="PART_Track" CornerRadius="2" BorderThickness="0" Background="{DynamicResource Col_ProgressbarTrack}" />
+            <Border x:Name="PART_Indicator" CornerRadius="2" BorderThickness="0" HorizontalAlignment="Left" Background="{DynamicResource Col_ProgressbarForeground}" Margin="0">
             </Border>
         </Grid>
     </ControlTemplate>
