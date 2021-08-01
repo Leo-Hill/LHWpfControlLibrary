@@ -19,8 +19,8 @@ namespace LHWpfControlLibrary.Source.Pages
             DataContext = this;
 
             //Set the language and the theme
-            this.Resources.MergedDictionaries.Add(qRDLanguage);                       //Set the GUI language
-            this.Resources.MergedDictionaries.Add(qRDTheme);                          //Set the GUI theme
+            this.Resources.MergedDictionaries.Add(qRDLanguage);                                     //Set the GUI language
+            this.Resources.MergedDictionaries.Add(qRDTheme);                                        //Set the GUI theme
 
             LExceptionDetails.Content = qException.ToString();
         }
@@ -29,8 +29,8 @@ namespace LHWpfControlLibrary.Source.Pages
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
 
-            Window parentWindow = Window.GetWindow(this);   //Get the parent window
-            LHMiscFunctions.vCenterWindowOnScreen(parentWindow); //Center the window on screen
+            Window parentWindow = Window.GetWindow(this);                                           //Get the parent window
+            LHMiscFunctions.vCenterWindowOnScreen(parentWindow);                                    //Center the window on screen
         }
     }
 }

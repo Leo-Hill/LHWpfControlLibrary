@@ -3,6 +3,8 @@
 <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/16x/Add_16x.xaml" />
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/16x/AddressEditor_16x.xaml"/>
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/16x/Add_16x.xaml"/>
+ <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/16x/ArrowE_16x.xaml"/>
+ <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/16x/ArrowW_16x.xaml"/>
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/16x/CloudSearch_16x.xaml"/>
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/16x/ComponentTool_16x.xaml"/>
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/16x/DeleteTable_16x.xaml"/>
@@ -41,6 +43,8 @@
  <!-- x24 --> 
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/24x/AddressEditor_24x.xaml"/>
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/24x/Add_24x.xaml"/>
+ <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/24x/ArrowE_24x.xaml"/>
+ <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/24x/ArrowW_24x.xaml"/>
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/24x/CloudSearch_24x.xaml"/>
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/24x/ComponentTool_24x.xaml"/>
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/24x/DeleteTable_24x.xaml"/>
@@ -79,6 +83,8 @@
  <!-- x32 --> 
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/32x/AddressEditor_32x.xaml"/>
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/32x/Add_32x.xaml"/>
+ <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/32x/ArrowE_32x.xaml"/>
+ <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/32x/ArrowW_32x.xaml"/>
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/32x/CloudSearch_32x.xaml"/>
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/32x/ComponentTool_32x.xaml"/>
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/32x/DeleteTable_32x.xaml"/>

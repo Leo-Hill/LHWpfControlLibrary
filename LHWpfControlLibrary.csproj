@@ -9,4 +9,17 @@
     <ProjectReference Include="..\LHCommonFunctions\LHCommonFunctions.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Page Update="Icons\Microsoft\16x\ArrowE_16x.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Icons\Microsoft\16x\ArrowW_16x.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Styles\UC_ImageViewer\STY_UC_ImageViewer.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+  </ItemGroup>
+
 </Project>

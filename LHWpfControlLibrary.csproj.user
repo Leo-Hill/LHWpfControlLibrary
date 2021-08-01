@@ -3,4 +3,23 @@
   <PropertyGroup>
     <ShowAllFiles>false</ShowAllFiles>
   </PropertyGroup>
+  <ItemGroup>
+    <Compile Update="Source\UserControls\UC_ImageViewer.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Icons\Microsoft\16x\ArrowE_16x.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Icons\Microsoft\16x\ArrowW_16x.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Source\UserControls\UC_ImageViewer.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Styles\UC_ImageViewer\STY_UC_ImageViewer.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
 </Project>
