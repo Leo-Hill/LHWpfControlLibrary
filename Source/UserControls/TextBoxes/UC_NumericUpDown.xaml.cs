@@ -62,7 +62,7 @@ namespace LHWpfControlLibrary.Source.UserControls
                 SetValue(DPdIncrement, (double)value);
             }
         }
-        public static readonly DependencyProperty DPdIncrement = DependencyProperty.Register(nameof(dIncrement), typeof(double), typeof(UC_NumericUpDown), new UIPropertyMetadata(null));
+        public static readonly DependencyProperty DPdIncrement = DependencyProperty.Register(nameof(dIncrement), typeof(double), typeof(UC_NumericUpDown), new UIPropertyMetadata((double)1));
 
 
         public int iMaxValue                                                                        //Maximum value of the NUD     
