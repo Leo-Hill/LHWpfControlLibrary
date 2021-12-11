@@ -51,7 +51,19 @@ namespace LHWpfControlLibrary.Source.UserControls
         }
         public static readonly DependencyProperty DPdCurrentNumber = DependencyProperty.Register(nameof(dCurrentNumber), typeof(double), typeof(UC_NumericUpDown), new UIPropertyMetadata(null));
 
-        private double _dIncrement = 1; public double dIncrement { get => _dIncrement; set => _dIncrement = value; }    //Increment and decrement value
+        public double dIncrement
+        {
+            get
+            {
+                return (double)GetValue(DPdIncrement);
+            }
+            set
+            {
+                SetValue(DPdIncrement, (double)value);
+            }
+        }
+        public static readonly DependencyProperty DPdIncrement = DependencyProperty.Register(nameof(dIncrement), typeof(double), typeof(UC_NumericUpDown), new UIPropertyMetadata(null));
+
 
         public int iMaxValue                                                                        //Maximum value of the NUD     
         {
