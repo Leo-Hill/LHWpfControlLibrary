@@ -1,6 +1,7 @@
 <ResourceDictionary xmlns = "http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x = "http://schemas.microsoft.com/winfx/2006/xaml">
 <ResourceDictionary.MergedDictionaries>
-<ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/16x/Add_16x.xaml" />
+ 
+ <!-- x16 --> 
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/16x/AddressEditor_16x.xaml"/>
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/16x/Add_16x.xaml"/>
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/16x/ArrowE_16x.xaml"/>

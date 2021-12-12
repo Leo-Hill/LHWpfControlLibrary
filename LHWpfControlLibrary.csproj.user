@@ -15,6 +15,12 @@
     <Page Update="Icons\Microsoft\16x\ArrowW_16x.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Icons\Own\16x\Excel_16x.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Icons\Own\Icons.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Source\UserControls\UC_ImageViewer.xaml">
       <SubType>Designer</SubType>
     </Page>

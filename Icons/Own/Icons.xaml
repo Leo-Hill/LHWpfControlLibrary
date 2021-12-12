@@ -1,0 +1,13 @@
+<ResourceDictionary xmlns = "http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x = "http://schemas.microsoft.com/winfx/2006/xaml">
+<ResourceDictionary.MergedDictionaries>
+ 
+ <!-- x16 --> 
+ <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Own/16x/Excel_16x.xaml"/>
+ 
+ <!-- x24 --> 
+ <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Own/24x/Excel_24x.xaml"/>
+ 
+ <!-- x32 --> 
+ <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Own/32x/Excel_32x.xaml"/>
+</ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>
