@@ -17,6 +17,7 @@
         <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Styles/UC_ImageViewer/STY_UC_ImageViewer.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Styles/Label/STY_Label.xaml" />
         <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Styles/ListBox/STY_ListBox.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Styles/ListBox/STY_ListBoxFlat.xaml" />
         <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Styles/ListView/STY_ListView.xaml" />
         <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Styles/ListView/STY_ListViewItem.xaml" />
         <ResourceDictionary Source="pack://application:,,,/LHWpfControlLibrary;Component/Styles/Menu/STY_ContextMenu.xaml" />

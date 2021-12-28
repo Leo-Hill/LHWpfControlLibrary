@@ -24,6 +24,9 @@
     <Page Update="Source\UserControls\UC_ImageViewer.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Styles\ListBox\STY_ListBox.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Styles\UC_ImageViewer\STY_UC_ImageViewer.xaml">
       <SubType>Designer</SubType>
     </Page>

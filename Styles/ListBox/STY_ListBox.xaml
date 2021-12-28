@@ -14,12 +14,12 @@
         </Border>
     </ControlTemplate>
 
+
     <ControlTemplate x:Key="CT_ListBoxItem" TargetType="ListBoxItem">
         <StackPanel>
-            <Border x:Name="Border" Margin="5" Padding="0,10,0,10" SnapsToDevicePixels="true" Background="{DynamicResource Col_ListBoxItemBackground}">
+            <Border x:Name="Border" Margin="0" SnapsToDevicePixels="true" Background="{DynamicResource Col_ListBoxItemBackground}" >
                 <ContentPresenter />
             </Border>
-            <Border x:Name="Separator" Margin="5,0,5,0" BorderThickness="1" BorderBrush="{DynamicResource Col_ListBoxItemSeparator}"/>
         </StackPanel>
         <ControlTemplate.Triggers>
             <Trigger Property="IsMouseOver" Value="true">
@@ -38,6 +38,7 @@
     ****************************************************************************************** -->
 
     <Style x:Key="{x:Type ListBox}" TargetType="ListBox">
+       
         <Setter Property="SnapsToDevicePixels" Value="true" />
         <Setter Property="OverridesDefaultStyle" Value="true" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
@@ -53,5 +54,6 @@
         <Setter Property="OverridesDefaultStyle" Value="true" />
         <Setter Property="Template" Value="{StaticResource CT_ListBoxItem}" />
     </Style>
+    
 
 </ResourceDictionary>

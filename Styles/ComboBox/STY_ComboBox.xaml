@@ -95,7 +95,6 @@
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Background" TargetName="Border" Value="{DynamicResource Col_ComboBoxItemMouseOver}" />
             </Trigger>
-            
         </ControlTemplate.Triggers>
     </ControlTemplate>
 
@@ -105,6 +104,11 @@
     *
     ****************************************************************************************** -->
     <Style TargetType="ComboBoxItem">
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{DynamicResource Col_ComboBoxDropDownTextColorDisabled}" />
+            </Trigger>
+        </Style.Triggers>
         <Setter Property="Foreground" Value="{DynamicResource Col_ComboBoxDropDownTextColor}" />
         <Setter Property="SnapsToDevicePixels" Value="true" />
         <Setter Property="OverridesDefaultStyle" Value="true" />
