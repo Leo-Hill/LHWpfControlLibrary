@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0-windows</TargetFramework>
@@ -7,10 +7,6 @@
 
   <ItemGroup>
     <None Remove="Icons\Own\PngSource\Enabled\Excel.png" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\LHCommonFunctions\LHCommonFunctions.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -39,6 +35,10 @@
     <Folder Include="Icons\Own\24x\" />
     <Folder Include="Icons\Own\32x\" />
     <Folder Include="Icons\Own\PngSource\Disabled\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LHCsCommonFunctions\LHCommonFunctions.csproj" />
   </ItemGroup>
 
   <ItemGroup>
