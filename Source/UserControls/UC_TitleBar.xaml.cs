@@ -40,10 +40,23 @@ namespace LHWpfControlLibrary.Source.UserControls
         * Properties
         * 
         **********************************************************************************************/
-        public String Title { get { return (String)GetValue(DPTitle); } set { SetValue(DPTitle, value); } }    //Title of the bar
+        //Title of the bar
+        public String Title
+        {
+            get { return (String)GetValue(DPTitle); }
+            set { SetValue(DPTitle, value); }
+        }
 
         //DependencyProperty for Title
         public static readonly DependencyProperty DPTitle = DependencyProperty.Register("Title", typeof(String), typeof(UC_TitleBar));
+
+        public bool CanMaximize
+        {
+            get { return (bool)GetValue(DPCanMaximize); }
+            set { SetValue(DPCanMaximize, value); }
+        }
+        public static readonly DependencyProperty DPCanMaximize = DependencyProperty.Register("CanMaximize", typeof(bool), typeof(UC_TitleBar), new PropertyMetadata(true));
+
 
         /***********************************************************************************************
         * 
@@ -88,7 +101,7 @@ namespace LHWpfControlLibrary.Source.UserControls
         //CommandMaximize is always enabled
         private void CommandMaximize_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = true;
+            e.CanExecute = CanMaximize;
         }
         //Maximize the window
         private void CommandMaximize_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -150,7 +163,7 @@ namespace LHWpfControlLibrary.Source.UserControls
                 {
                     SystemCommands.RestoreWindow(Window.GetWindow(this));
                 }
-                else
+                else if (true == CanMaximize)
                 {
                     SystemCommands.MaximizeWindow(Window.GetWindow(this));
                 }

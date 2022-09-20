@@ -22,7 +22,7 @@
 
     <ControlTemplate x:Key="CT_TabItem" TargetType="{x:Type TabItem}">
         <Grid x:Name="Root">
-            <Border x:Name="Border" Background="{DynamicResource Col_TabItemBackground}" BorderBrush="{DynamicResource Col_TabItemBorder}" BorderThickness="4,4,4,0" MinWidth="200" Height="40">
+            <Border x:Name="Border" Background="{DynamicResource Col_TabItemBackground}" BorderBrush="{DynamicResource Col_TabItemBorder}" BorderThickness="4,4,4,0" MinWidth="100" Height="40">
                 <ContentPresenter x:Name="ContentSite" TextElement.Foreground="{DynamicResource Col_TabItemForeground}" VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Header" Margin="12,2,12,2" RecognizesAccessKey="True" />
             </Border>
         </Grid>
