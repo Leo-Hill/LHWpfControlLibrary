@@ -9,10 +9,19 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Update="Icons\Microsoft\16x\3DExtrude_16x.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Icons\Microsoft\16x\ArrowE_16x.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Icons\Microsoft\16x\ArrowW_16x.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Icons\Microsoft\16x\Cancel_16x.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Icons\Microsoft\16x\FTPConnection_16x.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Icons\Own\16x\Excel_16x.xaml">

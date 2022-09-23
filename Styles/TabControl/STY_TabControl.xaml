@@ -40,6 +40,26 @@
         </ControlTemplate.Triggers>
     </ControlTemplate>
 
+    <ControlTemplate x:Key="CT_TabItemStreched" TargetType="{x:Type TabItem}">
+        <Grid x:Name="Root">
+            <Border x:Name="Border" Background="{DynamicResource Col_TabItemBackground}" BorderBrush="{DynamicResource Col_TabItemBorder}" BorderThickness="4,4,4,0" MinWidth="100" Height="40">
+                <ContentPresenter x:Name="ContentSite" TextElement.Foreground="{DynamicResource Col_TabItemForeground}" VerticalAlignment="Center" HorizontalAlignment="Stretch" ContentSource="Header" Margin="12,2,12,2" RecognizesAccessKey="True" />
+            </Border>
+        </Grid>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="BorderBrush" TargetName="Border" Value="{DynamicResource Col_TabItemBorderMouseOver}" />
+                <Setter Property="Background" TargetName="Border" Value="{DynamicResource Col_TabItemBackgroundMouseOver}" />
+                <Setter Property="TextElement.Foreground" TargetName="ContentSite" Value="{DynamicResource Col_TabItemForeground}" />
+            </Trigger>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="BorderBrush" TargetName="Border" Value="{DynamicResource Col_TabItemBorderSelected}" />
+                <Setter Property="Background" TargetName="Border" Value="{DynamicResource Col_TabItemBackgroundSelected}" />
+                <Setter Property="TextElement.Foreground" TargetName="ContentSite" Value="{DynamicResource Col_TabItemForegroundSelected}" />
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
     <!-- ******************************************************************************************
     *
     * Styles

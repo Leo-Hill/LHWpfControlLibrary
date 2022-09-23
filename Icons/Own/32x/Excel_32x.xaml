@@ -9,7 +9,7 @@
                         <Trigger Property="IsEnabled" Value="True">
                             <Setter Property="Content">
                                 <Setter.Value>
-                                      <Image Width="32" Height="32" Source="/LHWpfControlLibrary;component/Icons/Own/PngSource/Enabled/Excel.png" />
+                                    <Image Width="32" Height="32" Source="/LHWpfControlLibrary;component/Icons/Own/PngSource/Enabled/Excel.png" />
                                 </Setter.Value>
                             </Setter>
                         </Trigger>

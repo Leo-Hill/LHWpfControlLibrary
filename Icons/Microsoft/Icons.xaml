@@ -2,10 +2,12 @@
 <ResourceDictionary.MergedDictionaries>
  
  <!-- x16 --> 
+ <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/16x/3DExtrude_16x.xaml"/>
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/16x/AddressEditor_16x.xaml"/>
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/16x/Add_16x.xaml"/>
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/16x/ArrowE_16x.xaml"/>
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/16x/ArrowW_16x.xaml"/>
+ <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/16x/Cancel_16x.xaml"/>
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/16x/CloudSearch_16x.xaml"/>
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/16x/ComponentTool_16x.xaml"/>
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/16x/DeleteTable_16x.xaml"/>
@@ -16,6 +18,7 @@
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/16x/F1Help_16x.xaml"/>
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/16x/FindSymbol_16x.xaml"/>
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/16x/FontSize_16x.xaml"/>
+ <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/16x/FTPConnection_16x.xaml"/>
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/16x/ImportFile_16x.xaml"/>
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/16x/InformationSymbol_16x.xaml"/>
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/16x/IOTChip_16x.xaml"/>
@@ -42,10 +45,12 @@
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/16x/WMIConnection_16x.xaml"/>
  
  <!-- x24 --> 
+ <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/24x/3DExtrude_24x.xaml"/>
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/24x/AddressEditor_24x.xaml"/>
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/24x/Add_24x.xaml"/>
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/24x/ArrowE_24x.xaml"/>
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/24x/ArrowW_24x.xaml"/>
+ <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/24x/Cancel_24x.xaml"/>
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/24x/CloudSearch_24x.xaml"/>
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/24x/ComponentTool_24x.xaml"/>
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/24x/DeleteTable_24x.xaml"/>
@@ -56,6 +61,7 @@
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/24x/F1Help_24x.xaml"/>
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/24x/FindSymbol_24x.xaml"/>
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/24x/FontSize_24x.xaml"/>
+ <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/24x/FTPConnection_24x.xaml"/>
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/24x/ImportFile_24x.xaml"/>
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/24x/InformationSymbol_24x.xaml"/>
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/24x/IOTChip_24x.xaml"/>
@@ -82,10 +88,12 @@
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/24x/WMIConnection_24x.xaml"/>
  
  <!-- x32 --> 
+ <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/32x/3DExtrude_32x.xaml"/>
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/32x/AddressEditor_32x.xaml"/>
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/32x/Add_32x.xaml"/>
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/32x/ArrowE_32x.xaml"/>
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/32x/ArrowW_32x.xaml"/>
+ <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/32x/Cancel_32x.xaml"/>
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/32x/CloudSearch_32x.xaml"/>
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/32x/ComponentTool_32x.xaml"/>
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/32x/DeleteTable_32x.xaml"/>
@@ -96,6 +104,7 @@
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/32x/F1Help_32x.xaml"/>
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/32x/FindSymbol_32x.xaml"/>
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/32x/FontSize_32x.xaml"/>
+ <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/32x/FTPConnection_32x.xaml"/>
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/32x/ImportFile_32x.xaml"/>
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/32x/InformationSymbol_32x.xaml"/>
  <ResourceDictionary Source = "pack://application:,,,/LHWpfControlLibrary;Component/Icons/Microsoft/32x/IOTChip_32x.xaml"/>
