@@ -37,19 +37,17 @@
     *
     ****************************************************************************************** -->
 
-    <Style x:Key="{x:Type ListBox}" TargetType="ListBox">
-       
+    <Style TargetType="ListBox">
         <Setter Property="SnapsToDevicePixels" Value="true" />
         <Setter Property="OverridesDefaultStyle" Value="true" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
         <Setter Property="ScrollViewer.CanContentScroll" Value="true" />
         <Setter Property="MinWidth" Value="120" />
-        <Setter Property="MinHeight" Value="95" />
         <Setter Property="Template" Value="{StaticResource CT_ListBox}" />
     </Style>
 
-    <Style x:Key="{x:Type ListBoxItem}" TargetType="ListBoxItem">
+    <Style TargetType="ListBoxItem">
         <Setter Property="SnapsToDevicePixels" Value="true" />
         <Setter Property="OverridesDefaultStyle" Value="true" />
         <Setter Property="Template" Value="{StaticResource CT_ListBoxItem}" />
