@@ -43,6 +43,7 @@
                 <Setter Property="SnapsToDevicePixels" Value="true" />
                 <Setter Property="OverridesDefaultStyle" Value="true" />
                 <Setter Property="Template" Value="{StaticResource CT_ListBoxItemFlat}" />
+                <Setter Property="Foreground" Value="{DynamicResource Col_Text}" />
             </Style>
         </Style.Resources>
         <Setter Property="SnapsToDevicePixels" Value="true" />
