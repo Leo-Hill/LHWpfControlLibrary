@@ -39,6 +39,7 @@ namespace LHWpfControlLibrary.Source.Windows
         private Window_MessageBox()
         {
             InitializeComponent();
+            this.Owner = Application.Current.MainWindow;
         }
 
         /***********************************************************************************************
@@ -117,7 +118,7 @@ namespace LHWpfControlLibrary.Source.Windows
         }
 
         //This function shows the messagebox with the content of a inserted page
-        public static MessageBoxResult MBRShow(String qsTitle, String qsText, MessageBoxButton qMessageBoxButton, Page qInsertPage,ResourceDictionary qRDTheme)
+        public static MessageBoxResult MBRShow(String qsTitle, String qsText, MessageBoxButton qMessageBoxButton, Page qInsertPage, ResourceDictionary qRDTheme)
         {
             Window_MessageBox window_MessageBox = new Window_MessageBox();
             if (qRDTheme != null)

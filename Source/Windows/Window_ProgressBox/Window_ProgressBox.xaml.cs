@@ -39,6 +39,8 @@ namespace LHWpfControlLibrary.Source.Windows
         {
             //Imitialize the window
             InitializeComponent();
+            this.Owner = Application.Current.MainWindow;
+
             DataContext = qWindow_ProgressBoxVM;
             window_ProgressBoxVM = qWindow_ProgressBoxVM;
             window_ProgressBoxVM.EHOnRequestClose += Window_ProgressBoxVM_EHOnRequestClose;
