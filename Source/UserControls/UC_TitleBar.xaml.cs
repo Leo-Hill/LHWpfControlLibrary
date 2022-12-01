@@ -152,19 +152,19 @@ namespace LHWpfControlLibrary.Source.UserControls
             {
                 if (WParentWindow.WindowState == WindowState.Maximized)
                 {
-                    //A maximized window will not be draggable
-                    //Save the current window parameters
-                    double window_heigt = WParentWindow.Height;
-                    double window_width = WParentWindow.Width;
-                    double window_top_position = WParentWindow.Top;
+
+                    Point MousePosition = WParentWindow.PointToScreen(Mouse.GetPosition(WParentWindow));
+                    Point RelativePosition = Mouse.GetPosition(SPParent);
+
+                    double dMaximizedWidth= WParentWindow.ActualWidth;
 
                     //Setting window state to normal will resize and reposition the window according to application specific default values 
                     WParentWindow.WindowState = WindowState.Normal;
 
-                    //Restore the window parameters to match the window position to the cursor
-                    WParentWindow.Height = window_heigt;
-                    WParentWindow.Width = window_width;
-                    WParentWindow.Top = window_top_position;
+                    //The width of the window will shrink, so we have to calculate the x position in relation to that
+                    double dXScalingFactor = WParentWindow.Width / dMaximizedWidth;
+                    WParentWindow.Top = MousePosition.Y - RelativePosition.Y;
+                    WParentWindow.Left = MousePosition.X-RelativePosition.X*dXScalingFactor;
                 }
                 WParentWindow.DragMove();
             }

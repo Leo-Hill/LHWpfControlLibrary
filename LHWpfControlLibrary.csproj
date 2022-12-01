@@ -1,51 +1,52 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0-windows</TargetFramework>
-    <UseWPF>true</UseWPF>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>net6.0-windows</TargetFramework>
+        <UseWPF>true</UseWPF>
+        <Platforms>AnyCPU;x64</Platforms>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <None Remove="Icons\Own\PngSource\Enabled\Excel.png" />
-  </ItemGroup>
+    <ItemGroup>
+        <None Remove="Icons\Own\PngSource\Enabled\Excel.png" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <Page Update="Icons\Microsoft\16x\ArrowE_16x.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Icons\Microsoft\16x\ArrowW_16x.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-    </Page>
-    <Page Update="Icons\Own\16x\Excel_16x.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-    </Page>
-    <Page Update="Icons\Own\Icons.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-    </Page>
-    <Page Update="Styles\ListBox\STY_ListBox.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-    </Page>
-    <Page Update="Styles\PasswordBox\STY_PasswordBox.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-    </Page>
-    <Page Update="Styles\UC_ImageViewer\STY_UC_ImageViewer.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-    </Page>
-  </ItemGroup>
+    <ItemGroup>
+        <Page Update="Icons\Microsoft\16x\ArrowE_16x.xaml">
+            <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+            <SubType>Designer</SubType>
+        </Page>
+        <Page Update="Icons\Microsoft\16x\ArrowW_16x.xaml">
+            <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+        </Page>
+        <Page Update="Icons\Own\16x\Excel_16x.xaml">
+            <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+        </Page>
+        <Page Update="Icons\Own\Icons.xaml">
+            <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+        </Page>
+        <Page Update="Styles\ListBox\STY_ListBox.xaml">
+            <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+        </Page>
+        <Page Update="Styles\PasswordBox\STY_PasswordBox.xaml">
+            <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+        </Page>
+        <Page Update="Styles\UC_ImageViewer\STY_UC_ImageViewer.xaml">
+            <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+        </Page>
+    </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Icons\Own\24x\" />
-    <Folder Include="Icons\Own\32x\" />
-    <Folder Include="Icons\Own\PngSource\Disabled\" />
-  </ItemGroup>
+    <ItemGroup>
+        <Folder Include="Icons\Own\24x\" />
+        <Folder Include="Icons\Own\32x\" />
+        <Folder Include="Icons\Own\PngSource\Disabled\" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\LHCsCommonFunctions\LHCommonFunctions.csproj" />
-  </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\LHCsCommonFunctions\LHCommonFunctions.csproj" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <Resource Include="Icons\Own\PngSource\Enabled\Excel.png" />
-  </ItemGroup>
+    <ItemGroup>
+        <Resource Include="Icons\Own\PngSource\Enabled\Excel.png" />
+    </ItemGroup>
 
 </Project>
