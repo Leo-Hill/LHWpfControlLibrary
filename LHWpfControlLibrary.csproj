@@ -42,7 +42,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\LHCsCommonFunctions\LHCommonFunctions.csproj" />
+      <ProjectReference Include="..\LHCommonFunctions\LHCommonFunctions.csproj" />
     </ItemGroup>
 
     <ItemGroup>
