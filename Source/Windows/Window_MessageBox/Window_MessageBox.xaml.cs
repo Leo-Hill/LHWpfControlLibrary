@@ -1,3 +1,4 @@
+using LHCommonFunctions.Source;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -39,7 +40,7 @@ namespace LHWpfControlLibrary.Source.Windows
         private Window_MessageBox()
         {
             InitializeComponent();
-            this.Owner = Application.Current.MainWindow;
+            this.Owner = LHMiscFunctions.GetActiveWindow();
         }
 
         /***********************************************************************************************
