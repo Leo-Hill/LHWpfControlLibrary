@@ -39,7 +39,7 @@ namespace LHWpfControlLibrary.Source.Windows
         {
             //Imitialize the window
             InitializeComponent();
-            this.Owner = Application.Current.MainWindow;
+            this.Owner = LHMiscFunctions.GetActiveWindow();
 
             DataContext = qWindow_ProgressBoxVM;
             window_ProgressBoxVM = qWindow_ProgressBoxVM;
