@@ -1,4 +1,4 @@
-using LHCommonFunctions.Source;
+using LHCommonFunctions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,7 +39,7 @@ namespace LHWpfControlLibrary.Source.Windows
         {
             //Imitialize the window
             InitializeComponent();
-            this.Owner = LHMiscFunctions.GetActiveWindow();
+            this.Owner = Misc.GetActiveWindow();
 
             DataContext = qWindow_ProgressBoxVM;
             window_ProgressBoxVM = qWindow_ProgressBoxVM;

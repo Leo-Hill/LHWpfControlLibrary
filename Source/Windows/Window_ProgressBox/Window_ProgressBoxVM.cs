@@ -1,4 +1,4 @@
-using LHCommonFunctions.Source;
+using LHCommonFunctions.Classes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace LHWpfControlLibrary.Source.Windows
 {
-    public abstract class Window_ProgressBoxVM : Class_ViewModelBase
+    public abstract class Window_ProgressBoxVM : ViewModelBase
     {
         /***********************************************************************************************
         * 
@@ -48,7 +48,7 @@ namespace LHWpfControlLibrary.Source.Windows
         * Commands
         * 
         **********************************************************************************************/
-        public abstract Class_RelayCommand Command_OK { get; }
+        public abstract RelayCommand Command_OK { get; }
         public virtual void vCommand_OK_Executed(Object qObject)
         {
             EHOnRequestClose.Invoke(this, new EventArgs());                                         //Close the window

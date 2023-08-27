@@ -24,17 +24,13 @@
     <system:Int64 x:Key="Int32_MaxValue">2147483648</system:Int64>
     <system:Int64 x:Key="Int32_MinValue">-2147483648</system:Int64>
 
-
-
-
-
   <!-- Thickness -->
     <Thickness x:Key="Dim_ThButtonPadding">5</Thickness>                                                    <!-- Button padding -->
-    <Thickness x:Key="Dim_ThStandardMargin">5</Thickness>                                                   <!-- Marign of a control -->
-    <Thickness x:Key="Dim_ThStandardMarginLeftRight" Left="5" Top="0" Right="5" Bottom="0" />               <!-- Marign of a control only left and right -->
-    <Thickness x:Key="Dim_ThStandardMarginMainGrid" Left="10" Top="0" Right="10" Bottom="10" />             <!-- Marign of the main window grid -->
-    <Thickness x:Key="Dim_ThStandardMarginMainGridWithTop" Left="10" Top="10" Right="10" Bottom="10" />     <!-- Marign of the main window grid including top margin-->
-    <Thickness x:Key="Dim_ThStandardMarginTop" Left="0" Top="5" Right="0" Bottom="0" />                     <!-- Marign of a control only top  -->
-    <Thickness x:Key="Dim_ThStandardMarginTopBottom" Left="0" Top="5" Right="0" Bottom="5" />               <!-- Marign of a control only top and bottom -->
+    <Thickness x:Key="Dim_ThStandardMargin">5</Thickness>                                                   <!-- Margin of a control -->
+    <Thickness x:Key="Dim_ThStandardMarginLeftRight" Left="5" Top="0" Right="5" Bottom="0" />               <!-- Margin of a control only left and right -->
+    <Thickness x:Key="Dim_ThStandardMarginMainGrid" Left="10" Top="0" Right="10" Bottom="10" />             <!-- Margin of the main window grid -->
+    <Thickness x:Key="Dim_ThStandardMarginMainGridWithTop" Left="10" Top="10" Right="10" Bottom="10" />     <!-- Margin of the main window grid including top margin-->
+    <Thickness x:Key="Dim_ThStandardMarginTop" Left="0" Top="5" Right="0" Bottom="0" />                     <!-- Margin of a control only top  -->
+    <Thickness x:Key="Dim_ThStandardMarginTopBottom" Left="0" Top="5" Right="0" Bottom="5" />               <!-- Margin of a control only top and bottom -->
 
 </ResourceDictionary>

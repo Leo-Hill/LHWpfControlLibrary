@@ -87,26 +87,26 @@ namespace LHWpfControlLibrary.Source.UserControls
 
             //Intiialize bindings
             //This binding takes care, that the textbox is updated, if the ActDate is updated via binding
-            IVCDateTimeToString iVCDateTimeToString = new IVCDateTimeToString();
+            DateTimeToStringConverter DateTimeToStringConverter = new DateTimeToStringConverter();
             TextBoxBindingHours = new Binding();
             TextBoxBindingHours.Path = new PropertyPath(nameof(ActDateTime));
-            TextBoxBindingHours.Converter = iVCDateTimeToString;
+            TextBoxBindingHours.Converter = DateTimeToStringConverter;
             TextBoxBindingHours.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
             TextBoxBindingHours.Mode = BindingMode.OneWay;
             TextBoxBindingHours.ConverterParameter = "HH";
 
-            iVCDateTimeToString = new IVCDateTimeToString();
+            DateTimeToStringConverter = new DateTimeToStringConverter();
             TextBoxBindingMinutes = new Binding();
             TextBoxBindingMinutes.Path = new PropertyPath(nameof(ActDateTime));
-            TextBoxBindingMinutes.Converter = iVCDateTimeToString;
+            TextBoxBindingMinutes.Converter = DateTimeToStringConverter;
             TextBoxBindingMinutes.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
             TextBoxBindingMinutes.Mode = BindingMode.OneWay;
             TextBoxBindingMinutes.ConverterParameter = "MM";
 
-            iVCDateTimeToString = new IVCDateTimeToString();
+            DateTimeToStringConverter = new DateTimeToStringConverter();
             TextBoxBindingSeconds = new Binding();
             TextBoxBindingSeconds.Path = new PropertyPath(nameof(ActDateTime));
-            TextBoxBindingSeconds.Converter = iVCDateTimeToString;
+            TextBoxBindingSeconds.Converter = DateTimeToStringConverter;
             TextBoxBindingSeconds.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
             TextBoxBindingSeconds.Mode = BindingMode.OneWay;
             TextBoxBindingSeconds.ConverterParameter = "SS";
@@ -325,7 +325,7 @@ namespace LHWpfControlLibrary.Source.UserControls
         **********************************************************************************************/
 
         //This converter is used for updtaing a property if it is chagned in a window via binding. Dataflow from Viewmodel->Property
-        public class IVCDateTimeToString : IValueConverter
+        public class DateTimeToStringConverter : IValueConverter
         {
             String sMode;
             DateTime dateTime;

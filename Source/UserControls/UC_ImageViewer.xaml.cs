@@ -1,4 +1,5 @@
-using LHCommonFunctions.Source;
+using LHCommonFunctions;
+using LHCommonFunctions.Classes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -53,8 +54,8 @@ namespace LHWpfControlLibrary.Source.UserControls
             asImagePaths = new String[0];
 
             //Initialize commands
-            Command_NextImage = new Class_RelayCommand(vCommand_NextImage_Executed, o => (iImageCnt + 1) < asImagePaths.Length);
-            Command_PreviousImage = new Class_RelayCommand(vCommand_PreviousImage_Executed, o => iImageCnt > 0);
+            Command_NextImage = new RelayCommand(vCommand_NextImage_Executed, o => (iImageCnt + 1) < asImagePaths.Length);
+            Command_PreviousImage = new RelayCommand(vCommand_PreviousImage_Executed, o => iImageCnt > 0);
         }
 
         /***********************************************************************************************
@@ -69,14 +70,14 @@ namespace LHWpfControlLibrary.Source.UserControls
         * Commands
         * 
         **********************************************************************************************/
-        public Class_RelayCommand Command_NextImage { get; }                                        //Command to switch to the next image
+        public RelayCommand Command_NextImage { get; }                                        //Command to switch to the next image
         private void vCommand_NextImage_Executed(Object qObject)
         {
             iImageCnt++;
             vUpdateViewer();
         }
 
-        public Class_RelayCommand Command_PreviousImage { get; }                                    //Command to switch to the next previous
+        public RelayCommand Command_PreviousImage { get; }                                    //Command to switch to the next previous
         private void vCommand_PreviousImage_Executed(Object qObject)
         {
             iImageCnt--;

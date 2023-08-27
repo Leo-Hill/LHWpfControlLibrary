@@ -1,4 +1,4 @@
-using LHCommonFunctions.Source;
+using LHCommonFunctions;
 using System;
 using System.Collections.Generic;
 using System.Windows;
@@ -30,7 +30,7 @@ namespace LHWpfControlLibrary.Source.Pages
         {
 
             Window parentWindow = Window.GetWindow(this);                                           //Get the parent window
-            LHMiscFunctions.vCenterWindowOnScreen(parentWindow);                                    //Center the window on screen
+            Misc.CenterWindowOnScreen(parentWindow);                                    //Center the window on screen
         }
     }
 }
