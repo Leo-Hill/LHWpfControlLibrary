@@ -280,8 +280,7 @@ namespace LHWpfControlLibrary.Source.UserControls
             TBLAxisYLabel.Foreground = SCBText;
             if (dAxisYZoomDecrementValue < 1)
             {
-                int iNumOfDecimals = -(int)Math.Log10(dAxisYZoomDecrementValue);
-                iNumOfDecimals = (int)Math.Floor((double)iNumOfDecimals);
+                int iNumOfDecimals = -(int)Math.Floor(Math.Log10(dAxisYZoomDecrementValue));
                 iNumOfDecimals = Math.Max(2, iNumOfDecimals);
                 sAxisYTickMarkTextFormat = "0.";
                 for (; iNumOfDecimals > 0; iNumOfDecimals--)
