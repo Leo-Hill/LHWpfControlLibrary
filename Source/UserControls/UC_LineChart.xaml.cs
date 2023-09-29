@@ -59,7 +59,6 @@ namespace LHWpfControlLibrary.Source.UserControls
         const double D_LABEL_MARGIN = 5, D_TEXT_MARGIN = 20;
         const int I_FONT_SIZE_AXIS_TITLE = 14, I_FONT_SIZE_LABEL = 12;
 
-
         /***********************************************************************************************
         * 
         * Variables
@@ -77,12 +76,15 @@ namespace LHWpfControlLibrary.Source.UserControls
         private double dAxisXLength, dAxisYLength;                                                  //Length of X and Y Axes
         private double dOriginX, dOriginY;                                                          //Position of the origin
         private double dPixelsPerSecond, dPixelsPerValue;                                           //Number of pixels per second on the X-Axis and pixel per value on the Y-Axis
-        private int iAxisYZoomIncrementValue, iAxisYZoomDecrementValue;                             //Values for decrement and increment the Y-Axis max value on user zoom scaling
-        private int iAxisXMaxValue, iAxisYMaxValue;                                                 //Values for the axes maximums. 
+        private double dAxisYZoomIncrementValue, dAxisYZoomDecrementValue;                             //Values for decrement and increment the Y-Axis max value on user zoom scaling
+        private int iAxisXMaxValue;                                                 //Values for the axes maximums. 
+        private double dAxisYMaxValue;
         private int iAxisYMaxValueFirstDigit;                                                       //First digit of the Y axis maximum. Used for calculating the amount of zooming on the next user scale event
 
         private String[] asAxisXLabels = new String[I_NUM_OF_MAIN_TICK_MARKS_X / I_MODULO_MAIN_LABELS_X];    //Labels for the X-Axis
         public String sAxisXTitle = "{TIME}", sAxisYTitle = "";
+        String sAxisYTickMarkTextFormat = "0.##";
+
         /***********************************************************************************************
         * 
         * Constructor
@@ -136,34 +138,34 @@ namespace LHWpfControlLibrary.Source.UserControls
         //This event is called if the mousewheel was moved
         private void Control_MouseWheel(object sender, MouseWheelEventArgs e)
         {
-            if (e.Delta > 0 && iAxisYMaxValue > 1)
+            if (e.Delta > 0)
             {
                 bAutoScaleMode = false;                                                             //Disable auto scale mode
-                iAxisYMaxValue -= iAxisYZoomDecrementValue;
+                dAxisYMaxValue -= dAxisYZoomDecrementValue;
                 iAxisYMaxValueFirstDigit--;
                 if (iAxisYMaxValueFirstDigit == 1)                                                  //Transition from 2 to 1 -> decrement value / 10
                 {
-                    iAxisYZoomDecrementValue /= 10;
+                    dAxisYZoomDecrementValue /= 10;
                 }
                 else if (iAxisYMaxValueFirstDigit == 0)                                             //Transition from 1 to 0 (10 to 9) -> increment value / 10 ( = decrement value)
                 {
                     iAxisYMaxValueFirstDigit = 9;
-                    iAxisYZoomIncrementValue = iAxisYZoomDecrementValue;
+                    dAxisYZoomIncrementValue = dAxisYZoomDecrementValue;
                 }
             }
             else if (e.Delta < 0)
             {
                 bAutoScaleMode = false;                                                             //Disable auto scale mode
-                iAxisYMaxValue += iAxisYZoomIncrementValue;                                         //Increment the max value
+                dAxisYMaxValue += dAxisYZoomIncrementValue;                                         //Increment the max value
                 iAxisYMaxValueFirstDigit++;                                                         //Increment the first digit 
                 if (iAxisYMaxValueFirstDigit == 10)                                                 //Transition from 9 to 10 -> increment value * 10
                 {
                     iAxisYMaxValueFirstDigit = 1;
-                    iAxisYZoomIncrementValue *= 10;
+                    dAxisYZoomIncrementValue *= 10;
                 }
                 else if (iAxisYMaxValueFirstDigit == 2)                                             //Transition from 1 to 2 -> Decrement value * 10 ( = increment value)  
                 {
-                    iAxisYZoomDecrementValue = iAxisYZoomIncrementValue;
+                    dAxisYZoomDecrementValue = dAxisYZoomIncrementValue;
                 }
             }
             vDrawAll();                                                                             //Redraw entire chart
@@ -276,7 +278,21 @@ namespace LHWpfControlLibrary.Source.UserControls
             TextBlock TBLAxisYLabel = new TextBlock();                                              //Biggest tickmark of the Y-Axis
             TBLAxisYLabel.FontSize = I_FONT_SIZE_LABEL;
             TBLAxisYLabel.Foreground = SCBText;
-            TBLAxisYLabel.Text = iAxisYMaxValue.ToString();
+            if (dAxisYZoomDecrementValue < 1)
+            {
+                int iNumOfDecimals = -(int)Math.Log10(dAxisYZoomDecrementValue);
+                iNumOfDecimals = Math.Max(2, iNumOfDecimals);
+                sAxisYTickMarkTextFormat = "0.";
+                for (; iNumOfDecimals > 0; iNumOfDecimals--)
+                {
+                    sAxisYTickMarkTextFormat += "#";
+                }
+            }
+            else
+            {
+                sAxisYTickMarkTextFormat = "0.##";
+            }
+            TBLAxisYLabel.Text = dAxisYMaxValue.ToString(sAxisYTickMarkTextFormat);
             Size SZTBLAxisYLabel = LHStringFunctions.SZMeasureString(TBLAxisYLabel);                //Measure the size of the 
 
             //Calculate the origin of the chart
@@ -285,7 +301,7 @@ namespace LHWpfControlLibrary.Source.UserControls
             dAxisYLength = dOriginY - D_TEXT_MARGIN;                                                                                                                        //Calculate the size of the Y-Axis
             dAxisXLength = canvas.ActualWidth - dOriginX;                                                                                                                   //Calculate the size of the X-Axis
             dPixelsPerSecond = dAxisXLength / (iAxisXMaxValue);                                                                                                             //Calculate pixels per second for setting the series points
-            dPixelsPerValue = dAxisYLength / iAxisYMaxValue;                                                                                                                //Calculate pixels per value for setting the series points
+            dPixelsPerValue = dAxisYLength / dAxisYMaxValue;                                                                                                                //Calculate pixels per value for setting the series points
 
             //Y-Axis
             //Y-Axis title
@@ -305,7 +321,7 @@ namespace LHWpfControlLibrary.Source.UserControls
             //Y-Axis tickmarks
             double dTickMarkSpacingY = dAxisYLength / I_NUM_OF_MAIN_TICK_MARKS_Y;                   //Spacing of the Y-Tickmarks
             double dTickMarkYPosX = dOriginX + D_AXIS_STROKE_WIDTH;                                 //X-Position of the tickmarks
-            double dLabelStep = (double)iAxisYMaxValue / I_NUM_OF_MAIN_TICK_MARKS_Y;                //Tick mark lable step value
+            double dLabelStep = (double)dAxisYMaxValue / I_NUM_OF_MAIN_TICK_MARKS_Y;                //Tick mark lable step value
             for (int iTickMarkYCnt = 0; iTickMarkYCnt < I_NUM_OF_MAIN_TICK_MARKS_Y; iTickMarkYCnt++)
             {
                 //Line
@@ -331,7 +347,7 @@ namespace LHWpfControlLibrary.Source.UserControls
                     TextBlock TBLLabel = new TextBlock();
                     TBLLabel.FontSize = I_FONT_SIZE_LABEL;
                     TBLLabel.Foreground = SCBText;
-                    TBLLabel.Text = (iAxisYMaxValue - iTickMarkYCnt * dLabelStep).ToString("0.##");
+                    TBLLabel.Text = (dAxisYMaxValue - iTickMarkYCnt * dLabelStep).ToString(sAxisYTickMarkTextFormat);
                     TBLLabel.TextAlignment = TextAlignment.Right;
                     Canvas.SetTop(TBLLabel, dTickMarkSpacingY * iTickMarkYCnt - SZTBLAxisYLabel.Height / 2 + D_TEXT_MARGIN);
                     Canvas.SetRight(TBLLabel, CVSAxis.ActualWidth - dOriginX + D_AXIS_TICK_MARK_LENGTH + D_LABEL_MARGIN);
@@ -406,7 +422,7 @@ namespace LHWpfControlLibrary.Source.UserControls
                 dX = dOriginX + actDataPoint.Key * dPixelsPerSecond;
                 if (dX < (dOriginX + dAxisXLength))                                                 //Check if value is in X-Axis range
                 {
-                    if (actDataPoint.Value > iAxisYMaxValue)                                        //Value exceeds the Y-Axis positive bounds
+                    if (actDataPoint.Value > dAxisYMaxValue)                                        //Value exceeds the Y-Axis positive bounds
                     {
                         qSeries.polyline.Points.Add(new Point(dX, dOriginY - dAxisYLength));
                     }
@@ -467,13 +483,13 @@ namespace LHWpfControlLibrary.Source.UserControls
             if (dMaxSeriesValue > 0)
             {
                 double dMaxSeriesValueTemp = dMaxSeriesValue;
-                iAxisYZoomIncrementValue = iAxisYZoomDecrementValue = (int)Math.Pow(10, Math.Floor(Math.Log10(dMaxSeriesValue)));    //Calculate the incremet values for zooming
-                iAxisYMaxValueFirstDigit = (1 + (int)(dMaxSeriesValue / iAxisYZoomIncrementValue));                                  //Save the first digit of the new max value
-                iAxisYMaxValue = iAxisYZoomIncrementValue * iAxisYMaxValueFirstDigit;                                                //Calculate the new max value
+                dAxisYZoomIncrementValue = dAxisYZoomDecrementValue = Math.Pow(10, Math.Floor(Math.Log10(dMaxSeriesValue)));    //Calculate the incremet values for zooming
+                iAxisYMaxValueFirstDigit = (1 + (int)(dMaxSeriesValue / dAxisYZoomIncrementValue));                                  //Save the first digit of the new max value
+                dAxisYMaxValue = dAxisYZoomIncrementValue * iAxisYMaxValueFirstDigit;                                                //Calculate the new max value
                 if (iAxisYMaxValueFirstDigit == 10)                                                                                  //Hanle calculation overflow and set the next decade as first digit and zoom factor
                 {
                     iAxisYMaxValueFirstDigit = 1;
-                    iAxisYZoomIncrementValue *= 10;
+                    dAxisYZoomIncrementValue *= 10;
                 }
                 vDrawAll();                                                                         //Redraw entire chart
             }
@@ -483,10 +499,10 @@ namespace LHWpfControlLibrary.Source.UserControls
         public void vReset()
         {
             bAutoScaleMode = true;
-            iAxisYZoomIncrementValue = 100;                                                         //Initial values for zooming
-            iAxisYZoomDecrementValue = 10;                                                          //Initial values for zooming
+            dAxisYZoomIncrementValue = 100;                                                         //Initial values for zooming
+            dAxisYZoomDecrementValue = 10;                                                          //Initial values for zooming
             iAxisXMaxValue = 0;                                                                     //Initial values for the axes maximums
-            iAxisYMaxValue = 100;                                                                   //Initial values for the axes maximums
+            dAxisYMaxValue = 100;                                                                   //Initial values for the axes maximums
             iAxisYMaxValueFirstDigit = 1;                                                           //First digit is 1 because iAxisYMaxValue = 100
 
             for (int iSeriesCnt = 0; iSeriesCnt < LSeries.Count; iSeriesCnt++)
@@ -551,7 +567,7 @@ namespace LHWpfControlLibrary.Source.UserControls
                             dX = dOriginX + iTimeStamp * dPixelsPerSecond;
                             if (dX < (dOriginX + dAxisXLength))
                             {
-                                if (dValue > iAxisYMaxValue)                                        //Value exceeds the Y-Axis positive bounds
+                                if (dValue > dAxisYMaxValue)                                        //Value exceeds the Y-Axis positive bounds
                                 {
                                     series.polyline.Points.Add(new Point(dX, dOriginY - dAxisYLength));
                                 }
@@ -569,7 +585,7 @@ namespace LHWpfControlLibrary.Source.UserControls
                             if (true == double.IsFinite(dValue) && dValue > series.dMaxValue)
                             {
                                 series.dMaxValue = dValue;
-                                if (series.dMaxValue > iAxisYMaxValue)
+                                if (series.dMaxValue > dAxisYMaxValue)
                                 {
                                     bRescaleY = true;                                               //Indicator for rescaling after all points were added
                                 }
