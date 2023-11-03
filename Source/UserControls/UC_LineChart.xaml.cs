@@ -30,7 +30,7 @@ namespace LHWpfControlLibrary.Source.UserControls
     * 
     **********************************************************************************************/
 
-    public partial class UC_LineChart : UserControl
+    public partial class UC_LineChart : UserControl, INotifyPropertyChanged
     {
         /***********************************************************************************************
         * 
@@ -38,26 +38,35 @@ namespace LHWpfControlLibrary.Source.UserControls
         * 
         **********************************************************************************************/
         //Axes
-        private const double D_AXIS_TICK_MARK_LENGTH = 4;                                           //Length of the tickmark
-        private const int I_MODULO_MAIN_LABELS_X = 2, I_MODULO_MAIN_LABELS_Y = 2;                   //Place a label every n-th tickmark 
-        private const int I_NUM_OF_MAIN_TICK_MARKS_X = 12, I_NUM_OF_MAIN_TICK_MARKS_Y = 10;
-        private const int I_TIME_INCREMENT = 30 * 60;                                               //The timestep to increment the X-Axis in seconds
+        private const double _axisTickMarkLength = 4;                                           //Length of the tickmark
+
+        //Place a tick mark label every n-th tickmark 
+        private const int _moduloLabelsX = 2;
+        private const int _moduloLabelsY = 2;
+
+        //Number of tickmarks/grid-lines
+        private const int _numOfTickmarksX = 12;
+        private const int _numOfTickmarksY = 10;
+
+        private const int _IncrementStepX = 30 * 60;                                               //The time-step to increment the X-Axis in seconds
 
         //Dimensions
-        private const double D_FONSTIZE_CHECKBOX = 16;
-        private const int I_MARGIN_CHECKBOX_VERTICAL = 15, I_MARGIN_CHECKBOX_HORIZONTAL = 20;       //Margin of the checkboxes
+        private const double _fontSizeCheckbox = 16;
+        private const int _fontSizeAxisTitle = 14;
+        private const int _fontSizeLabel = 12;
+        private const int _marginTextBoxVertical = 15;
+        private const int _marginTextBoxHorizontal = 20;
+        private const double _marginLabels = 5;
+        private const double _marginDefault = 20;
 
-        //Intervalls
-        private const int I_INTERVAL_RESIZE_TIMER = 25;                                             //Interval of the timer for checking resize
+        //Intervals
+        private const int _resizeDrawingTimeout = 250;                                             //Timeout to wait after resize event before redrawing the series
 
         //Stroke
-        const double D_AXIS_STROKE_WIDTH = 1;
-        const double D_GRID_STROKE_WIDTH = 1;
-        const double D_TICK_MARK_STROKE_WIDTH = 2;
+        private const double _axisStrokeWidth = 1;
+        private const double _gridStrokeWidth = 1;
+        private const double _tickMarkStrokeWidth = 2;
 
-        //Text
-        const double D_LABEL_MARGIN = 5, D_TEXT_MARGIN = 20;
-        const int I_FONT_SIZE_AXIS_TITLE = 14, I_FONT_SIZE_LABEL = 12;
 
         /***********************************************************************************************
         * 
@@ -65,25 +74,56 @@ namespace LHWpfControlLibrary.Source.UserControls
         * 
         **********************************************************************************************/
         //Objects
-        private Canvas CVSAxis, CVSSeries;
-        private DispatcherTimer TIMResize;                                                          //This timer starts when the control is resized. It detects if the resize is finished by checking a timeout. Prevents multiple redrawing while resizing
-        ResourceDictionary RDTheme;                                                                 //Color theme
-        public List<Class_Series> LSeries;
-        private SolidColorBrush SCBGridStroke, SCBMainStroke, SCBText;                              //Colors of the chart
+        private Canvas _axisCanvas, _seriesCanvas;
+
+        //When the user resizes the window, the resize event will be triggered multiple times in one second.
+        //Redrawing all series is a intensive task, so we only want to do this if resizing was finished.
+        //Detecting the end of resizing is accomplished by starting a timer when a resize event is detected.
+        //If the timer ran out of its maximum time, we know the resizing is over and we can redraw the entire chart.
+        private DispatcherTimer _resizeTimer;
+
+        ResourceDictionary _theme;                                                                  //Color theme
+        private List<Class_Series> _seriesList; //All series displayed in the chart
+        private SolidColorBrush _gridStrokeBrush, _mainStrokeBrush, _textBrush;                     //Colors of the chart
 
         //Primitive
-        private bool bAutoScaleMode = true;                                                         //Auto scale mode
-        private double dAxisXLength, dAxisYLength;                                                  //Length of X and Y Axes
-        private double dOriginX, dOriginY;                                                          //Position of the origin
-        private double dPixelsPerSecond, dPixelsPerValue;                                           //Number of pixels per second on the X-Axis and pixel per value on the Y-Axis
-        private double dAxisYZoomIncrementValue, dAxisYZoomDecrementValue;                             //Values for decrement and increment the Y-Axis max value on user zoom scaling
-        private int iAxisXMaxValue;                                                 //Values for the axes maximums. 
-        private double dAxisYMaxValue;
-        private int iAxisYMaxValueFirstDigit;                                                       //First digit of the Y axis maximum. Used for calculating the amount of zooming on the next user scale event
+        private bool _positiveValuesOnly = false;                                                    //Determines if we show negative values or not
 
-        private String[] asAxisXLabels = new String[I_NUM_OF_MAIN_TICK_MARKS_X / I_MODULO_MAIN_LABELS_X];    //Labels for the X-Axis
-        public String sAxisXTitle = "{TIME}", sAxisYTitle = "";
-        String sAxisYTickMarkTextFormat = "0.##";
+        //If enabled, the Y-Axis will automatically scale according to the max/min values of the series
+        //Use the property YAutoScaleMode to set it in order to reflect the changes in bindings.
+        private bool _yAutoScaleMode;
+
+        private double _axisXLength, _axisYLength;                                                  //Length of X and Y Axes
+        private Point _origin;                                                                      //Position of the origin of the diagram.
+        private double _pixelFactorX, _pixelFactorY;                                                //Number of pixels per value on the X-Axis / Y-Axis
+
+        //The zoom values determine the number by which the maximum Y-Axis value will be modified,
+        //if the user zooms in out.
+        private float _axisYZoomIncrementValue; //When zooming out, the maximum Y-Axis value will be incremented by this number
+        private float _axisYZoomDecrementValue;   //When zooming in, the maximum Y-Axis value will be decremented by this number                       
+
+        private int _axisXValueLimit;                                                                 //Maximum value which can be displayed on the X-Axis with the current scale
+        private float _axisYValueLimit;                                                              //Maximum/Minimum value which can be displayed on the X-Axis with the current scale
+
+        public String AxisXTitle = "";
+        public String AxisYTitle = "";
+
+
+        /***********************************************************************************************
+        * 
+        * Properties
+        * 
+        **********************************************************************************************/
+        public bool YAutoScaleMode
+        {
+            get { return _yAutoScaleMode; }
+            set
+            {
+                _yAutoScaleMode = value;
+                OnPropertyChanged(nameof(YAutoScaleMode));
+            }
+        }
+
 
         /***********************************************************************************************
         * 
@@ -93,511 +133,537 @@ namespace LHWpfControlLibrary.Source.UserControls
         public UC_LineChart()
         {
             InitializeComponent();
+            this.DataContext = this;
 
             //Initialize variables
             //Objects
-            CVSAxis = new Canvas();
-            CVSSeries = new Canvas();
+            _axisCanvas = new Canvas();
+            _seriesCanvas = new Canvas();
+            _origin = new Point();
 
             //Adding the canvases to the main canvas
-            canvas.Children.Add(CVSAxis);
-            canvas.Children.Add(CVSSeries);
+            canvas.Children.Add(_axisCanvas);
+            canvas.Children.Add(_seriesCanvas);
 
-            RDTheme = new ResourceDictionary();
-            LSeries = new List<Class_Series>();
+            _theme = new ResourceDictionary();
+            _seriesList = new List<Class_Series>();
 
             //Timer
-            TIMResize = new DispatcherTimer();
-            TIMResize.Interval = TimeSpan.FromMilliseconds(I_INTERVAL_RESIZE_TIMER);
-            TIMResize.Tick += TIMResize_Tick;
+            _resizeTimer = new DispatcherTimer();
+            _resizeTimer.Interval = TimeSpan.FromMilliseconds(_resizeDrawingTimeout);
+            _resizeTimer.Tick += TIMResize_Tick;
 
             vReset();
         }
 
-        /***********************************************************************************************
-        * 
-        * Commands
-        * 
-        **********************************************************************************************/
 
         /***********************************************************************************************
         * 
         * Events
         * 
         **********************************************************************************************/
-        //This event is called if the canvas is resized
-        private void Canvas_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            CVSSeries.Visibility = Visibility.Hidden;                                               //Hide all series here 
 
-            TIMResize.Stop();
-            TIMResize.Start();
-            vDrawAxes();                                                                            //Redraw the axis on every resize
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        //This function calls the property changed event of a property
+        public void OnPropertyChanged(String propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        //This event is called if the mousewheel was moved
+
+        /// <summary>
+        /// This event is called if the canvas is resized
+        /// </summary>
+        private void Canvas_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            _seriesCanvas.Visibility = Visibility.Hidden;
+
+            _resizeTimer.Stop();
+            _resizeTimer.Start();
+            DrawChartFrame();
+        }
+
+
+
+        /// <summary>
+        /// This event is called if the mousewheel was moved
+        /// </summary>
         private void Control_MouseWheel(object sender, MouseWheelEventArgs e)
         {
             if (e.Delta > 0)
             {
-                bAutoScaleMode = false;                                                             //Disable auto scale mode
-                dAxisYMaxValue -= dAxisYZoomDecrementValue;
-                iAxisYMaxValueFirstDigit--;
-                if (iAxisYMaxValueFirstDigit == 1)                                                  //Transition from 2 to 1 -> decrement value / 10
-                {
-                    dAxisYZoomDecrementValue /= 10;
-                }
-                else if (iAxisYMaxValueFirstDigit == 0)                                             //Transition from 1 to 0 (10 to 9) -> increment value / 10 ( = decrement value)
-                {
-                    iAxisYMaxValueFirstDigit = 9;
-                    dAxisYZoomIncrementValue = dAxisYZoomDecrementValue;
-                }
+                YAutoScaleMode = false;
+                _axisYValueLimit -= _axisYZoomDecrementValue;
             }
             else if (e.Delta < 0)
             {
-                bAutoScaleMode = false;                                                             //Disable auto scale mode
-                dAxisYMaxValue += dAxisYZoomIncrementValue;                                         //Increment the max value
-                iAxisYMaxValueFirstDigit++;                                                         //Increment the first digit 
-                if (iAxisYMaxValueFirstDigit == 10)                                                 //Transition from 9 to 10 -> increment value * 10
-                {
-                    iAxisYMaxValueFirstDigit = 1;
-                    dAxisYZoomIncrementValue *= 10;
-                }
-                else if (iAxisYMaxValueFirstDigit == 2)                                             //Transition from 1 to 2 -> Decrement value * 10 ( = increment value)  
-                {
-                    dAxisYZoomDecrementValue = dAxisYZoomIncrementValue;
-                }
+                YAutoScaleMode = false;
+                _axisYValueLimit += _axisYZoomIncrementValue;
             }
-            vDrawAll();                                                                             //Redraw entire chart
+            CalculateZoomValues();
+            Redraw();
         }
 
-        //This event is called if the auto scale menu item was clicked
+        /// <summary>
+        /// This event is called if the auto scale menu item was clicked
+        /// </summary>
         private void MIAutoScale_Click(object sender, RoutedEventArgs e)
         {
-            bAutoScaleMode = true;
-            vRescaleY();
+            YAutoScaleMode = true;
+            RescaleY(force: true);
+            Redraw();
         }
 
-        //This event is called if the resize timer elapsed successfully
+        /// <summary>
+        /// This event is called if the resize timer elapsed successfully
+        /// </summary>
         private void TIMResize_Tick(object sender, EventArgs e)
         {
-            TIMResize.Stop();
-            vDrawAll();                                                                             //Redraw entire chart
+            _resizeTimer.Stop();
+            Redraw();
         }
+
+        /// <summary>
+        /// This event will be called if the visibility of a series has changed.
+        /// </summary>
+        private void OnSeriesVisibilityChanged(object sender, EventArgs e)
+        {
+            RescaleX();
+            if (YAutoScaleMode)
+            {
+                RescaleY();
+            }
+            Redraw();
+        }
+
 
         /***********************************************************************************************
         * 
         * Functions
         * 
         **********************************************************************************************/
-        //This function inserts a new series to the chart. With the qiSeriesId an existing series can be replaced
-        public void vAddNewSeries(String qsSeriesName, SortedList<int, float> qSLDataPoints, int qiSeriesId = 1000)
+
+        /// <summary>
+        /// This function inserts a new series to the chart.
+        /// </summary>
+        /// <param name="addingSeries">The series to add to the chart</param>
+        /// <param name="seriesPosition">The position of the series. Series will be ordered by this number.
+        /// If there is already a series placed at this position, it will be replaced.</param>
+        public void AddNewSeries(Class_Series addingSeries, uint seriesPosition)
         {
-            Class_Series addingSeries = new Class_Series(qsSeriesName, qSLDataPoints);
-            if (qSLDataPoints.Count > 0)                                                            //Check if the sd contains data
+            if (_seriesList.Count <= seriesPosition)
             {
-                //Find the maximum value for the time 
-                int iMaxTimeValue = qSLDataPoints.Keys.Last();                                      //Maximum time value of the added list
-                while (iMaxTimeValue > iAxisXMaxValue)
-                {
-                    vIncrementMaxTime();                                                            //Recalculate the maximum time of the X-Axis
-                }
-            }
+                //There is no series existing on the current position
+                _seriesCanvas.Children.Add(addingSeries.canvas);
+                _seriesList.Add(addingSeries);
+                _legendPanel.Children.Add(addingSeries.uC_CheckBoxFilled);
 
-            //Find the max value if the series
-            foreach (double dValue in qSLDataPoints.Values)
-            {
-                if (true == double.IsFinite(dValue) && dValue > addingSeries.dMaxValue)
-                {
-                    addingSeries.dMaxValue = dValue;
-                }
-            }
-
-            if (LSeries.Count < qiSeriesId)                                                         //Check if series should be added at the end or replaces an existing one
-            {
-                CVSSeries.Children.Add(addingSeries.canvas);                                        //Add the series canvas to the canvas of series
-                LSeries.Add(addingSeries);                                                          //Add series to the dictionary of series
-                WPLegend.Children.Add(addingSeries.uC_CheckBoxFilled);                              //Add the ckeckbox control
-
-                addingSeries.vSetColor((SolidColorBrush)RDTheme[$"Col_{LSeries.Count - 1}"]);       //Set the color of the series
+                addingSeries.SetColor((SolidColorBrush)_theme[$"Col_{_seriesList.Count - 1}"]);
             }
             else
             {
-                CVSSeries.Children.RemoveAt(qiSeriesId);                                            //Remove the existing series canvas from the canvas of series
-                LSeries[qiSeriesId].EHVisibilityChanged = null;                                     //Clean up the event handler
-                LSeries.RemoveAt(qiSeriesId);                                                       //Remove the existing series
-                WPLegend.Children.RemoveAt(qiSeriesId);                                             //Remove the existing chkeckbox control
+                //There is a series existing on the current position, so we remove it first
+                _seriesCanvas.Children.RemoveAt((int)seriesPosition);
+                _seriesList.RemoveAt((int)seriesPosition);
+                _legendPanel.Children.RemoveAt((int)seriesPosition);
 
-                CVSSeries.Children.Insert(qiSeriesId, addingSeries.canvas);                         //Add the new series canvas to the canvas of series
-                LSeries.Insert(qiSeriesId, addingSeries);                                           //Add the new series to the dictionary of series
-                WPLegend.Children.Insert(qiSeriesId, addingSeries.uC_CheckBoxFilled);               //Add the new ckeckbox control
+                _seriesCanvas.Children.Insert((int)seriesPosition, addingSeries.canvas);
+                _seriesList.Insert((int)seriesPosition, addingSeries);
+                _legendPanel.Children.Insert((int)seriesPosition, addingSeries.uC_CheckBoxFilled);
 
-                addingSeries.vSetColor((SolidColorBrush)RDTheme[$"Col_{qiSeriesId}"]);              //Set the color of the series
+                addingSeries.SetColor((SolidColorBrush)_theme[$"Col_{seriesPosition}"]);
             }
-            addingSeries.EHVisibilityChanged += new EventHandler(OnSeriesVisibilityChanged);        //Suscribe to the visibility changed event
+            addingSeries.VisibilityChangedHandler += new EventHandler(OnSeriesVisibilityChanged);   //Subscribe to the visibility changed event
+        }
 
-            if (true == bAutoScaleMode)
-            {
-                vRescaleY();
+        /// <summary>
+        /// This function analyzes the _axisYValueLimit and performs the calculation of the zoom values.
+        /// </summary>
+        void CalculateZoomValues()
+        {
+            float decadeOfYLimit = (float)Math.Pow(10, Math.Floor(Math.Log10(_axisYValueLimit)));
+            _axisYZoomIncrementValue = decadeOfYLimit;
+            _axisYZoomDecrementValue = _axisYZoomIncrementValue;
+            if (Math.Round(_axisYValueLimit / decadeOfYLimit) == 1)
+            { //The numbers should be checked for equality, but due to minimal changes they can be slightly off (double)
+                _axisYZoomDecrementValue = _axisYZoomIncrementValue / 10;
             }
         }
 
-        //This function redraws the entire chart
-        private void vDrawAll()
+        /// <summary>
+        /// This function draws the frame of the chart containing of axes, labels, tickmarks and titles. 
+        /// It calculates necessary values for scaling and sizing.
+        /// </summary>
+        private void DrawChartFrame()
         {
-            //Axis
-            vDrawAxes();
-
-            //Series
-            CVSSeries.Visibility = Visibility.Visible;                                              //Show all series
-            foreach (Class_Series class_Series in LSeries)
+            if (canvas.ActualWidth == 0 || canvas.ActualHeight == 0)
             {
-                vDrawSeries(class_Series);
+                //This might happen if the application starts and resizes.
+                //We just return here since this is not a reasonable size
+                return;
             }
 
-        }
-
-        //This function draws the axes and the axes titles
-        private void vDrawAxes()
-        {
             //Calculation
             //Initialize the TextBlocks to measure their size
-            CVSAxis.Children.Clear();                                                               //Delete all existing children
-            TextBlock TBLAxisYTitle = new TextBlock();                                              //TextBlock for Y-Axis
-            TBLAxisYTitle.FontSize = I_FONT_SIZE_AXIS_TITLE;
-            TBLAxisYTitle.Foreground = SCBText;
-            TBLAxisYTitle.Text = sAxisYTitle;
-            Size SZTBLAxisYTitle = LHStringFunctions.SZMeasureString(TBLAxisYTitle);                //Measure the size of the Y-Axis tile textbox
+            _axisCanvas.Children.Clear();                                                           //Delete all existing children
+            TextBlock axisYTitle = new TextBlock();                                                 //TextBlock for Y-Axis
+            axisYTitle.FontSize = _fontSizeAxisTitle;
+            axisYTitle.Foreground = _textBrush;
+            axisYTitle.Text = AxisYTitle;
+            Size axisYTitleSize = LHStringFunctions.SZMeasureString(axisYTitle);                    //Measure the size of the Y-Axis tile textbox
 
-            TextBlock TBLAxisXTitle = new TextBlock();                                              //TextBlock for X-Axis
-            TBLAxisXTitle.FontSize = I_FONT_SIZE_AXIS_TITLE;
-            TBLAxisXTitle.Foreground = SCBText;
-            TBLAxisXTitle.Text = sAxisXTitle;
-            Size SZTBLAxisXTitle = LHStringFunctions.SZMeasureString(TBLAxisXTitle);                //Measure the size of the X-Axis tile textbox
+            TextBlock axisXTitle = new TextBlock();                                                 //TextBlock for X-Axis
+            axisXTitle.FontSize = _fontSizeAxisTitle;
+            axisXTitle.Foreground = _textBrush;
+            axisXTitle.Text = AxisXTitle;
+            Size axisXTitleSize = LHStringFunctions.SZMeasureString(axisXTitle);                    //Measure the size of the X-Axis tile textbox
 
-            TextBlock TBLAxisYLabel = new TextBlock();                                              //Biggest tickmark of the Y-Axis
-            TBLAxisYLabel.FontSize = I_FONT_SIZE_LABEL;
-            TBLAxisYLabel.Foreground = SCBText;
-            if (dAxisYZoomDecrementValue < 1)
+            TextBlock axisYLabel = new TextBlock();                                                 //Biggest tickmark of the Y-Axis
+            axisYLabel.FontSize = _fontSizeLabel;
+            axisYLabel.Foreground = _textBrush;
+
+            String axisYTickMarkTextFormat = "0.##";
+            if (_axisYZoomDecrementValue < 1)
             {
-                int iNumOfDecimals = -(int)Math.Floor(Math.Log10(dAxisYZoomDecrementValue));
+                int iNumOfDecimals = -(int)Math.Floor(Math.Log10(_axisYZoomDecrementValue));
                 iNumOfDecimals = Math.Max(2, iNumOfDecimals);
-                sAxisYTickMarkTextFormat = "0.";
+                axisYTickMarkTextFormat = "0.";
                 for (; iNumOfDecimals > 0; iNumOfDecimals--)
                 {
-                    sAxisYTickMarkTextFormat += "#";
+                    axisYTickMarkTextFormat += "#";
                 }
             }
-            else
-            {
-                sAxisYTickMarkTextFormat = "0.##";
-            }
-            TBLAxisYLabel.Text = dAxisYMaxValue.ToString(sAxisYTickMarkTextFormat);
-            Size SZTBLAxisYLabel = LHStringFunctions.SZMeasureString(TBLAxisYLabel);                //Measure the size of the 
+            axisYLabel.Text = _axisYValueLimit.ToString(axisYTickMarkTextFormat);
+            Size axisXLabelSize = LHStringFunctions.SZMeasureString(axisYLabel);
 
             //Calculate the origin of the chart
-            dOriginY = canvas.ActualHeight - D_TEXT_MARGIN - SZTBLAxisXTitle.Height - D_TEXT_MARGIN - SZTBLAxisYLabel.Height - D_LABEL_MARGIN - D_AXIS_TICK_MARK_LENGTH;    //OriginY is constraint by the bottom
-            dOriginX = D_TEXT_MARGIN + SZTBLAxisYTitle.Height + D_TEXT_MARGIN + SZTBLAxisYLabel.Width + D_LABEL_MARGIN + D_AXIS_TICK_MARK_LENGTH;                           //OriginX is constraint by the left
-            dAxisYLength = dOriginY - D_TEXT_MARGIN;                                                                                                                        //Calculate the size of the Y-Axis
-            dAxisXLength = canvas.ActualWidth - dOriginX;                                                                                                                   //Calculate the size of the X-Axis
-            dPixelsPerSecond = dAxisXLength / (iAxisXMaxValue);                                                                                                             //Calculate pixels per second for setting the series points
-            dPixelsPerValue = dAxisYLength / dAxisYMaxValue;                                                                                                                //Calculate pixels per value for setting the series points
+            _origin.Y = canvas.ActualHeight - _marginDefault - axisXTitleSize.Height - _marginDefault - axisXLabelSize.Height - _marginLabels - _axisTickMarkLength;    //OriginY is constraint by the bottom
+            _origin.X = _marginDefault + axisYTitleSize.Height + _marginDefault + axisXLabelSize.Width + _marginLabels + _axisTickMarkLength;                           //OriginX is constraint by the left
+            _axisYLength = _origin.Y - _marginDefault;                                                                                                                      //Calculate the size of the Y-Axis
+            _axisXLength = canvas.ActualWidth - _origin.X;                                                                                                                 //Calculate the size of the X-Axis
+            _pixelFactorX = _axisXLength / _axisXValueLimit;                                                                                                                   //Calculate pixels per second for setting the series points
+            _pixelFactorY = _axisYLength / _axisYValueLimit;                                                                                                                   //Calculate pixels per value for setting the series points
+
+            if (!_positiveValuesOnly)
+            {
+                _origin.Y -= _axisYLength / 2;
+                _pixelFactorY = _axisYLength / (2 * _axisYValueLimit);
+            }
 
             //Y-Axis
             //Y-Axis title
-            TBLAxisYTitle.LayoutTransform = new RotateTransform(270);
-            Canvas.SetLeft(TBLAxisYTitle, D_TEXT_MARGIN);                                           //Center the Y-Axis title
-            Canvas.SetTop(TBLAxisYTitle, dAxisYLength / 2 - SZTBLAxisYTitle.Width / 2);             //Center the Y-Axis title
-            CVSAxis.Children.Add(TBLAxisYTitle);                                                    //Add the textblock to the canvas
+            axisYTitle.LayoutTransform = new RotateTransform(270);
+            Canvas.SetLeft(axisYTitle, _marginDefault);                                              //Center the Y-Axis title
+            Canvas.SetTop(axisYTitle, _axisYLength / 2 - axisYTitleSize.Width / 2);                 //Center the Y-Axis title
+            _axisCanvas.Children.Add(axisYTitle);                                                   //Add the textblock to the canvas
 
             //Y-Axis line
-            Line LIAxisY = new Line();
-            LIAxisY.X1 = LIAxisY.X2 = dOriginX;                                                     //Set X-Positions of the Y-Axis
-            LIAxisY.Y1 = dOriginY - dAxisYLength; LIAxisY.Y2 = dOriginY;                            //Set length the Y-Axis
-            LIAxisY.Stroke = SCBMainStroke;
-            LIAxisY.StrokeThickness = D_AXIS_STROKE_WIDTH;
-            CVSAxis.Children.Add(LIAxisY);
+            Line axisY = new Line();
+            axisY.X1 = axisY.X2 = _origin.X;                                                      //Set X-Positions of the Y-Axis
+            if (_positiveValuesOnly)
+            {
+                axisY.Y1 = _origin.Y;
+                axisY.Y2 = _origin.Y - _axisYLength;
+            }
+            else
+            {
+                axisY.Y1 = _origin.Y + _axisYLength / 2;
+                axisY.Y2 = _origin.Y - _axisYLength / 2;
+            }
+            axisY.Stroke = _mainStrokeBrush;
+            axisY.StrokeThickness = _axisStrokeWidth;
+            _axisCanvas.Children.Add(axisY);
 
             //Y-Axis tickmarks
-            double dTickMarkSpacingY = dAxisYLength / I_NUM_OF_MAIN_TICK_MARKS_Y;                   //Spacing of the Y-Tickmarks
-            double dTickMarkYPosX = dOriginX + D_AXIS_STROKE_WIDTH;                                 //X-Position of the tickmarks
-            double dLabelStep = (double)dAxisYMaxValue / I_NUM_OF_MAIN_TICK_MARKS_Y;                //Tick mark lable step value
-            for (int iTickMarkYCnt = 0; iTickMarkYCnt < I_NUM_OF_MAIN_TICK_MARKS_Y; iTickMarkYCnt++)
+            double tickMarkSpacingY = _axisYLength / _numOfTickmarksY;                    //Spacing of the Y-tickmarks
+            double tickMarkYPosX = _origin.X + _axisStrokeWidth;                               //X-Position of the tickmarks
+            double labelStep = (double)_axisYValueLimit / _numOfTickmarksY;                 //Tick mark label step value
+
+            if (!_positiveValuesOnly)
+            {
+                labelStep *= 2;                                                                     //Used to print the hole scale doubled (positive and negative)
+            }
+
+            for (int tickMarkYCnt = 0; tickMarkYCnt < _numOfTickmarksY + 1; tickMarkYCnt++)
             {
                 //Line
-                Line LITickMark = new Line();
-                LITickMark.X1 = dTickMarkYPosX; LITickMark.X2 = dTickMarkYPosX - D_AXIS_TICK_MARK_LENGTH;
-                LITickMark.Y1 = LITickMark.Y2 = dTickMarkSpacingY * iTickMarkYCnt + D_TEXT_MARGIN;
-                LITickMark.Stroke = SCBMainStroke;
-                LITickMark.StrokeThickness = D_TICK_MARK_STROKE_WIDTH;
-                CVSAxis.Children.Add(LITickMark);
+                double y_pos = tickMarkSpacingY * tickMarkYCnt + _marginDefault;
+                Line tickMarkY = new Line();
+                tickMarkY.X1 = tickMarkYPosX;
+                tickMarkY.X2 = tickMarkYPosX - _axisTickMarkLength;
+                tickMarkY.Y1 = tickMarkY.Y2 = y_pos;
+                tickMarkY.Stroke = _mainStrokeBrush;
+                tickMarkY.StrokeThickness = _tickMarkStrokeWidth;
+                _axisCanvas.Children.Add(tickMarkY);
 
                 //Grid
-                Line LIGrid = new Line();
-                LIGrid.X1 = dOriginX;
-                LIGrid.X2 = dOriginX + dAxisXLength;
-                LIGrid.Y1 = LIGrid.Y2 = LITickMark.Y1;                                              //Reuse the Y-Position of the tickmark
-                LIGrid.Stroke = SCBGridStroke;
-                LIGrid.StrokeThickness = D_GRID_STROKE_WIDTH;
-                CVSAxis.Children.Add(LIGrid);
+                Line gridLineY = new Line();
+                gridLineY.X1 = _origin.X;
+                gridLineY.X2 = _origin.X + _axisXLength;
+                gridLineY.Y1 = gridLineY.Y2 = y_pos;                                                //Reuse the Y-Position of the tickmark
+                gridLineY.Stroke = _gridStrokeBrush;
+                gridLineY.StrokeThickness = _gridStrokeWidth;
+                _axisCanvas.Children.Add(gridLineY);
 
                 //Label
-                if (0 == (iTickMarkYCnt % I_MODULO_MAIN_LABELS_Y))                                  //Check if a lable should be placed
+                if (0 == (tickMarkYCnt % _moduloLabelsY))                                   //Check if a label should be placed
                 {
-                    TextBlock TBLLabel = new TextBlock();
-                    TBLLabel.FontSize = I_FONT_SIZE_LABEL;
-                    TBLLabel.Foreground = SCBText;
-                    TBLLabel.Text = (dAxisYMaxValue - iTickMarkYCnt * dLabelStep).ToString(sAxisYTickMarkTextFormat);
-                    TBLLabel.TextAlignment = TextAlignment.Right;
-                    Canvas.SetTop(TBLLabel, dTickMarkSpacingY * iTickMarkYCnt - SZTBLAxisYLabel.Height / 2 + D_TEXT_MARGIN);
-                    Canvas.SetRight(TBLLabel, CVSAxis.ActualWidth - dOriginX + D_AXIS_TICK_MARK_LENGTH + D_LABEL_MARGIN);
-                    CVSAxis.Children.Add(TBLLabel);
+                    TextBlock labelY = new TextBlock();
+                    labelY.FontSize = _fontSizeLabel;
+                    labelY.Foreground = _textBrush;
+                    labelY.Text = (_axisYValueLimit - tickMarkYCnt * labelStep).ToString(axisYTickMarkTextFormat);
+                    labelY.TextAlignment = TextAlignment.Right;
+                    Canvas.SetTop(labelY, y_pos - axisXLabelSize.Height / 2);
+                    Canvas.SetRight(labelY, _axisCanvas.ActualWidth - _origin.X + _axisTickMarkLength + _marginLabels);
+                    _axisCanvas.Children.Add(labelY);
                 }
             }
 
             //X-Axis
             //X-Axis title
-            Canvas.SetTop(TBLAxisXTitle, dOriginY + D_AXIS_TICK_MARK_LENGTH + D_LABEL_MARGIN + SZTBLAxisXTitle.Height + D_TEXT_MARGIN);    //Set X-Position of the Textblock
-            Canvas.SetLeft(TBLAxisXTitle, dOriginX + dAxisXLength / 2 - SZTBLAxisXTitle.Width / 2);                                        //Center the X-Axis title
-            CVSAxis.Children.Add(TBLAxisXTitle);
+            Canvas.SetTop(axisXTitle, _marginDefault + _axisYLength + _axisTickMarkLength + _marginLabels + axisXTitleSize.Height + _marginDefault);    //Set X-Position of the Textblock
+            Canvas.SetLeft(axisXTitle, _origin.X + _axisXLength / 2 - axisXTitleSize.Width / 2);                                                         //Center the X-Axis title
+            _axisCanvas.Children.Add(axisXTitle);
 
             //X-Axis line
-            Line LIAxisX = new Line();
-            LIAxisX.X1 = dOriginX; LIAxisX.X2 = dAxisXLength + dOriginX;                            //Set X-Positions of the X-Axis
-            LIAxisX.Y1 = LIAxisX.Y2 = dOriginY;                                                     //Set length the X-Axis
-            LIAxisX.Stroke = SCBMainStroke;
-            LIAxisX.StrokeThickness = D_AXIS_STROKE_WIDTH;
-            CVSAxis.Children.Add(LIAxisX);
+            Line axisX = new Line();
+            axisX.X1 = _origin.X;
+            axisX.X2 = axisX.X1 + _axisXLength;
+            axisX.Y1 = axisX.Y2 = _origin.Y;
+            axisX.Stroke = _mainStrokeBrush;
+            axisX.StrokeThickness = _axisStrokeWidth;
+            _axisCanvas.Children.Add(axisX);
 
             //X-Axis tickmarks
-            double dTickMarkSpacingX = dAxisXLength / I_NUM_OF_MAIN_TICK_MARKS_X;                   //Spacing of the X-Tickmarks
-            double dTickMarkXPosY = dOriginY;                                                       //Y-Position of the tickmarks
-
-            for (int iTickMarkXCnt = 1; iTickMarkXCnt <= I_NUM_OF_MAIN_TICK_MARKS_X; iTickMarkXCnt++)
-            {
-                Line LITickMark = new Line();
-                LITickMark.X1 = LITickMark.X2 = dOriginX + dTickMarkSpacingX * iTickMarkXCnt;
-                LITickMark.Y1 = dTickMarkXPosY; LITickMark.Y2 = dTickMarkXPosY + D_AXIS_TICK_MARK_LENGTH;
-                LITickMark.Stroke = SCBMainStroke;
-                LITickMark.StrokeThickness = D_TICK_MARK_STROKE_WIDTH;
-                CVSAxis.Children.Add(LITickMark);
-
-                //Grid
-                Line LIGrid = new Line();
-                LIGrid.X1 = LIGrid.X2 = LITickMark.X1;                                              //Reuse the X-Position of the tickmark
-                LIGrid.Y1 = dOriginY;
-                LIGrid.Y2 = dOriginY - dAxisYLength;
-                LIGrid.Stroke = SCBGridStroke;
-                LIGrid.StrokeThickness = D_GRID_STROKE_WIDTH;
-                CVSAxis.Children.Add(LIGrid);
-
-                //Label
-                if (0 == (iTickMarkXCnt % I_MODULO_MAIN_LABELS_X))                                  //Check if a lable should be placed
-                {
-                    TextBlock TBLLabel = new TextBlock();
-                    TBLLabel.FontSize = I_FONT_SIZE_LABEL;
-                    TBLLabel.Foreground = SCBText;
-                    TBLLabel.Text = asAxisXLabels[iTickMarkXCnt / I_MODULO_MAIN_LABELS_X - 1];
-                    TBLLabel.TextAlignment = TextAlignment.Right;
-                    Canvas.SetTop(TBLLabel, dOriginY + D_AXIS_TICK_MARK_LENGTH + D_LABEL_MARGIN);
-                    Canvas.SetLeft(TBLLabel, dOriginX + dTickMarkSpacingX * iTickMarkXCnt - LHStringFunctions.SZMeasureString(TBLLabel).Width / 2);
-                    CVSAxis.Children.Add(TBLLabel);
-                }
-            }
-
-        }
-
-        //This function draws an entire series
-        private void vDrawSeries(Class_Series qSeries)
-        {
-            if (qSeries.SLDataPoints.Count < 2)                                                     //Draw only if there are at least 2 datapoints
-            {
-                return;
-            }
-            qSeries.iSLReadIndex = 0;
-            qSeries.polyline.Points.Clear();
-            double dX, dY;
-            foreach (KeyValuePair<int, float> actDataPoint in qSeries.SLDataPoints)
-            {
-                dX = dOriginX + actDataPoint.Key * dPixelsPerSecond;
-                if (dX < (dOriginX + dAxisXLength))                                                 //Check if value is in X-Axis range
-                {
-                    if (actDataPoint.Value > dAxisYMaxValue)                                        //Value exceeds the Y-Axis positive bounds
-                    {
-                        qSeries.polyline.Points.Add(new Point(dX, dOriginY - dAxisYLength));
-                    }
-                    else if (actDataPoint.Value < 0)                                                //Value exceeds the Y-Axis negative bounds
-                    {
-                        qSeries.polyline.Points.Add(new Point(dX, dOriginY));
-                    }
-                    else                                                                            //Value is within the Y-Axis range
-                    {
-                        dY = dOriginY - actDataPoint.Value * dPixelsPerValue;
-                        qSeries.polyline.Points.Add(new Point(dX, dY));
-                    }
-                }
-            }
-            qSeries.iSLReadIndex = qSeries.SLDataPoints.Count;
-        }
-
-        //This function increments the max time of the X-Axis and calculates the neccessary values
-        private void vIncrementMaxTime()
-        {
-            iAxisXMaxValue += I_TIME_INCREMENT;                                                     //Increment the maximum time
+            double tickMarkSpacingX = _axisXLength / _numOfTickmarksX;                    //Spacing of the X-Tickmarks
+            double tickMarkXPosY = axisX.Y1;                                                        //Y-Position of the tickmarks
 
             //Calculate the strings for the X-Axis labels
-            int iMaxMinutes = iAxisXMaxValue / 60;
-            int iLabelStepMinutes = iMaxMinutes / (I_NUM_OF_MAIN_TICK_MARKS_X / I_MODULO_MAIN_LABELS_X);
-            int iHours, iMinutes;
-            for (int iLabelCnt = 1; iLabelCnt <= (I_NUM_OF_MAIN_TICK_MARKS_X / I_MODULO_MAIN_LABELS_X); iLabelCnt++)
+            int maxMinutes = _axisXValueLimit / 60;
+            int labelStepMinutes = maxMinutes / (_numOfTickmarksX / _moduloLabelsX);
+
+            int numOfLabels = _numOfTickmarksX / _moduloLabelsX;
+            String[] _axisXLabels = new String[numOfLabels];    //Labels for the X-Axis
+            for (int labelCnt = 1; labelCnt <= numOfLabels; labelCnt++)
             {
-                iHours = (iLabelCnt * iLabelStepMinutes / 60);
-                iMinutes = (iLabelCnt * iLabelStepMinutes) - 60 * iHours;
-                asAxisXLabels[iLabelCnt - 1] = iHours.ToString();
-                asAxisXLabels[iLabelCnt - 1] += ":";
-                asAxisXLabels[iLabelCnt - 1] += iMinutes.ToString("00");
+                int hours = (labelCnt * labelStepMinutes / 60);
+                int minutes = (labelCnt * labelStepMinutes) - 60 * hours;
+                _axisXLabels[labelCnt - 1] = hours.ToString();
+                _axisXLabels[labelCnt - 1] += ":";
+                _axisXLabels[labelCnt - 1] += minutes.ToString("00");
             }
-            dPixelsPerSecond = dAxisXLength / (iAxisXMaxValue);
-        }
 
-        //This event is called if the visibility of a series has changed
-        private void OnSeriesVisibilityChanged(object sender, EventArgs e)
-        {
-            vRescaleY();                                                                            //Rescale the y axis
-        }
-
-        //This function calculates the maximum Y-Axis value using the max value of all series
-        public void vRescaleY()
-        {
-            double dMaxSeriesValue = 0;                                                             //Maximum value of all series
-
-            //Find the max value
-            foreach (Class_Series series in LSeries)
+            for (int tickMarkXCnt = 1; tickMarkXCnt <= _numOfTickmarksX; tickMarkXCnt++)
             {
-                if (Visibility.Visible == series.canvas.Visibility && series.dMaxValue > dMaxSeriesValue)
+                Line tickMarkX = new Line();
+                tickMarkX.X1 = tickMarkX.X2 = _origin.X + tickMarkSpacingX * tickMarkXCnt;
+                tickMarkX.Y1 = tickMarkXPosY; tickMarkX.Y2 = tickMarkXPosY + _axisTickMarkLength;
+                tickMarkX.Stroke = _mainStrokeBrush;
+                tickMarkX.StrokeThickness = _tickMarkStrokeWidth;
+                _axisCanvas.Children.Add(tickMarkX);
+
+                //Grid
+                Line gridLineX = new Line();
+                gridLineX.X1 = gridLineX.X2 = tickMarkX.X1;                                         //Reuse the X-Position of the tickmark
+                if (_positiveValuesOnly)
                 {
-                    dMaxSeriesValue = series.dMaxValue;                                             //Set the new max value
+                    gridLineX.Y1 = _origin.Y;
+                    gridLineX.Y2 = _origin.Y - _axisYLength;
+
+                }
+                else
+                {
+                    gridLineX.Y1 = _origin.Y + _axisYLength / 2;
+                    gridLineX.Y2 = _origin.Y - _axisYLength / 2;
+                }
+                gridLineX.Stroke = _gridStrokeBrush;
+                gridLineX.StrokeThickness = _gridStrokeWidth;
+                _axisCanvas.Children.Add(gridLineX);
+
+                //Label
+                if (0 == (tickMarkXCnt % _moduloLabelsX))                                   //Check if a label should be placed
+                {
+                    TextBlock labelX = new TextBlock();
+                    labelX.FontSize = _fontSizeLabel;
+                    labelX.Foreground = _textBrush;
+                    labelX.Background = canvas.Background;
+                    labelX.Text = _axisXLabels[tickMarkXCnt / _moduloLabelsX - 1];
+                    labelX.TextAlignment = TextAlignment.Right;
+                    Canvas.SetTop(labelX, axisX.Y1 + _axisTickMarkLength + _marginLabels);
+                    Canvas.SetLeft(labelX, _origin.X + tickMarkSpacingX * tickMarkXCnt - LHStringFunctions.SZMeasureString(labelX).Width / 2);
+                    _axisCanvas.Children.Add(labelX);
                 }
             }
 
-            if (dMaxSeriesValue > 0)
-            {
-                double dMaxSeriesValueTemp = dMaxSeriesValue;
-                dAxisYZoomIncrementValue = dAxisYZoomDecrementValue = Math.Pow(10, Math.Floor(Math.Log10(dMaxSeriesValue)));    //Calculate the incremet values for zooming
-                iAxisYMaxValueFirstDigit = (1 + (int)(dMaxSeriesValue / dAxisYZoomIncrementValue));                                  //Save the first digit of the new max value
-                dAxisYMaxValue = dAxisYZoomIncrementValue * iAxisYMaxValueFirstDigit;                                                //Calculate the new max value
-                if (iAxisYMaxValueFirstDigit == 10)                                                                                  //Hanle calculation overflow and set the next decade as first digit and zoom factor
-                {
-                    iAxisYMaxValueFirstDigit = 1;
-                    dAxisYZoomIncrementValue *= 10;
-                }
-                vDrawAll();                                                                         //Redraw entire chart
-            }
         }
 
-        //This function resets the entire line chart
+        /// <summary>
+        /// This function finds the maximum X-Axis value using the max value of all series.
+        /// It will update the _axisXValueLimit if necessary.
+        /// </summary>
+        /// <returns>True if _axisXValueLimit was updated and the chart needs a redraw, false if not.</returns>
+        private bool RescaleX()
+        {
+            //Before rescaling we analyze all series for max timestamps
+            int maxTimestamp = _axisXValueLimit;
+            foreach (Class_Series series in _seriesList)
+            {
+                series.AnalyzeMaxValues();
+                if (series.MaxTimestamp > _axisXValueLimit)
+                {
+                    maxTimestamp = series.MaxTimestamp;
+                }
+            }
+            if (maxTimestamp == _axisXValueLimit)
+            {
+                //No rescale necessary
+                return false;
+            }
+
+            _axisXValueLimit = _IncrementStepX * ((maxTimestamp / _IncrementStepX) + 1);
+            return true;
+        }
+
+        /// <summary>
+        /// This function finds the maximum Y-Axis value using the max value of all series.
+        /// It will update the _axisYValueLimit if necessary.
+        /// </summary>
+        /// <param name="force">Set this parameter to true, in order to recalculate the _axisYValueLimit
+        /// regardless if there is a new maximum value in the series data</param>
+        /// <returns>True if _axisYValueLimit was updated and the chart needs a redraw, false if not.</returns>
+        private bool RescaleY(bool force = false)
+        {
+            //Before auto rescaling we analyze all series for max values
+            float maxValue = 0;
+            bool resizeNecessary = false;
+            _positiveValuesOnly = true;
+            foreach (Class_Series series in _seriesList)
+            {
+                if (!series.IsVisible())
+                {
+                    continue;
+                }
+                series.AnalyzeMaxValues();
+                if (series.MaxValue > maxValue)
+                {
+                    maxValue = series.MaxValue;
+                    resizeNecessary = true;
+                }
+                if (series.MinValue < 0)
+                {
+                    _positiveValuesOnly = false;
+                }
+                if (!_positiveValuesOnly && series.MinValue < 0 && Math.Abs(series.MinValue) > maxValue)
+                {
+                    maxValue = -series.MinValue;
+                    resizeNecessary = true;
+                }
+            }
+
+            if (maxValue == 0 || (!resizeNecessary && !force))
+            {
+                //No rescale necessary
+                return false;
+            }
+
+            //The zoom increment value is represented by the power of 10 in which the max values is
+            //The zoom decrement value has to be lowered if we enter the decade below when zooming in
+            //E.g. maxValue = 101 -> _axisYValueLimit = 200; _axisYZoomIncrementValue = 100; _axisYZoomDecrementValue = 100  
+            //E.g. maxValue = 99  -> _axisYValueLimit = 100; _axisYZoomIncrementValue = 100; _axisYZoomDecrementValue = 10
+            double decadeOfMaxYValue = Math.Pow(10, Math.Floor(Math.Log10(maxValue)));
+            _axisYValueLimit = (float)(Math.Floor(maxValue / decadeOfMaxYValue) * decadeOfMaxYValue + decadeOfMaxYValue);
+            CalculateZoomValues();
+            return true;
+        }
+
+        /// <summary>
+        /// This function resets the entire line chart by clearing its content.
+        /// </summary>
         public void vReset()
         {
-            bAutoScaleMode = true;
-            dAxisYZoomIncrementValue = 100;                                                         //Initial values for zooming
-            dAxisYZoomDecrementValue = 10;                                                          //Initial values for zooming
-            iAxisXMaxValue = 0;                                                                     //Initial values for the axes maximums
-            dAxisYMaxValue = 100;                                                                   //Initial values for the axes maximums
-            iAxisYMaxValueFirstDigit = 1;                                                           //First digit is 1 because iAxisYMaxValue = 100
-
-            for (int iSeriesCnt = 0; iSeriesCnt < LSeries.Count; iSeriesCnt++)
+            for (int iSeriesCnt = 0; iSeriesCnt < _seriesList.Count; iSeriesCnt++)
             {
-                LSeries[iSeriesCnt].vReset();                                                       //Reset the series
-                LSeries[iSeriesCnt].vSetColor((SolidColorBrush)RDTheme[$"Col_{iSeriesCnt}"]);       //Reset the color of the series
+                _seriesList[iSeriesCnt].ClearPoints();                                                   //Reset the series
             }
-            vIncrementMaxTime();
-            vDrawAxes();
+
+            YAutoScaleMode = true;
+            _axisYValueLimit = 10;
+            RescaleX();
+            RescaleY(force: true);
+            Redraw();
         }
 
-        //This function sets the color theme of the chart
-        public void vSetColorTheme(ResourceDictionary qRDTheme)
-        {
-            RDTheme = qRDTheme;
-            canvas.Background = (SolidColorBrush)RDTheme["Col_UC_LineChartBackground"];             //Background of the canvas
-            SCBGridStroke = (SolidColorBrush)RDTheme["Col_UC_LineChartGridStroke"];                 //Main stroke
-            SCBMainStroke = (SolidColorBrush)RDTheme["Col_UC_LineChartMainStroke"];                 //Main stroke
-            SCBText = (SolidColorBrush)RDTheme["Col_UC_LineChartText"];                             //TextColor
 
-            for (int iSeriesCnt = 0; iSeriesCnt < LSeries.Count; iSeriesCnt++)
+        /// <summary>
+        /// This function lets you switch the color theme of the chart
+        /// </summary>
+        /// <param name="theme">The resource dictionary containing the theme</param>
+        public void SetColorTheme(ResourceDictionary theme)
+        {
+            _theme = theme;
+            canvas.Background = (SolidColorBrush)_theme["Col_UC_LineChartBackground"];              //Background of the canvas
+            _gridStrokeBrush = (SolidColorBrush)_theme["Col_UC_LineChartGridStroke"];               //Main stroke
+            _mainStrokeBrush = (SolidColorBrush)_theme["Col_UC_LineChartMainStroke"];               //Main stroke
+            _textBrush = (SolidColorBrush)_theme["Col_UC_LineChartText"];                           //TextColor
+
+            for (int iSeriesCnt = 0; iSeriesCnt < _seriesList.Count; iSeriesCnt++)
             {
-                LSeries[iSeriesCnt].vSetColor((SolidColorBrush)RDTheme[$"Col_{iSeriesCnt}"]);       //Set the color of the series
+                _seriesList[iSeriesCnt].SetColor((SolidColorBrush)_theme[$"Col_{iSeriesCnt}"]);    //Set the color of the series
             }
-            vDrawAll();
+            Redraw();
         }
 
-        //This function calls the update mechanism of all series
-        public void vUpdateAllSeries()
+        public void SetLanguage(ResourceDictionary language)
         {
-            double dX, dY;
-            int iLastIndex, iMaxTimeValue;
-            foreach (Class_Series series in LSeries)
+            this.Resources.MergedDictionaries.Clear();
+            this.Resources.MergedDictionaries.Add(language);
+        }
+
+        /// <summary>
+        /// This function redraws the entire chart including frame and series.
+        /// </summary>
+        private void Redraw()
+        {
+            foreach (Class_Series series in _seriesList)
             {
-                iLastIndex = series.SLDataPoints.Count() - 1;
-                if (series.SLDataPoints.Count > 0)
-                {
-                    iMaxTimeValue = series.SLDataPoints.Keys[iLastIndex];                           //Maximum time value of the list
-                    if (iMaxTimeValue > iAxisXMaxValue)                                             //X-Axis needs to be resized -> redraw entire chart
-                    {
-                        while (iMaxTimeValue > iAxisXMaxValue)
-                        {
-                            vIncrementMaxTime();                                                    //Recalculate the maximum time of the X-Axis
-                        }
-                        vDrawAll();                                                                 //Redraw entire chart
-                        return;
-                    }
-                    else if (series.iSLReadIndex > series.SLDataPoints.Count)
-                    {
-                        vDrawAll();                                                                 //Redraw entire chart
-                        return;
-                    }
-                    else                                                                            //X-Axis needs no resize -> only add new points to the polyline and dont redraw
-                    {
-                        bool bRescaleY = false;
-                        int iTimeStamp;
-                        double dValue;
-                        while (iLastIndex >= series.iSLReadIndex)
-                        {
-                            iTimeStamp = series.SLDataPoints.Keys[series.iSLReadIndex];
-                            dValue = series.SLDataPoints.Values[series.iSLReadIndex];
-                            dX = dOriginX + iTimeStamp * dPixelsPerSecond;
-                            if (dX < (dOriginX + dAxisXLength))
-                            {
-                                if (dValue > dAxisYMaxValue)                                        //Value exceeds the Y-Axis positive bounds
-                                {
-                                    series.polyline.Points.Add(new Point(dX, dOriginY - dAxisYLength));
-                                }
-                                else if (dValue < 0)                                                //Value exceeds the Y-Axis negative bounds
-                                {
-                                    series.polyline.Points.Add(new Point(dX, dOriginY));
-                                }
-                                else                                                                //Maximum value is within the Y-Axis range
-                                {
-                                    dY = dOriginY - dValue * dPixelsPerValue;
-                                    series.polyline.Points.Add(new Point(dX, dY));
-                                }
-                            }
-                            //Check if the new value is the new biggest value
-                            if (true == double.IsFinite(dValue) && dValue > series.dMaxValue)
-                            {
-                                series.dMaxValue = dValue;
-                                if (series.dMaxValue > dAxisYMaxValue)
-                                {
-                                    bRescaleY = true;                                               //Indicator for rescaling after all points were added
-                                }
-                            }
-                            series.iSLReadIndex++;
-                        }
-                        if (true == bAutoScaleMode && true == bRescaleY)
-                        {
-                            vRescaleY();
-                        }
-                    }
-                }
+                series.ClearPoints();
+            }
+            _seriesCanvas.Visibility = Visibility.Visible;                                          //Series might be hidden from the resize event
+            DrawChartFrame();
+            UpdateSeries();
+        }
+
+        /// <summary>
+        /// Call this function to update the chart
+        /// Undrawn data will be drawn. Rescaling will be performed automatically.
+        /// </summary>
+        public void UpdateChart()
+        {
+            bool rescaled = RescaleX();
+            if (YAutoScaleMode)
+            {
+                rescaled |= RescaleY();
+            }
+            if (rescaled)
+            {
+                Redraw();
+                return;
+            }
+
+            UpdateSeries();
+        }
+
+        /// <summary>
+        /// This function will trigger the displayed series to draw all undrawn datapoints
+        /// </summary>
+        private void UpdateSeries()
+        {
+            double yLimitBottom = _positiveValuesOnly ? _origin.Y : _origin.Y + _axisYLength / 2;
+            double yLimitTop = _positiveValuesOnly ? _origin.Y - _axisYLength : _origin.Y - _axisYLength / 2;
+            foreach (Class_Series series in _seriesList)
+            {
+                series.DrawDatapoints(_origin, _pixelFactorX, _pixelFactorY, _origin.X, _origin.X + _axisXLength, yLimitBottom, yLimitTop);
             }
         }
 
@@ -607,41 +673,64 @@ namespace LHWpfControlLibrary.Source.UserControls
         * 
         **********************************************************************************************/
         //This class contains the data of a line series
-        public class Class_Series
+        public class Class_Series : IDisposable
         {
             //Constants
             //Objects
             public Canvas canvas;                                                                   //A canvas to draw the series to
-            public EventHandler EHVisibilityChanged;                                                //Event is triggered if the visibility of the series has changed
-            public Polyline polyline;                                                               //The line of the series
-            public SortedList<int, float> SLDataPoints;                                             //List contains all datapoints. Int is relative time in seconds
-            public SolidColorBrush SCBStroke;                                                       //Stroke of the series
+            public EventHandler VisibilityChangedHandler;                                           //Event is triggered if the visibility of the series has changed
+            private Polyline Polyline;                                                               //The line of the series
+            private SortedList<int, float> dataPoints;                                               //List contains all datapoints. Int is relative time in seconds
+            private SolidColorBrush SCBStroke;                                                       //Stroke of the series
             public UC_CheckBoxFilled uC_CheckBoxFilled;                                             //The checkbox for the series
             //Primitive
-            public double dMaxValue;                                                                //Maximum value of the series
-            public int iSLReadIndex;                                                                //The index of the next unread value from the SLDatapoints
+            public int dataReadIndex;                                                               //The index of the next unread value from the datapoints
             public String sSeriesName;                                                              //Name of the series. Is shown in the legend
+            public float MaxValue { get; private set; }
+            public float MinValue { get; private set; }
+            public int MaxTimestamp { get; private set; }
 
-            //Constructor
-            public Class_Series(String qsSeriesName, SortedList<int, float> qSLDataPoints)
+            /// <summary>
+            /// Constructor
+            /// </summary>
+            /// <param name="seriesName">Name of the series displayed in the legend</param>
+            public Class_Series(String seriesName)
             {
                 canvas = new Canvas();
-                sSeriesName = qsSeriesName;
-                SLDataPoints = qSLDataPoints;                                                       //Set the SDDataPoints of the series (SDDataPoints is an object -> passed by reference)
+                sSeriesName = seriesName;
+                dataPoints = new SortedList<int, float>();
                 //Initialize the checkbox
                 uC_CheckBoxFilled = new UC_CheckBoxFilled();
-                uC_CheckBoxFilled.Margin = new Thickness(I_MARGIN_CHECKBOX_HORIZONTAL, I_MARGIN_CHECKBOX_VERTICAL, I_MARGIN_CHECKBOX_HORIZONTAL, I_MARGIN_CHECKBOX_VERTICAL);
+                uC_CheckBoxFilled.Margin = new Thickness(_marginTextBoxHorizontal, _marginTextBoxVertical, _marginTextBoxHorizontal, _marginTextBoxVertical);
                 uC_CheckBoxFilled.Text = sSeriesName;
                 uC_CheckBoxFilled.bIsChecked = true;
-                uC_CheckBoxFilled.EHCheckedChanged += CBF_CheckedChanged;
-                uC_CheckBoxFilled.FontSize = D_FONSTIZE_CHECKBOX;
+                uC_CheckBoxFilled.EHCheckedChanged += CheckedChanged;
+                uC_CheckBoxFilled.FontSize = _fontSizeCheckbox;
 
-                vReset();
+                //Create a new polyline
+                Polyline = new Polyline();
+                Polyline.StrokeThickness = 2;
+                Polyline.StrokeLineJoin = PenLineJoin.Round;
+                canvas.Children.Add(Polyline);
+
+                ClearPoints();
             }
 
+            /// <summary>
+            /// Destructor
+            /// </summary>
+            public void Dispose()
+            {
+                VisibilityChangedHandler = null;
+            }
             //Events
-            //This event is triggered if the checkbox checked state has changed
-            private void CBF_CheckedChanged(object sender, EventArgs e)
+
+            /// <summary>
+            /// This event is triggered if the checkbox checked state has changed
+            /// </summary>
+            /// <param name="sender"></param>
+            /// <param name="e"></param>
+            private void CheckedChanged(object sender, EventArgs e)
             {
                 if (uC_CheckBoxFilled.bIsChecked)
                 {
@@ -651,29 +740,139 @@ namespace LHWpfControlLibrary.Source.UserControls
                 {
                     canvas.Visibility = Visibility.Hidden;
                 }
-                EHVisibilityChanged?.Invoke(null, EventArgs.Empty);                                 //Call the visibility changed event
+                VisibilityChangedHandler?.Invoke(null, EventArgs.Empty);                            //Call the visibility changed event
             }
 
             //Functions
-            //This function resets the series
-            public void vReset()
+
+            /// <summary>
+            /// Use this function to add a datapoint to the series
+            /// </summary>
+            /// <param name="x">The timestamp in seconds of the datapoint</param>
+            /// <param name="y">The value of the datapoint</param>
+            public void AddDataPoint(int x, float y)
             {
-                dMaxValue = 0;
-                iSLReadIndex = 0;
-                canvas.Children.Clear();
-                //Create a new polyline
-                polyline = new Polyline();
-                polyline.StrokeThickness = 2;
-                polyline.StrokeLineJoin = PenLineJoin.Round;
-                canvas.Children.Add(polyline);
+                if (dataPoints.ContainsKey(x))
+                {
+                    dataPoints[x] = y;
+                    return;
+                }
+
+                if (dataPoints.Count > 0 && x < dataPoints.Keys[dataPoints.Count - 1])
+                {
+                    //If a value was added whose timestamp is before the latest timestamp, we have to redraw the series.
+                    ClearPoints();
+                }
+                dataPoints.Add(x, y);
             }
-            //This function sets the color of the series
-            public void vSetColor(SolidColorBrush SCBColor)
+
+            /// <summary>
+            /// This function will analyze the data and update MaxTimestamp, MaxValue and MinValue
+            /// </summary>
+            public void AnalyzeMaxValues()
             {
-                SCBStroke = SCBColor.Clone();
+                if (dataPoints.Count == 0)
+                {
+                    return;
+                }
+
+                MaxTimestamp = dataPoints.Keys[dataPoints.Count - 1];
+
+                //We only analyze the values which are not drawn yet, in order to prevent searching through all data every time
+                for (int maxValueReadIndex = dataReadIndex; maxValueReadIndex < dataPoints.Count; maxValueReadIndex++)
+                {
+                    float value = dataPoints.Values[maxValueReadIndex];
+                    if (!double.IsFinite(value))
+                    {
+                        continue;
+                    }
+                    if (value > MaxValue)
+                    {
+                        MaxValue = value;
+                    }
+                    else if (value < MinValue)
+                    {
+                        MinValue = value;
+                    }
+                }
+            }
+
+
+            /// <summary>
+            /// 
+            /// </summary>
+            public void DrawDatapoints(Point origin,
+                                       double pixelFactorX,
+                                       double pixelFactorY,
+                                       double graphLeft,
+                                       double graphRight,
+                                       double graphBottom,
+                                       double graphTop)
+            {
+                if (dataReadIndex >= dataPoints.Count)
+                {
+                    //This should not happen
+                    //Possible case is that the data was exchanged externally
+                    ClearPoints();
+                }
+
+                if (dataPoints.Count < 2)
+                {
+                    //We don't draw the series unless there are at least two datapoints
+                    return;
+                }
+
+                while (dataReadIndex < dataPoints.Count)
+                {
+                    int timestamp = dataPoints.Keys[dataReadIndex];
+                    float value = dataPoints.Values[dataReadIndex];
+                    double xPos = origin.X + timestamp * pixelFactorX;
+                    double yPos = origin.Y - value * pixelFactorY;
+
+                    //We limit the values, in order not to exceed the current graph boundaries
+                    xPos = Math.Clamp(xPos, graphLeft, graphRight);
+                    yPos = Math.Clamp(yPos, graphTop, graphBottom);
+                    Polyline.Points.Add(new Point(xPos, yPos));
+
+                    AnalyzeMaxValues(); //A new value was added, so we check if it is a new maximum value.
+                    dataReadIndex++;
+                }
+            }
+
+            /// <summary>
+            /// The datapoints will be cleared from the polyline.
+            /// All status variables will be cleared.
+            /// </summary>
+            public void ClearPoints()
+            {
+                dataReadIndex = 0;
+                MaxTimestamp = 0;
+                MaxValue = 0;
+                MinValue = 0;
+                Polyline.Points.Clear();
+            }
+
+            /// <summary>
+            /// Query if the series is visible
+            /// </summary>
+            /// <returns>True if visible, false if not</returns>
+            public bool IsVisible()
+            {
+                return canvas.Visibility == Visibility.Visible;
+            }
+
+            /// <summary>
+            /// This function sets the color of the series
+            /// </summary>
+            /// <param name="color">The color to set</param>
+            public void SetColor(SolidColorBrush color)
+            {
+                SCBStroke = color.Clone();
                 uC_CheckBoxFilled.vSetCheckedColor(SCBStroke);
-                polyline.Stroke = SCBStroke;
+                Polyline.Stroke = SCBStroke;
             }
+
+
         }
 
     }
