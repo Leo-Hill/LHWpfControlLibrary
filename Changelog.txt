@@ -1,0 +1,2 @@
+﻿1.1
+- Überarbeitung des LineChart; Negative Werte und Werte mit Betrag kleiner 1 können nun angezeigt werden.

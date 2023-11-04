@@ -5,13 +5,13 @@
     * Colors of the chart series
     *
     ****************************************************************************************** -->
-    <SolidColorBrush x:Key="Col_0" Color="#FF179C7D" />
-    <SolidColorBrush x:Key="Col_1" Color="#FF2196F3" />
-    <SolidColorBrush x:Key="Col_2" Color="#FFFDD835" />
-    <SolidColorBrush x:Key="Col_3" Color="#FFFF3628" />
-    <SolidColorBrush x:Key="Col_4" Color="#FFE91EA8" />
-    <SolidColorBrush x:Key="Col_5" Color="#FFE91E63" />
-    <SolidColorBrush x:Key="Col_6" Color="#FF9C27B0" />
+    <SolidColorBrush x:Key="Col_UC_LineChart_Series_0" Color="#FF179C7D" />
+    <SolidColorBrush x:Key="Col_UC_LineChart_Series_1" Color="#FF2196F3" />
+    <SolidColorBrush x:Key="Col_UC_LineChart_Series_2" Color="#FFFDD835" />
+    <SolidColorBrush x:Key="Col_UC_LineChart_Series_3" Color="#FFFF3628" />
+    <SolidColorBrush x:Key="Col_UC_LineChart_Series_4" Color="#FFE91EA8" />
+    <SolidColorBrush x:Key="Col_UC_LineChart_Series_5" Color="#FFE91E63" />
+    <SolidColorBrush x:Key="Col_UC_LineChart_Series_6" Color="#FF9C27B0" />
     
     
 </ResourceDictionary>
