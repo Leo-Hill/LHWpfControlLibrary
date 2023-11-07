@@ -22,7 +22,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 
-namespace LHWpfControlLibrary.Source.UserControls {
+namespace LHWpfControlLibrary.Source.UserControls
+{
 
     /***********************************************************************************************
     * 
@@ -30,7 +31,8 @@ namespace LHWpfControlLibrary.Source.UserControls {
     * 
     **********************************************************************************************/
 
-    public partial class UC_LineChart : UserControl, INotifyPropertyChanged {
+    public partial class UC_LineChart : UserControl, INotifyPropertyChanged
+    {
         /***********************************************************************************************
         * 
         * Constants
@@ -115,9 +117,11 @@ namespace LHWpfControlLibrary.Source.UserControls {
         * Properties
         * 
         **********************************************************************************************/
-        public bool YAutoScaleMode {
+        public bool YAutoScaleMode
+        {
             get { return _yAutoScaleMode; }
-            set {
+            set
+            {
                 _yAutoScaleMode = value;
                 OnPropertyChanged(nameof(YAutoScaleMode));
             }
@@ -129,7 +133,8 @@ namespace LHWpfControlLibrary.Source.UserControls {
         * Constructor
         * 
         **********************************************************************************************/
-        public UC_LineChart() {
+        public UC_LineChart()
+        {
             InitializeComponent();
             this.DataContext = this;
 
@@ -163,7 +168,8 @@ namespace LHWpfControlLibrary.Source.UserControls {
         public event PropertyChangedEventHandler PropertyChanged;
 
         //This function calls the property changed event of a property
-        public void OnPropertyChanged(String propertyName) {
+        public void OnPropertyChanged(String propertyName)
+        {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
@@ -171,7 +177,8 @@ namespace LHWpfControlLibrary.Source.UserControls {
         /// <summary>
         /// This event is called if the canvas is resized
         /// </summary>
-        private void Canvas_SizeChanged(object sender, SizeChangedEventArgs e) {
+        private void Canvas_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
             _seriesCanvas.Visibility = Visibility.Hidden;
 
             _resizeTimer.Stop();
@@ -184,11 +191,15 @@ namespace LHWpfControlLibrary.Source.UserControls {
         /// <summary>
         /// This event is called if the mousewheel was moved
         /// </summary>
-        private void Control_MouseWheel(object sender, MouseWheelEventArgs e) {
-            if (e.Delta > 0) {
+        private void Control_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            if (e.Delta > 0)
+            {
                 YAutoScaleMode = false;
                 _axisYValueLimit -= _axisYZoomDecrementValue;
-            } else if (e.Delta < 0) {
+            }
+            else if (e.Delta < 0)
+            {
                 YAutoScaleMode = false;
                 _axisYValueLimit += _axisYZoomIncrementValue;
             }
@@ -199,7 +210,8 @@ namespace LHWpfControlLibrary.Source.UserControls {
         /// <summary>
         /// This event is called if the auto scale menu item was clicked
         /// </summary>
-        private void MIAutoScale_Click(object sender, RoutedEventArgs e) {
+        private void MIAutoScale_Click(object sender, RoutedEventArgs e)
+        {
             YAutoScaleMode = true;
             RescaleY();
             Redraw();
@@ -208,7 +220,8 @@ namespace LHWpfControlLibrary.Source.UserControls {
         /// <summary>
         /// This event is called if the resize timer elapsed successfully
         /// </summary>
-        private void TIMResize_Tick(object sender, EventArgs e) {
+        private void TIMResize_Tick(object sender, EventArgs e)
+        {
             _resizeTimer.Stop();
             Redraw();
         }
@@ -216,9 +229,11 @@ namespace LHWpfControlLibrary.Source.UserControls {
         /// <summary>
         /// This event will be called if the visibility of a series has changed.
         /// </summary>
-        private void OnSeriesVisibilityChanged(object sender, EventArgs e) {
+        private void OnSeriesVisibilityChanged(object sender, EventArgs e)
+        {
             RescaleX();
-            if (YAutoScaleMode) {
+            if (YAutoScaleMode)
+            {
                 RescaleY();
             }
             Redraw();
@@ -237,8 +252,10 @@ namespace LHWpfControlLibrary.Source.UserControls {
         /// <param name="seriesName">The displayed name of the series</param>
         /// <param name="seriesPosition">The position of the series. Series will be ordered by this number.
         /// If there is already a series placed at this position, it will be replaced.</param>
-        public Class_Series AddNewSeries(String seriesName, int seriesPosition) {
-            if (_seriesList.ContainsKey(seriesPosition)) {
+        public Class_Series AddNewSeries(String seriesName, int seriesPosition)
+        {
+            if (_seriesList.ContainsKey(seriesPosition))
+            {
                 //There is a series existing on the current position, so we remove it first
                 _seriesList.Remove(seriesPosition);
             }
@@ -253,7 +270,8 @@ namespace LHWpfControlLibrary.Source.UserControls {
             _seriesCanvas.Children.Clear();
             _legendPanel.Children.Clear();
 
-            foreach (KeyValuePair<int, Class_Series> series in _seriesList) {
+            foreach (KeyValuePair<int, Class_Series> series in _seriesList)
+            {
                 _seriesCanvas.Children.Add(series.Value._canvas);
                 _legendPanel.Children.Add(series.Value._visibilityCheckbox);
             }
@@ -264,7 +282,8 @@ namespace LHWpfControlLibrary.Source.UserControls {
         /// <summary>
         /// This function analyzes the _axisYValueLimit and performs the calculation of the zoom values.
         /// </summary>
-        void CalculateZoomValues() {
+        void CalculateZoomValues()
+        {
             float decadeOfYLimit = (float)Math.Pow(10, Math.Floor(Math.Log10(_axisYValueLimit)));
             _axisYZoomIncrementValue = decadeOfYLimit;
             _axisYZoomDecrementValue = _axisYZoomIncrementValue;
@@ -278,8 +297,10 @@ namespace LHWpfControlLibrary.Source.UserControls {
         /// This function clears all data points from the chart. The series will not be removed.
         /// Use this function if you want to restart plotting data while keeping the series being set.
         /// </summary>
-        public void Clear() {
-            foreach (Class_Series series in _seriesList.Values) {
+        public void Clear()
+        {
+            foreach (Class_Series series in _seriesList.Values)
+            {
                 series.ClearData();
             }
 
@@ -296,8 +317,10 @@ namespace LHWpfControlLibrary.Source.UserControls {
         /// If there is already a frame drawn, it will be removed.
         /// Consider calling the rescale functions before.
         /// </summary>
-        private void DrawChartFrame() {
-            if (canvas.ActualWidth == 0 || canvas.ActualHeight == 0) {
+        private void DrawChartFrame()
+        {
+            if (canvas.ActualWidth == 0 || canvas.ActualHeight == 0)
+            {
                 //This might happen if the application starts and resizes.
                 //We just return here since this is not a reasonable size
                 return;
@@ -323,11 +346,13 @@ namespace LHWpfControlLibrary.Source.UserControls {
             axisYLabel.Foreground = _textBrush;
 
             String axisYTickMarkTextFormat = "0.##";
-            if (_axisYZoomDecrementValue < 1) {
+            if (_axisYZoomDecrementValue < 1)
+            {
                 int iNumOfDecimals = -(int)Math.Floor(Math.Log10(_axisYZoomDecrementValue));
                 iNumOfDecimals = Math.Max(2, iNumOfDecimals);
                 axisYTickMarkTextFormat = "0.";
-                for (; iNumOfDecimals > 0; iNumOfDecimals--) {
+                for (; iNumOfDecimals > 0; iNumOfDecimals--)
+                {
                     axisYTickMarkTextFormat += "#";
                 }
             }
@@ -342,7 +367,8 @@ namespace LHWpfControlLibrary.Source.UserControls {
             _pixelFactorX = _axisXLength / _axisXValueLimit;                                                                                                            //Calculate pixels per second for setting the series points
             _pixelFactorY = _axisYLength / _axisYValueLimit;                                                                                                            //Calculate pixels per value for setting the series points
 
-            if (!_positiveValuesOnly) {
+            if (!_positiveValuesOnly)
+            {
                 _origin.Y -= _axisYLength / 2;
                 _pixelFactorY = _axisYLength / (2 * _axisYValueLimit);
             }
@@ -357,10 +383,13 @@ namespace LHWpfControlLibrary.Source.UserControls {
             //Y-Axis line
             Line axisY = new Line();
             axisY.X1 = axisY.X2 = _origin.X;                                                        //Set X-Positions of the Y-Axis
-            if (_positiveValuesOnly) {
+            if (_positiveValuesOnly)
+            {
                 axisY.Y1 = _origin.Y;
                 axisY.Y2 = _origin.Y - _axisYLength;
-            } else {
+            }
+            else
+            {
                 axisY.Y1 = _origin.Y + _axisYLength / 2;
                 axisY.Y2 = _origin.Y - _axisYLength / 2;
             }
@@ -373,11 +402,13 @@ namespace LHWpfControlLibrary.Source.UserControls {
             double tickMarkYPosX = _origin.X + _axisStrokeWidth;                                    //X-Position of the tickmarks
             double labelStep = (double)_axisYValueLimit / _numOfTickmarksY;                         //Tick mark label step value
 
-            if (!_positiveValuesOnly) {
+            if (!_positiveValuesOnly)
+            {
                 labelStep *= 2;                                                                     //Used to print the hole scale doubled (positive and negative)
             }
 
-            for (int tickMarkYCnt = 0; tickMarkYCnt < _numOfTickmarksY + 1; tickMarkYCnt++) {
+            for (int tickMarkYCnt = 0; tickMarkYCnt < _numOfTickmarksY + 1; tickMarkYCnt++)
+            {
                 //Line
                 double y_pos = tickMarkSpacingY * tickMarkYCnt + _marginDefault;
                 Line tickMarkY = new Line();
@@ -436,7 +467,8 @@ namespace LHWpfControlLibrary.Source.UserControls {
 
             int numOfLabels = _numOfTickmarksX / _moduloLabelsX;
             String[] _axisXLabels = new String[numOfLabels];                                        //Labels for the X-Axis
-            for (int labelCnt = 1; labelCnt <= numOfLabels; labelCnt++) {
+            for (int labelCnt = 1; labelCnt <= numOfLabels; labelCnt++)
+            {
                 int hours = (labelCnt * labelStepMinutes / 60);
                 int minutes = (labelCnt * labelStepMinutes) - 60 * hours;
                 _axisXLabels[labelCnt - 1] = hours.ToString();
@@ -444,7 +476,8 @@ namespace LHWpfControlLibrary.Source.UserControls {
                 _axisXLabels[labelCnt - 1] += minutes.ToString("00");
             }
 
-            for (int tickMarkXCnt = 1; tickMarkXCnt <= _numOfTickmarksX; tickMarkXCnt++) {
+            for (int tickMarkXCnt = 1; tickMarkXCnt <= _numOfTickmarksX; tickMarkXCnt++)
+            {
                 Line tickMarkX = new Line();
                 tickMarkX.X1 = tickMarkX.X2 = _origin.X + tickMarkSpacingX * tickMarkXCnt;
                 tickMarkX.Y1 = tickMarkXPosY; tickMarkX.Y2 = tickMarkXPosY + _axisTickMarkLength;
@@ -455,11 +488,14 @@ namespace LHWpfControlLibrary.Source.UserControls {
                 //Grid
                 Line gridLineX = new Line();
                 gridLineX.X1 = gridLineX.X2 = tickMarkX.X1;                                         //Reuse the X-Position of the tickmark
-                if (_positiveValuesOnly) {
+                if (_positiveValuesOnly)
+                {
                     gridLineX.Y1 = _origin.Y;
                     gridLineX.Y2 = _origin.Y - _axisYLength;
 
-                } else {
+                }
+                else
+                {
                     gridLineX.Y1 = _origin.Y + _axisYLength / 2;
                     gridLineX.Y2 = _origin.Y - _axisYLength / 2;
                 }
@@ -489,16 +525,20 @@ namespace LHWpfControlLibrary.Source.UserControls {
         /// It will update the _axisXValueLimit if necessary.
         /// </summary>
         /// <returns>True if _axisXValueLimit was updated and the chart needs a redraw, false if not.</returns>
-        private bool RescaleX() {
+        private bool RescaleX()
+        {
             //Before rescaling we analyze all series for max timestamps
             int maxTimestamp = 0;
-            foreach (Class_Series series in _seriesList.Values) {
-                if (series.MaxTimestamp > maxTimestamp) {
+            foreach (Class_Series series in _seriesList.Values)
+            {
+                if (series.MaxTimestamp > maxTimestamp)
+                {
                     maxTimestamp = series.MaxTimestamp;
                 }
             }
             int axisXValueLimitNew = _IncrementStepX * ((maxTimestamp / _IncrementStepX) + 1);
-            if (_axisXValueLimit == axisXValueLimitNew) {
+            if (_axisXValueLimit == axisXValueLimitNew)
+            {
                 //No rescale necessary
                 return false;
             }
@@ -511,31 +551,39 @@ namespace LHWpfControlLibrary.Source.UserControls {
         /// It will update the _axisYValueLimit if necessary.
         /// </summary>
         /// <returns>True if _axisYValueLimit was updated and the chart needs a redraw, false if not.</returns>
-        private bool RescaleY() {
+        private bool RescaleY()
+        {
             //Before auto rescaling we analyze all series for max values
             float maxValue = 0;
             float minValue = 0;
             bool positiveValuesOnlyNew = _positiveValuesOnly; //Used to detect if we have negative values now
-            foreach (Class_Series series in _seriesList.Values) {
-                if (!series.IsVisible()) {
+            foreach (Class_Series series in _seriesList.Values)
+            {
+                if (!series.IsVisible())
+                {
                     continue;
                 }
-                if (series.MaxValue > maxValue) {
+                if (series.MaxValue > maxValue)
+                {
                     maxValue = series.MaxValue;
                 }
-                if (series.MinValue < 0) {
+                if (series.MinValue < 0)
+                {
                     minValue = series.MinValue;
                     positiveValuesOnlyNew = false;
                 }
-                if (!positiveValuesOnlyNew && series.MinValue < 0 && Math.Abs(series.MinValue) > maxValue) {
+                if (!positiveValuesOnlyNew && series.MinValue < 0 && Math.Abs(series.MinValue) > maxValue)
+                {
                     maxValue = -series.MinValue;
                 }
             }
 
-            if (maxValue == 0) {
+            if (maxValue == 0)
+            {
                 maxValue = _yAxisLimitDefault;
             }
-            if (minValue >= 0) {
+            if (minValue >= 0)
+            {
                 positiveValuesOnlyNew = true;
             }
             //The zoom increment value is represented by the power of 10 in which the max values is
@@ -544,7 +592,8 @@ namespace LHWpfControlLibrary.Source.UserControls {
             //E.g. maxValue = 99  -> _axisYValueLimit = 100; _axisYZoomIncrementValue = 100; _axisYZoomDecrementValue = 10
             double decadeOfMaxYValue = Math.Pow(10, Math.Floor(Math.Log10(maxValue)));
             float axisYValueLimitNew = (float)(Math.Floor(maxValue / decadeOfMaxYValue) * decadeOfMaxYValue + decadeOfMaxYValue);
-            if (axisYValueLimitNew == _axisYValueLimit && positiveValuesOnlyNew == _positiveValuesOnly) {
+            if (axisYValueLimitNew == _axisYValueLimit && positiveValuesOnlyNew == _positiveValuesOnly)
+            {
                 return false;
             }
             _axisYValueLimit = axisYValueLimitNew;
@@ -556,8 +605,10 @@ namespace LHWpfControlLibrary.Source.UserControls {
         /// <summary>
         /// This function will redraw the entire chart.
         /// </summary>
-        private void Redraw() {
-            foreach (Class_Series series in _seriesList.Values) {
+        private void Redraw()
+        {
+            foreach (Class_Series series in _seriesList.Values)
+            {
                 series.TriggerRedraw();
             }
             DrawChartFrame();
@@ -568,7 +619,8 @@ namespace LHWpfControlLibrary.Source.UserControls {
         /// This function resets the chart by removing all series and draw the default grid.
         /// It will remove all data from the series.
         /// </summary>
-        public void Reset() {
+        public void Reset()
+        {
             Clear();
 
             //Remove all series
@@ -581,7 +633,8 @@ namespace LHWpfControlLibrary.Source.UserControls {
         /// This function lets you switch the color theme of the chart
         /// </summary>
         /// <param name="theme">The resource dictionary containing the theme</param>
-        public void SetColorTheme(ResourceDictionary theme) {
+        public void SetColorTheme(ResourceDictionary theme)
+        {
             canvas.Background = (SolidColorBrush)theme["Col_UC_LineChartBackground"];
             _gridStrokeBrush = (SolidColorBrush)theme["Col_UC_LineChartGridStroke"];
             _mainStrokeBrush = (SolidColorBrush)theme["Col_UC_LineChartMainStroke"];
@@ -589,12 +642,14 @@ namespace LHWpfControlLibrary.Source.UserControls {
 
             _seriesColors = new SortedList<int, SolidColorBrush>();
             int seriesColorCnt = 0;
-            while (theme.Contains($"Col_UC_LineChart_Series_{seriesColorCnt}")) {
+            while (theme.Contains($"Col_UC_LineChart_Series_{seriesColorCnt}"))
+            {
                 SolidColorBrush brush = (SolidColorBrush)theme[$"Col_UC_LineChart_Series_{seriesColorCnt}"];
                 _seriesColors.Add(seriesColorCnt, brush);
                 seriesColorCnt++;
             }
-            foreach (KeyValuePair<int, Class_Series> series in _seriesList) {
+            foreach (KeyValuePair<int, Class_Series> series in _seriesList)
+            {
                 SetSeriesColor(series.Key);
             }
 
@@ -606,13 +661,17 @@ namespace LHWpfControlLibrary.Source.UserControls {
         /// </summary>
         /// <param name="language">The resource dictionary containing the translations for this control</param>
         /// <exception cref="Exception">Throws an exception if not all necessary translations are provided in the dictionary</exception>
-        public void SetLanguage(ResourceDictionary language) {
-            foreach (object item in contextMenu.Items) {
-                if (!(item is MenuItem)) {
+        public void SetLanguage(ResourceDictionary language)
+        {
+            foreach (object item in contextMenu.Items)
+            {
+                if (!(item is MenuItem))
+                {
                     continue;
                 }
                 String resourceKey = LHMiscFunctions.GetDynamicResourceKey((MenuItem)item, MenuItem.HeaderProperty);
-                if (!language.Contains(resourceKey)) {
+                if (!language.Contains(resourceKey))
+                {
                     throw new Exception("Translation missing for \"" + resourceKey + "\"");
                 }
             }
@@ -626,14 +685,19 @@ namespace LHWpfControlLibrary.Source.UserControls {
         /// It ensures a valid color is set, even if the theme does not provide enough colors.
         /// </summary>
         /// <param name="seriesPosition"></param>
-        private void SetSeriesColor(int seriesPosition) {
-            if (_seriesColors.Count == 0) {
+        private void SetSeriesColor(int seriesPosition)
+        {
+            if (_seriesColors.Count == 0)
+            {
                 throw new Exception("Pleas provide series colors using \"SetColorTheme()\"");
             }
 
-            if (_seriesColors.ContainsKey(seriesPosition)) {
+            if (_seriesColors.ContainsKey(seriesPosition))
+            {
                 _seriesList[seriesPosition].SetColor(_seriesColors[seriesPosition]);
-            } else {
+            }
+            else
+            {
                 _seriesList[seriesPosition].SetColor(_seriesColors.Values[_seriesColors.Count - 1]);
             }
         }
@@ -642,12 +706,15 @@ namespace LHWpfControlLibrary.Source.UserControls {
         /// Call this function to update the chart
         /// Undrawn data will be drawn. Rescaling will be performed automatically.
         /// </summary>
-        public void Update() {
+        public void Update()
+        {
             bool rescaled = RescaleX();
-            if (YAutoScaleMode) {
+            if (YAutoScaleMode)
+            {
                 rescaled |= RescaleY();
             }
-            if (rescaled) {
+            if (rescaled)
+            {
                 Redraw();
                 return;
             }
@@ -658,12 +725,14 @@ namespace LHWpfControlLibrary.Source.UserControls {
         /// <summary>
         /// This function will trigger the displayed series to draw all undrawn datapoints
         /// </summary>
-        private void UpdateSeries() {
+        private void UpdateSeries()
+        {
             _seriesCanvas.Visibility = Visibility.Visible;                                          //Series might be hidden from the resize event
 
             double yLimitBottom = _positiveValuesOnly ? _origin.Y : _origin.Y + _axisYLength / 2;
             double yLimitTop = _positiveValuesOnly ? _origin.Y - _axisYLength : _origin.Y - _axisYLength / 2;
-            foreach (Class_Series series in _seriesList.Values) {
+            foreach (Class_Series series in _seriesList.Values)
+            {
                 series.DrawDatapoints(_origin, _pixelFactorX, _pixelFactorY, _origin.X, _origin.X + _axisXLength, yLimitBottom, yLimitTop);
             }
         }
@@ -674,7 +743,8 @@ namespace LHWpfControlLibrary.Source.UserControls {
         * 
         **********************************************************************************************/
         //This class contains the data of a line series
-        public class Class_Series : IDisposable {
+        public class Class_Series : IDisposable
+        {
             //Constants
             //We limit the number of data points in order to improve performance.
             //Once the limit is exceeded, the data will be compressed.
@@ -701,7 +771,8 @@ namespace LHWpfControlLibrary.Source.UserControls {
             /// Constructor
             /// </summary>
             /// <param name="seriesName">Name of the series displayed in the legend</param>
-            public Class_Series(String seriesName) {
+            public Class_Series(String seriesName)
+            {
                 _canvas = new Canvas();
                 SeriesName = seriesName;
                 dataPoints = new SortedList<int, float>();
@@ -727,7 +798,8 @@ namespace LHWpfControlLibrary.Source.UserControls {
             /// <summary>
             /// Destructor
             /// </summary>
-            public void Dispose() {
+            public void Dispose()
+            {
                 VisibilityChangedHandler = null;
             }
             //Events
@@ -737,10 +809,14 @@ namespace LHWpfControlLibrary.Source.UserControls {
             /// </summary>
             /// <param name="sender"></param>
             /// <param name="e"></param>
-            private void CheckedChanged(object sender, EventArgs e) {
-                if (_visibilityCheckbox.bIsChecked) {
+            private void CheckedChanged(object sender, EventArgs e)
+            {
+                if (_visibilityCheckbox.bIsChecked)
+                {
                     _canvas.Visibility = Visibility.Visible;
-                } else {
+                }
+                else
+                {
                     _canvas.Visibility = Visibility.Hidden;
                 }
                 VisibilityChangedHandler?.Invoke(null, EventArgs.Empty);                            //Call the visibility changed event
@@ -753,14 +829,20 @@ namespace LHWpfControlLibrary.Source.UserControls {
             /// </summary>
             /// <param name="x">The timestamp in seconds of the datapoint</param>
             /// <param name="y">The value of the datapoint</param>
-            public void AddDataPoint(int x, float y) {
-                if (!float.IsFinite(y)) {
+            public void AddDataPoint(int x, float y)
+            {
+                if (!float.IsFinite(y))
+                {
                     return;
                 }
-                if (dataPoints.ContainsKey(x)) {
+                if (dataPoints.ContainsKey(x))
+                {
                     dataPoints[x] = y;
-                } else {
-                    if (dataPoints.Count > 0 && x < dataPoints.Keys[dataPoints.Count - 1]) {
+                }
+                else
+                {
+                    if (dataPoints.Count > 0 && x < dataPoints.Keys[dataPoints.Count - 1])
+                    {
                         //If a value was added whose timestamp is before the latest timestamp, we have to redraw the series.
                         TriggerRedraw();
                     }
@@ -770,17 +852,23 @@ namespace LHWpfControlLibrary.Source.UserControls {
                 //Check if there are new max values
                 MaxTimestamp = dataPoints.Keys[dataPoints.Count - 1];
 
-                if (y > MaxValue) {
+                if (y > MaxValue)
+                {
                     MaxValue = y;
-                } else if (y < MinValue) {
+                }
+                else if (y < MinValue)
+                {
                     MinValue = y;
                 }
 
                 //Check if we exceeded the limit and have to compress the data
-                if (dataPoints.Count > _maxNumOfDataPoints) {
+                if (dataPoints.Count > _maxNumOfDataPoints)
+                {
                     //Remove every second data point
-                    for (int dataPointCnt = 1; dataPointCnt < dataPoints.Count; dataPointCnt++) {
-                        if (dataPoints.Values[dataPointCnt] == MaxValue || dataPoints.Values[dataPointCnt] == MinValue) {
+                    for (int dataPointCnt = 1; dataPointCnt < dataPoints.Count; dataPointCnt++)
+                    {
+                        if (dataPoints.Values[dataPointCnt] == MaxValue || dataPoints.Values[dataPointCnt] == MinValue)
+                        {
                             //Skip max and min values
                             dataPointCnt++;
                             continue;
@@ -799,19 +887,23 @@ namespace LHWpfControlLibrary.Source.UserControls {
                                        double graphLeft,
                                        double graphRight,
                                        double graphBottom,
-                                       double graphTop) {
-                if (dataReadIndex > dataPoints.Count) {
+                                       double graphTop)
+            {
+                if (dataReadIndex > dataPoints.Count)
+                {
                     //This should not happen
                     //Possible case is that the data was exchanged externally
                     TriggerRedraw();
                 }
 
-                if (dataPoints.Count < 2) {
+                if (dataPoints.Count < 2)
+                {
                     //We don't draw the series unless there are at least two datapoints
                     return;
                 }
 
-                while (dataReadIndex < dataPoints.Count) {
+                while (dataReadIndex < dataPoints.Count)
+                {
                     int timestamp = dataPoints.Keys[dataReadIndex];
                     float value = dataPoints.Values[dataReadIndex];
                     double xPos = origin.X + timestamp * pixelFactorX;
@@ -831,7 +923,8 @@ namespace LHWpfControlLibrary.Source.UserControls {
             /// Datapoints will not be removed, but the readIndex will be reset, indicating that
             /// the polyline has to be redrawn.
             /// </summary>
-            public void TriggerRedraw() {
+            public void TriggerRedraw()
+            {
                 dataReadIndex = 0;
                 _polyline.Points.Clear();
             }
@@ -840,7 +933,8 @@ namespace LHWpfControlLibrary.Source.UserControls {
             /// Query if the series is visible
             /// </summary>
             /// <returns>True if visible, false if not</returns>
-            public bool IsVisible() {
+            public bool IsVisible()
+            {
                 return _canvas.Visibility == Visibility.Visible;
             }
 
@@ -848,7 +942,8 @@ namespace LHWpfControlLibrary.Source.UserControls {
             /// This function can be used to clear all datapoints from the series.
             /// It can be used if data plotting should be restarted and the series should be reused 
             /// </summary>
-            public void ClearData() {
+            public void ClearData()
+            {
                 TriggerRedraw();
                 MaxTimestamp = 0;
                 MaxValue = 0;
@@ -860,7 +955,8 @@ namespace LHWpfControlLibrary.Source.UserControls {
             /// This function sets the color of the series
             /// </summary>
             /// <param name="color">The color to set</param>
-            public void SetColor(SolidColorBrush color) {
+            public void SetColor(SolidColorBrush color)
+            {
                 _lineColor = color.Clone();
                 _visibilityCheckbox.vSetCheckedColor(_lineColor);
                 _polyline.Stroke = _lineColor;
