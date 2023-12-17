@@ -333,13 +333,13 @@ namespace LHWpfControlLibrary.Source.UserControls
             axisYTitle.FontSize = _fontSizeAxisTitle;
             axisYTitle.Foreground = _textBrush;
             axisYTitle.Text = AxisYTitle;
-            Size axisYTitleSize = LHStringFunctions.SZMeasureString(axisYTitle);                    //Measure the size of the Y-Axis tile textbox
+            Size axisYTitleSize = LHStringFunctions.MeasureString(axisYTitle);                    //Measure the size of the Y-Axis tile textbox
 
             TextBlock axisXTitle = new TextBlock();                                                 //TextBlock for X-Axis
             axisXTitle.FontSize = _fontSizeAxisTitle;
             axisXTitle.Foreground = _textBrush;
             axisXTitle.Text = AxisXTitle;
-            Size axisXTitleSize = LHStringFunctions.SZMeasureString(axisXTitle);                    //Measure the size of the X-Axis tile textbox
+            Size axisXTitleSize = LHStringFunctions.MeasureString(axisXTitle);                    //Measure the size of the X-Axis tile textbox
 
             TextBlock axisYLabel = new TextBlock();                                                 //Biggest tickmark of the Y-Axis
             axisYLabel.FontSize = _fontSizeLabel;
@@ -357,7 +357,7 @@ namespace LHWpfControlLibrary.Source.UserControls
                 }
             }
             axisYLabel.Text = _axisYValueLimit.ToString(axisYTickMarkTextFormat);
-            Size axisXLabelSize = LHStringFunctions.SZMeasureString(axisYLabel);
+            Size axisXLabelSize = LHStringFunctions.MeasureString(axisYLabel);
 
             //Calculate the origin of the chart
             _origin.Y = canvas.ActualHeight - _marginDefault - axisXTitleSize.Height - _marginDefault - axisXLabelSize.Height - _marginLabels - _axisTickMarkLength;    //OriginY is constraint by the bottom
@@ -513,7 +513,7 @@ namespace LHWpfControlLibrary.Source.UserControls
                     labelX.Text = _axisXLabels[tickMarkXCnt / _moduloLabelsX - 1];
                     labelX.TextAlignment = TextAlignment.Right;
                     Canvas.SetTop(labelX, axisX.Y1 + _axisTickMarkLength + _marginLabels);
-                    Canvas.SetLeft(labelX, _origin.X + tickMarkSpacingX * tickMarkXCnt - LHStringFunctions.SZMeasureString(labelX).Width / 2);
+                    Canvas.SetLeft(labelX, _origin.X + tickMarkSpacingX * tickMarkXCnt - LHStringFunctions.MeasureString(labelX).Width / 2);
                     _axisCanvas.Children.Add(labelX);
                 }
             }
