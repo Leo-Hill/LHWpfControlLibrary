@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup />
+  <ItemGroup>
+    <ApplicationDefinition Update="App.xaml">
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Windows\Window_Controls.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Windows\Window_Excel.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Resources\Dictionaries\Themes\ThemeDark.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Resources\Dictionaries\Themes\ThemeLight.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\Window_Controls.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\Window_Excel.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\Window_LineChart.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\Window_Main.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+</Project>

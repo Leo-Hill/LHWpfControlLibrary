@@ -2,23 +2,10 @@ using LHCommonFunctions.Source;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
-using System.Globalization;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Markup;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 
@@ -635,6 +622,23 @@ namespace LHWpfControlLibrary.Source.UserControls
         /// <param name="theme">The resource dictionary containing the theme</param>
         public void SetColorTheme(ResourceDictionary theme)
         {
+
+            List<String> requiredColorKeys = new List<String> {
+            "Col_UC_LineChartBackground",
+            "Col_UC_LineChartGridStroke",
+            "Col_UC_LineChartMainStroke",
+            "Col_UC_LineChartMainStroke",
+            "Col_UC_LineChartText"
+            };
+
+            foreach (String key in requiredColorKeys)
+            {
+                if (!theme.Contains(key))
+                {
+                    throw new Exception("Color \" " + key + " \" not provided in theme.");
+                }
+            }
+
             canvas.Background = (SolidColorBrush)theme["Col_UC_LineChartBackground"];
             _gridStrokeBrush = (SolidColorBrush)theme["Col_UC_LineChartGridStroke"];
             _mainStrokeBrush = (SolidColorBrush)theme["Col_UC_LineChartMainStroke"];
@@ -692,14 +696,11 @@ namespace LHWpfControlLibrary.Source.UserControls
                 throw new Exception("Pleas provide series colors using \"SetColorTheme()\"");
             }
 
-            if (_seriesColors.ContainsKey(seriesPosition))
+            if (!_seriesColors.ContainsKey(seriesPosition))
             {
-                _seriesList[seriesPosition].SetColor(_seriesColors[seriesPosition]);
+                throw new Exception("Color \"Col_UC_LineChart_Series_" + seriesPosition + " \" not provided in theme.");
             }
-            else
-            {
-                _seriesList[seriesPosition].SetColor(_seriesColors.Values[_seriesColors.Count - 1]);
-            }
+            _seriesList[seriesPosition].SetColor(_seriesColors[seriesPosition]);
         }
 
         /// <summary>

@@ -1,0 +1,17 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
+
+    <!--
+    *   Ae &#xC4;
+    *   ae &#xE4;
+    *   ue &#xFC;
+    *   Ue &#xDC;
+    *   oe &#xF6;
+    *   sz &#xDF;
+    *   \n &#x0A;
+    -->
+
+    <system:String x:Key="Str_Series">Datenreihe</system:String>
+    <system:String x:Key="Str_ScaleY">Y-Achse skalieren</system:String>
+    <system:String x:Key="Str_AutoScaleYEnabled">Y-Achse automatisch skalieren</system:String>
+
+</ResourceDictionary>

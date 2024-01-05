@@ -112,8 +112,6 @@ namespace LHWpfControlLibrary.Source.UserControls
             TextBoxBindingSeconds.ConverterParameter = "SS";
 
             vSetTextBoxBindings();
-
-
         }
 
 
@@ -151,6 +149,7 @@ namespace LHWpfControlLibrary.Source.UserControls
             {
                 ActDateTime = ActDateTime.Add(new TimeSpan(0, 0, 1));
             }
+            vRemoveDateFromTime();
             TBLastSelected.SelectAll();                                                             //Select entire text of the textbox
         }
 
@@ -177,6 +176,7 @@ namespace LHWpfControlLibrary.Source.UserControls
             {
 
             }
+            vRemoveDateFromTime();
             TBLastSelected.SelectAll();                                                             //Select entire text of the textbox
         }
 
@@ -282,6 +282,8 @@ namespace LHWpfControlLibrary.Source.UserControls
             {
                 MaxDateTime = MaxDateTime.AddSeconds((int)GetValue(DPiMaxTime));
             }
+
+            vRemoveDateFromTime();
         }
 
         /***********************************************************************************************
@@ -289,7 +291,7 @@ namespace LHWpfControlLibrary.Source.UserControls
         * Functions
         * 
         **********************************************************************************************/
-        //This function sets the datetie accroding to the textboxes
+        //This function sets the date-time according to the text-boxes
         private void vDateTimeFromTextBoxes()
         {
             DateTime dateTime = new DateTime();
@@ -354,6 +356,23 @@ namespace LHWpfControlLibrary.Source.UserControls
                 throw new NotImplementedException();
             }
 
+        }
+
+        //This function is used to ensure the date is always 01.01.0001
+        void vRemoveDateFromTime()
+        {
+            if (ActDateTime.Year > 1)
+            {
+                ActDateTime = ActDateTime.AddYears(1-ActDateTime.Year);
+            }
+            if (ActDateTime.Month > 1)
+            {
+                ActDateTime = ActDateTime.AddMonths(1-ActDateTime.Month);
+            }
+            if (ActDateTime.Day > 1)
+            {
+                ActDateTime = ActDateTime.AddDays(1-ActDateTime.Day);
+            }
         }
 
     }

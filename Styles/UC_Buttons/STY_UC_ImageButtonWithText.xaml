@@ -56,6 +56,6 @@
             </Style>
         </Style.Resources>
         <Setter Property="Foreground" Value="{DynamicResource Col_ButtonForeground}" />
-
+        <Setter Property="BorderThickness" Value="4" />
     </Style>
 </ResourceDictionary>

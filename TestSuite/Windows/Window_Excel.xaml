@@ -1,0 +1,35 @@
+﻿<Window x:Class="TestSuite.Windows.Window_Excel" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:TestSuite.Windows" mc:Ignorable="d" xmlns:usercontrols="clr-namespace:LHWpfControlLibrary.Source.UserControls;assembly=LHWpfControlLibrary" Title="Exel Test" Style="{DynamicResource {x:Type Window}}" Height="450" Width="200" WindowStartupLocation="CenterScreen">
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Top">
+            <usercontrols:UC_TitleBar Title="{Binding Path=Title, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" />
+        </StackPanel>
+        <Grid DockPanel.Dock="Bottom">
+            <StackPanel HorizontalAlignment="Center">
+                <StackPanel Margin="10">
+                    <Label Content="NumOfSeries" />
+                    <usercontrols:UC_NumericUpDown x:Name="NUD_NumOfSeries" dCurrentNumber="2" Width="100" dIncrement="1" iMinValue="0" iMaxValue="20" />
+                </StackPanel>
+
+                <StackPanel Margin="10">
+                    <Label Content="MinValue" />
+                    <usercontrols:UC_NumericUpDown x:Name="NUD_MinValue" dCurrentNumber="-1" Width="100" iNumOfDecimals="5" dIncrement="1" iMinValue="-100000" iMaxValue="1000000" />
+                </StackPanel>
+                <StackPanel Margin="10">
+                    <Label Content="MaxValue" />
+                    <usercontrols:UC_NumericUpDown x:Name="NUD_MaxValue" dCurrentNumber="1" Width="100" iNumOfDecimals="5" dIncrement="1" iMinValue="-100000" iMaxValue="1000000" />
+                </StackPanel>
+                <StackPanel Margin="10">
+                    <Label Content="Time start" />
+                    <usercontrols:UC_TimeSetter x:Name="TimeSetter_Start" ActDateTime="2024-01-01T09:00:00" />
+                </StackPanel>
+                <StackPanel Margin="10">
+                    <Label Content="Time end" />
+                    <usercontrols:UC_TimeSetter x:Name="TimeSetter_End" ActDateTime="2024-01-01T11:00:00"/>
+                </StackPanel>
+                <StackPanel Margin="10">
+                    <Button Content="Create Excel chart" Width="150" Click="Generate_Click" />
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+    </DockPanel>
+</Window>

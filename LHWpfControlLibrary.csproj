@@ -7,6 +7,13 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <Compile Remove="TestSuite\**" />
+      <EmbeddedResource Remove="TestSuite\**" />
+      <None Remove="TestSuite\**" />
+      <Page Remove="TestSuite\**" />
+    </ItemGroup>
+
+    <ItemGroup>
         <None Remove="Icons\Own\PngSource\Enabled\Excel.png" />
     </ItemGroup>
 

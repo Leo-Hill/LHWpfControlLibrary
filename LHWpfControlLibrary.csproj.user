@@ -42,5 +42,11 @@
     <Page Update="Styles\UC_ImageViewer\STY_UC_ImageViewer.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Themes\ThemeDark.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Themes\ThemeLight.xaml">
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
 </Project>

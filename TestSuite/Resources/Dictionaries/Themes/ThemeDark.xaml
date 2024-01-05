@@ -1,0 +1,326 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib" xmlns:local="clr-namespace:CommentFormatter.Resources.Dictonaries">
+
+    <!-- ******************************************************************************************
+    *
+    * Application specific resources
+    *
+    ****************************************************************************************** -->
+    <BitmapImage x:Key="BMP_Icon" UriSource="/Resources/Images/Icons/IconNight.ico" />
+    <BitmapImage x:Key="BMP_IconAbout" UriSource="/Resources/Images/IconNight.png" />
+
+    <BitmapImage x:Key="BMP_DeviceNodeConnection" UriSource="/Resources/Images/Help/DeviceNodeConnection/Night.png" />
+    <BitmapImage x:Key="BMP_NetworkSymbol" UriSource="/Resources/Images/Help/NetworkSymbol/Night.png" />
+
+    <!-- ******************************************************************************************
+    *
+    * Resources for LHWpfControlLibrary
+    *
+    ****************************************************************************************** -->
+    <SolidColorBrush x:Key="Col_Background" Color="#FF2D2D30" />
+    <SolidColorBrush x:Key="Col_BackgroundLight" Color="#FF555555" />
+    <SolidColorBrush x:Key="Col_BackgroundHighlight" Color="#FF1E1E1E" />
+    <SolidColorBrush x:Key="Col_Error" Color="#970F43" />
+    <SolidColorBrush x:Key="Col_Medium" Color="#eb6a0a" />
+    <SolidColorBrush x:Key="Col_Primary" Color="#FF179C7D" />
+    <SolidColorBrush x:Key="Col_PrimaryDark" Color="#FF0D7E63" />
+    <SolidColorBrush x:Key="Col_PrimaryLight" Color="#FF34BD9D" />
+    <SolidColorBrush x:Key="Col_Secondary" Color="#FF9DBB61" />
+    <SolidColorBrush x:Key="Col_Success" Color="{Binding Color,Source={StaticResource Col_Primary}}" />
+    <SolidColorBrush x:Key="Col_Text" Color="#EEEEEE" />
+    <SolidColorBrush x:Key="Col_TextLight" Color="#AAAAAA" />
+
+    <!-- Control specific colors -->
+    <!-- Button -->
+    <SolidColorBrush x:Key="Col_ButtonBackground" Color="{Binding Color,Source={StaticResource Col_PrimaryDark}}" />
+    <SolidColorBrush x:Key="Col_ButtonBorder" Color="{Binding Color,Source={StaticResource Col_PrimaryDark}}" />
+    <SolidColorBrush x:Key="Col_ButtonForeground" Color="White" />
+    <SolidColorBrush x:Key="Col_ButtonBackgroundMouseOver" Color="{Binding Color,Source={StaticResource Col_Primary}}" />
+    <SolidColorBrush x:Key="Col_ButtonBorderMouseOver" Color="{Binding Color,Source={StaticResource Col_Primary}}" />
+    <SolidColorBrush x:Key="Col_ButtonBackgroundPressed" Color="{Binding Color,Source={StaticResource Col_Primary}}" />
+    <SolidColorBrush x:Key="Col_ButtonBorderPressed" Color="Transparent" />
+
+    <!-- Button Warning -->
+    <SolidColorBrush x:Key="Col_ButtonWarningBackground" Color="#970F43" />
+    <SolidColorBrush x:Key="Col_ButtonWarningBorder" Color="#970F43" />
+    <SolidColorBrush x:Key="Col_ButtonWarningForeground" Color="White" />
+    <SolidColorBrush x:Key="Col_ButtonWarningBackgroundMouseOver" Color="#FFDE1A65" />
+    <SolidColorBrush x:Key="Col_ButtonWarningBorderMouseOver" Color="#FFDE1A65" />
+    <SolidColorBrush x:Key="Col_ButtonWarningBackgroundPressed" Color="#FFDE1A65" />
+    <SolidColorBrush x:Key="Col_ButtonWarningBorderPressed" Color="Transparent" />
+
+    <!-- Calendar -->
+    <LinearGradientBrush x:Key="Col_CalendarBackground" EndPoint="0.5,1" StartPoint="0.5,0">
+        <!--The first two gradient stops specifies the background for the calendar's heading and navigation buttons.-->
+        <GradientStop Color="{Binding Color,Source={StaticResource Col_PrimaryDark}}" Offset="0" />
+        <GradientStop Color="{Binding Color,Source={StaticResource Col_PrimaryDark}}" Offset="0.16" />
+        <!--The next gradient stop specifies the background for the calendar area.-->
+        <GradientStop Color="{Binding Color,Source={StaticResource Col_BackgroundHighlight}}" Offset="0.16" />
+    </LinearGradientBrush>
+    <SolidColorBrush x:Key="Col_CalendarBorder" Color="{Binding Color,Source={StaticResource Col_PrimaryDark}}" />
+    <SolidColorBrush x:Key="Col_CalendarDayButtonMouseOverBackground" Color="{Binding Color,Source={StaticResource Col_PrimaryLight}}" />
+    <SolidColorBrush x:Key="Col_CalendarDayButtonMouseOverBorder" Color="{Binding Color,Source={StaticResource Col_Background}}" />
+    <SolidColorBrush x:Key="Col_CalendarDayButtonNegativeText" Color="{Binding Color,Source={StaticResource Col_BackgroundHighlight}}" />
+    <SolidColorBrush x:Key="Col_CalendarDayButtonSelectedBackground" Color="{Binding Color,Source={StaticResource Col_Primary}}" />
+    <SolidColorBrush x:Key="Col_CalendarDayButtonSelectedBorder" Color="{Binding Color,Source={StaticResource Col_PrimaryLight}}" />
+    <SolidColorBrush x:Key="Col_CalendarDayButtonText" Color="{Binding Color,Source={StaticResource Col_Text}}" />
+    <SolidColorBrush x:Key="Col_CalendarDayButtonTodayBorder" Color="{Binding Color,Source={StaticResource Col_TextLight}}" />
+    <SolidColorBrush x:Key="Col_CalendarDayButtonTodayBackground" Color="{Binding Color,Source={StaticResource Col_BackgroundHighlight}}" />
+
+    <!-- CheckBox -->
+    <SolidColorBrush x:Key="Col_CheckboxBackground" Color="{Binding Color,Source={StaticResource Col_BackgroundHighlight}}" />
+    <SolidColorBrush x:Key="Col_CheckboxBackgroundChecked" Color="{Binding Color,Source={StaticResource Col_PrimaryDark}}" />
+    <SolidColorBrush x:Key="Col_CheckboxBackgroundDisabled" Color="{Binding Color,Source={StaticResource Col_Background}}" />
+    <SolidColorBrush x:Key="Col_CheckboxBorder" Color="{Binding Color,Source={StaticResource Col_PrimaryDark}}" />
+    <SolidColorBrush x:Key="Col_CheckboxBorderPressed" Color="Transparent" />
+    <SolidColorBrush x:Key="Col_CheckboxBorderMouseOver" Color="{Binding Color,Source={StaticResource Col_Primary}}" />
+    
+    
+    <!-- ComboBox -->
+    <SolidColorBrush x:Key="Col_ComboBoxDropDownBackground" Color="{Binding Color,Source={StaticResource Col_BackgroundHighlight}}" />
+    <SolidColorBrush x:Key="Col_ComboBoxDropDownTextColor" Color="{Binding Color,Source={StaticResource Col_Text}}" />
+    <SolidColorBrush x:Key="Col_ComboBoxDropDownTextColorDisabled" Color="{Binding Color,Source={StaticResource Col_TextLight}}" />
+    <SolidColorBrush x:Key="Col_ComboBoxDropDownToggleButtonBackground" Color="{Binding Color,Source={StaticResource Col_PrimaryDark}}" />
+    <SolidColorBrush x:Key="Col_ComboBoxDropDownToggleButtonBackgroundDisabled" Color="{Binding Color,Source={StaticResource Col_Background}}" />
+    <SolidColorBrush x:Key="Col_ComboBoxDropDownToggleButtonBackgroundMouseOver" Color="{Binding Color,Source={StaticResource Col_PrimaryDark}}" />
+    <SolidColorBrush x:Key="Col_ComboBoxDropDownToggleButtonBackgroundFocused" Color="{Binding Color,Source={StaticResource Col_Primary}}" />
+    <SolidColorBrush x:Key="Col_ComboBoxDropDownToggleButtonBorder" Color="{Binding Color,Source={StaticResource Col_BackgroundLight}}" />
+    <SolidColorBrush x:Key="Col_ComboBoxDropDownToggleButtonBorderMouseOver" Color="{Binding Color,Source={StaticResource Col_PrimaryDark}}" />
+    <SolidColorBrush x:Key="Col_ComboBoxDropDownToggleButtonBorderFocused" Color="{Binding Color,Source={StaticResource Col_Primary}}" />
+    <SolidColorBrush x:Key="Col_ComboBoxDropDownToggleButtonPath" Color="White" />
+    <SolidColorBrush x:Key="Col_ComboBoxItemMouseOver" Color="{Binding Color,Source={StaticResource Col_PrimaryDark}}" />
+    <SolidColorBrush x:Key="Col_ComboBoxItemSelected" Color="{Binding Color,Source={StaticResource Col_Background}}" />
+    <SolidColorBrush x:Key="Col_ComboBoxTextBoxBackground" Color="{Binding Color,Source={StaticResource Col_BackgroundHighlight}}" />
+
+    <!-- DatePicker -->
+    <SolidColorBrush x:Key="Col_DatePickerBackground" Color="{Binding Color,Source={StaticResource Col_BackgroundHighlight}}" />
+    <SolidColorBrush x:Key="Col_DatePickerBorder" Color="{Binding Color,Source={StaticResource Col_BackgroundLight}}" />
+    <SolidColorBrush x:Key="Col_DatePickerBorderMouseOver" Color="{Binding Color,Source={StaticResource Col_PrimaryDark}}" />
+    <SolidColorBrush x:Key="Col_DatePickerBorderFocused" Color="{Binding Color,Source={StaticResource Col_Primary}}" />
+    <SolidColorBrush x:Key="Col_DatePickerButtonBackground" Color="{Binding Color,Source={StaticResource Col_BackgroundHighlight}}" />
+    <SolidColorBrush x:Key="Col_DatePickerButtonBorder" Color="{Binding Color,Source={StaticResource Col_PrimaryDark}}" />
+    <SolidColorBrush x:Key="Col_DatePickerButtonText" Color="{Binding Color,Source={StaticResource Col_TextLight}}" />
+    <SolidColorBrush x:Key="Col_DatePickerButtonTextPressed" Color="{Binding Color,Source={StaticResource Col_PrimaryLight}}" />
+    <SolidColorBrush x:Key="Col_DatePickerButtonBorderMouseOver" Color="{Binding Color,Source={StaticResource Col_Primary}}" />
+    <SolidColorBrush x:Key="Col_DatePickerButtonTopBackground" Color="{Binding Color,Source={StaticResource Col_PrimaryDark}}" />
+    <SolidColorBrush x:Key="Col_DatePickerButtonTopBackgroundMouseOver" Color="{Binding Color,Source={StaticResource Col_Primary}}" />
+
+    <!-- Expander -->
+    <SolidColorBrush x:Key="Col_ExpanderBackground" Color="{Binding Color,Source={StaticResource Col_PrimaryDark}}" />
+    <SolidColorBrush x:Key="Col_ExpanderBackgroundMouseOver" Color="{Binding Color,Source={StaticResource Col_Primary}}" />
+    <SolidColorBrush x:Key="Col_ExpanderBackgroundPressed" Color="{Binding Color,Source={StaticResource Col_Primary}}" />
+    <SolidColorBrush x:Key="Col_ExpanderBorder" Color="{Binding Color,Source={StaticResource Col_PrimaryDark}}" />
+    <SolidColorBrush x:Key="Col_ExpanderBorderMouseOver" Color="{Binding Color,Source={StaticResource Col_Primary}}" />
+    <SolidColorBrush x:Key="Col_ExpanderBorderPressed" Color="Transparent" />
+    <SolidColorBrush x:Key="Col_ExpanderFocusVisualStyle" Color="{Binding Color,Source={StaticResource Col_PrimaryDark}}" />
+    <SolidColorBrush x:Key="Col_ExpanderPath" Color="White" />
+    <SolidColorBrush x:Key="Col_ExpanderPathMouseOver" Color="White" />
+    <SolidColorBrush x:Key="Col_ExpanderPathPressed" Color="White" />
+
+    <!-- Expander Filled-->
+    <SolidColorBrush x:Key="Col_Expander_FilledHeaderBackground" Color="{Binding Color,Source={StaticResource Col_PrimaryDark}}" />
+    <SolidColorBrush x:Key="Col_Expander_FilledHeaderBackgroundMouseOver" Color="{Binding Color,Source={StaticResource Col_Primary}}" />
+    <SolidColorBrush x:Key="Col_Expander_FilledHeaderBackgroundPressed" Color="{Binding Color,Source={StaticResource Col_Primary}}" />
+
+    <!-- GroupBox -->
+    <SolidColorBrush x:Key="Col_GroupBoxBorder" Color="{Binding Color,Source={StaticResource Col_PrimaryDark}}" />
+    <SolidColorBrush x:Key="Col_GroupBoxBackground" Color="{Binding Color,Source={StaticResource Col_Background}}" />
+
+    <!-- Label -->
+    <SolidColorBrush x:Key="Col_LabelText" Color="{Binding Color,Source={StaticResource Col_Text}}" />
+
+    <!-- ListBox -->
+    <SolidColorBrush x:Key="Col_ListBoxBorder" Color="{Binding Color,Source={StaticResource Col_Background}}" />
+    <SolidColorBrush x:Key="Col_ListBoxBackground" Color="{Binding Color,Source={StaticResource Col_BackgroundHighlight}}" />
+    <SolidColorBrush x:Key="Col_ListBoxItemBackground" Color="{Binding Color,Source={StaticResource Col_BackgroundHighlight}}" />
+    <SolidColorBrush x:Key="Col_ListBoxItemBackgroundMouseOver" Color="{Binding Color,Source={StaticResource Col_BackgroundLight}}" />
+    <SolidColorBrush x:Key="Col_ListBoxItemBackgroundSelected" Color="{Binding Color,Source={StaticResource Col_Primary}}" />
+
+    <!-- ListBoxFlat -->
+    <SolidColorBrush x:Key="Col_ListBoxFlatBorder" Color="{Binding Color,Source={StaticResource Col_Background}}" />
+    <SolidColorBrush x:Key="Col_ListBoxFlatBackground" Color="{Binding Color,Source={StaticResource Col_Background}}" />
+    <SolidColorBrush x:Key="Col_ListBoxFlatItemBackground" Color="{Binding Color,Source={StaticResource Col_Background}}" />
+    <SolidColorBrush x:Key="Col_ListBoxFlatItemBackgroundMouseOver" Color="{Binding Color,Source={StaticResource Col_BackgroundLight}}" />
+    <SolidColorBrush x:Key="Col_ListBoxFlatItemBackgroundSelected" Color="{Binding Color,Source={StaticResource Col_PrimaryDark}}" />
+    <SolidColorBrush x:Key="Col_ListBoxFlatItemSeparator" Color="{Binding Color,Source={StaticResource Col_BackgroundHighlight}}" />
+
+    <!-- ListView -->
+    <SolidColorBrush x:Key="Col_ListViewBorder" Color="{Binding Color,Source={StaticResource Col_Background}}" />
+    <SolidColorBrush x:Key="Col_ListViewBackground" Color="{Binding Color,Source={StaticResource Col_BackgroundHighlight}}" />
+    <SolidColorBrush x:Key="Col_ListViewGridViewColumnHeaderBackground" Color="{Binding Color,Source={StaticResource Col_BackgroundHighlight}}" />
+    <SolidColorBrush x:Key="Col_ListViewGridViewColumnHeaderBackgroundMouseOver" Color="{Binding Color,Source={StaticResource Col_PrimaryDark}}" />
+    <SolidColorBrush x:Key="Col_ListViewGridViewColumnHeaderBackgroundPressed" Color="{Binding Color,Source={StaticResource Col_Primary}}" />
+    <SolidColorBrush x:Key="Col_ListViewGridViewColumnHeaderBorder" Color="{Binding Color,Source={StaticResource Col_PrimaryDark}}" />
+    <SolidColorBrush x:Key="Col_ListViewGridViewColumnHeaderForeground" Color="{Binding Color,Source={StaticResource Col_Text}}" />
+    <SolidColorBrush x:Key="Col_ListViewItemBackground" Color="{Binding Color,Source={StaticResource Col_BackgroundHighlight}}" />
+    <SolidColorBrush x:Key="Col_ListViewItemBackgroundMouseOver" Color="{Binding Color,Source={StaticResource Col_Background}}" />
+    <SolidColorBrush x:Key="Col_ListViewItemBackgroundSelected" Color="{Binding Color,Source={StaticResource Col_PrimaryDark}}" />
+    <SolidColorBrush x:Key="Col_ListViewScrollbarBackground" Color="{Binding Color,Source={StaticResource Col_Background}}" />
+    <SolidColorBrush x:Key="Col_ListViewScrollbarRepeatButtonArrow" Color="#FF999999" />
+    <SolidColorBrush x:Key="Col_ListViewScrollbarRepeatButtonArrowMouseOver" Color="{Binding Color,Source={StaticResource Col_Primary}}" />
+    <SolidColorBrush x:Key="Col_ListViewScrollbarRepeatButtonArrowPressed" Color="{Binding Color,Source={StaticResource Col_PrimaryDark}}" />
+    <SolidColorBrush x:Key="Col_ListViewScrollbarRepeatButtonBackground" Color="{Binding Color,Source={StaticResource Col_Background}}" />
+    <SolidColorBrush x:Key="Col_ListViewScrollbarThumbBackground" Color="#FF999999" />
+    <SolidColorBrush x:Key="Col_ListViewScrollbarThumbBackgroundMouseOver" Color="{Binding Color,Source={StaticResource Col_Primary}}" />
+    <SolidColorBrush x:Key="Col_ListViewScrollbarThumbBackgroundPressed" Color="{Binding Color,Source={StaticResource Col_PrimaryDark}}" />
+
+    <!-- Menu -->
+    <SolidColorBrush x:Key="Col_ContextMenuBackground" Color="{Binding Color,Source={StaticResource Col_BackgroundHighlight}}" />
+    <SolidColorBrush x:Key="Col_MenuBackground" Color="{Binding Color,Source={StaticResource Col_Background}}" />
+    <SolidColorBrush x:Key="Col_MenuBorder" Color="{Binding Color,Source={StaticResource Col_BackgroundLight}}" />
+    <SolidColorBrush x:Key="Col_MenuItemArrow" Color="{Binding Color,Source={StaticResource Col_PrimaryLight}}" />
+    <SolidColorBrush x:Key="Col_MenuItemChecked" Color="{Binding Color,Source={StaticResource Col_PrimaryLight}}" />
+    <SolidColorBrush x:Key="Col_MenuItemBackgroundMouseOver" Color="{Binding Color,Source={StaticResource Col_PrimaryDark}}" />
+    <SolidColorBrush x:Key="Col_MenuItemTopLevelBackgroundMouseOver" Color="{Binding Color,Source={StaticResource Col_BackgroundHighlight}}" />
+    <SolidColorBrush x:Key="Col_MenuSeparator" Color="{Binding Color,Source={StaticResource Col_BackgroundLight}}" />
+
+    <!-- Progressbar -->
+    <SolidColorBrush x:Key="Col_ProgressbarBackground" Color="{Binding Color,Source={StaticResource Col_Background}}" />
+    <SolidColorBrush x:Key="Col_ProgressbarTrack" Color="{Binding Color,Source={StaticResource Col_BackgroundLight}}" />
+    <SolidColorBrush x:Key="Col_ProgressbarForeground" Color="{Binding Color,Source={StaticResource Col_PrimaryDark}}" />
+
+    <!-- RadioButton -->
+    <SolidColorBrush x:Key="Col_RadioButtonBackground" Color="{Binding Color,Source={StaticResource Col_BackgroundHighlight}}" />
+    <SolidColorBrush x:Key="Col_RadioButtonBackgroundDisabled" Color="{Binding Color,Source={StaticResource Col_Background}}" />
+    <SolidColorBrush x:Key="Col_RadioButtonBackgroundPressed" Color="{Binding Color,Source={StaticResource Col_Background}}" />
+    <SolidColorBrush x:Key="Col_RadioButtonBorder" Color="{Binding Color,Source={StaticResource Col_Primary}}" />
+    <SolidColorBrush x:Key="Col_RadioButtonBorderMouseOver" Color="{Binding Color,Source={StaticResource Col_PrimaryLight}}" />
+    <SolidColorBrush x:Key="Col_RadioButtonCheckmark" Color="{Binding Color,Source={StaticResource Col_Primary}}" />
+    <SolidColorBrush x:Key="Col_RadioButtonText" Color="{Binding Color,Source={StaticResource Col_Text}}" />
+
+    <!-- Scrollbar -->
+    <SolidColorBrush x:Key="Col_ScrollbarBackground" Color="{Binding Color,Source={StaticResource Col_BackgroundLight}}" />
+    <SolidColorBrush x:Key="Col_ScrollbarRepeatButtonArrow" Color="#FF999999" />
+    <SolidColorBrush x:Key="Col_ScrollbarRepeatButtonArrowMouseOver" Color="{Binding Color,Source={StaticResource Col_Primary}}" />
+    <SolidColorBrush x:Key="Col_ScrollbarRepeatButtonArrowPressed" Color="{Binding Color,Source={StaticResource Col_PrimaryDark}}" />
+    <SolidColorBrush x:Key="Col_ScrollbarRepeatButtonBackground" Color="{Binding Color,Source={StaticResource Col_BackgroundLight}}" />
+    <SolidColorBrush x:Key="Col_ScrollbarThumbBackground" Color="#FF999999" />
+    <SolidColorBrush x:Key="Col_ScrollbarThumbBackgroundMouseOver" Color="{Binding Color,Source={StaticResource Col_Primary}}" />
+    <SolidColorBrush x:Key="Col_ScrollbarThumbBackgroundPressed" Color="{Binding Color,Source={StaticResource Col_PrimaryDark}}" />
+
+    <!-- TabControl -->
+    <SolidColorBrush x:Key="Col_TabControlBackground" Color="{Binding Color,Source={StaticResource Col_Background}}" />
+    <SolidColorBrush x:Key="Col_TabControlBorder" Color="{Binding Color,Source={StaticResource Col_PrimaryDark}}" />
+    <SolidColorBrush x:Key="Col_TabItemBackground" Color="{Binding Color,Source={StaticResource Col_BackgroundLight}}" />
+    <SolidColorBrush x:Key="Col_TabItemBackgroundSelected" Color="{Binding Color,Source={StaticResource Col_PrimaryDark}}" />
+    <SolidColorBrush x:Key="Col_TabItemBackgroundMouseOver" Color="{Binding Color,Source={StaticResource Col_Primary}}" />
+    <SolidColorBrush x:Key="Col_TabItemBorder" Color="Transparent" />
+    <SolidColorBrush x:Key="Col_TabItemBorderSelected" Color="{Binding Color,Source={StaticResource Col_PrimaryDark}}" />
+    <SolidColorBrush x:Key="Col_TabItemBorderMouseOver" Color="Transparent" />
+    <SolidColorBrush x:Key="Col_TabItemForeground" Color="{Binding Color,Source={StaticResource Col_TextLight}}" />
+    <SolidColorBrush x:Key="Col_TabItemForegroundSelected" Color="White" />
+
+    <!-- TextBox -->
+    <SolidColorBrush x:Key="Col_TextBoxBackground" Color="{Binding Color,Source={StaticResource Col_BackgroundHighlight}}" />
+    <SolidColorBrush x:Key="Col_TextBoxBorder" Color="{Binding Color,Source={StaticResource Col_BackgroundLight}}" />
+    <SolidColorBrush x:Key="Col_TextBoxBackgroundDisabled" Color="{Binding Color,Source={StaticResource Col_Background}}" />
+    <SolidColorBrush x:Key="Col_TextBoxBorderFocus" Color="{Binding Color,Source={StaticResource Col_Primary}}" />
+    <SolidColorBrush x:Key="Col_TextBoxBorderMouseOver" Color="{Binding Color,Source={StaticResource Col_PrimaryDark}}" />
+    <SolidColorBrush x:Key="Col_TextBoxSelection" Color="{Binding Color,Source={StaticResource Col_PrimaryLight}}" />
+    <SolidColorBrush x:Key="Col_TextBoxForeground" Color="{Binding Color,Source={StaticResource Col_Text}}" />
+    <SolidColorBrush x:Key="Col_TextBoxValidationError" Color="{Binding Color,Source={StaticResource Col_Error}}" />
+
+    <!-- Thumb -->
+    <SolidColorBrush x:Key="Col_ThumbBackground" Color="{Binding Color,Source={StaticResource Col_BackgroundLight}}" />
+    <SolidColorBrush x:Key="Col_ThumbDragging" Color="{Binding Color,Source={StaticResource Col_Primary}}" />
+
+    <!-- ToolBar -->
+    <SolidColorBrush x:Key="Col_ToolBarBackground" Color="{Binding Color,Source={StaticResource Col_Background}}" />
+    <SolidColorBrush x:Key="Col_ToolBarBorder" Color="{Binding Color,Source={StaticResource Col_Background}}" />
+    <SolidColorBrush x:Key="Col_ToolBarButtonBackground" Color="{Binding Color,Source={StaticResource Col_Background}}" />
+    <SolidColorBrush x:Key="Col_ToolBarButtonBackgroundMouseOver" Color="{Binding Color,Source={StaticResource Col_PrimaryDark}}" />
+    <SolidColorBrush x:Key="Col_ToolBarButtonBackgroundPressed" Color="{Binding Color,Source={StaticResource Col_PrimaryDark}}" />
+    <SolidColorBrush x:Key="Col_ToolBarButtonBorder" Color="{Binding Color,Source={StaticResource Col_Background}}" />
+    <SolidColorBrush x:Key="Col_ToolBarButtonBorderMouseOver" Color="{Binding Color,Source={StaticResource Col_PrimaryDark}}" />
+    <SolidColorBrush x:Key="Col_ToolBarButtonBorderPressed" Color="Transparent" />
+    <SolidColorBrush x:Key="Col_ToolBarOverflowPopupBackground" Color="{Binding Color,Source={StaticResource Col_Background}}" />
+    <SolidColorBrush x:Key="Col_ToolBarThumb" Color="{Binding Color,Source={StaticResource Col_PrimaryDark}}" />
+    <LinearGradientBrush x:Key="Col_ToolBarSeparator" StartPoint="0,0" EndPoint="1,0">
+        <GradientStop Color="{Binding Color,Source={StaticResource Col_BackgroundHighlight}}" Offset="0" />
+        <GradientStop Color="{Binding Color,Source={StaticResource Col_BackgroundHighlight}}" Offset="0.5" />
+        <GradientStop Color="#FF555555" Offset="0.5" />
+        <GradientStop Color="#FF555555" Offset="1.0" />
+    </LinearGradientBrush>
+
+    <!-- ToolBar Icons-->
+    <SolidColorBrush x:Key="Col_ToolBarIconMain" Color="{Binding Color,Source={StaticResource Col_Primary}}" />
+    <SolidColorBrush x:Key="Col_ToolBarIconBackground" Color="{Binding Color,Source={StaticResource Col_BackgroundHighlight}}" />
+    <SolidColorBrush x:Key="Col_ToolBarIconDisabled" Color="{Binding Color,Source={StaticResource Col_TextLight}}" />
+    <SolidColorBrush x:Key="Col_ToolBarIconStroke" Color="{Binding Color,Source={StaticResource Col_Text}}" />
+
+    <!-- ToolTip-->
+    <SolidColorBrush x:Key="Col_ToolTipBackground" Color="{Binding Color,Source={StaticResource Col_BackgroundHighlight}}" />
+    <SolidColorBrush x:Key="Col_ToolTipBorder" Color="{Binding Color,Source={StaticResource Col_PrimaryDark}}" />
+    <SolidColorBrush x:Key="Col_ToolTipBorderError" Color="{Binding Color,Source={StaticResource Col_Error}}" />
+    <SolidColorBrush x:Key="Col_ToolTipForeground" Color="{Binding Color,Source={StaticResource Col_Text}}" />
+
+    <!--TreeViev-->
+    <SolidColorBrush x:Key="Col_TreeViewBackground" Color="{Binding Color,Source={StaticResource Col_BackgroundHighlight}}" />
+    <SolidColorBrush x:Key="Col_TreeViewBorder" Color="{Binding Color,Source={StaticResource Col_BackgroundLight}}" />
+    <SolidColorBrush x:Key="Col_TreeViewItemBackground" Color="Transparent" />
+    <SolidColorBrush x:Key="Col_TreeViewItemBackgroundSelected" Color="{Binding Color,Source={StaticResource Col_PrimaryDark}}" />
+    <SolidColorBrush x:Key="Col_TreeViewItemForeground" Color="{Binding Color,Source={StaticResource Col_Text}}" />
+    
+    <!-- UC_CheckBoxFilled -->
+    <SolidColorBrush x:Key="UC_CheckBoxFilledBackground" Color="{Binding Color,Source={StaticResource Col_BackgroundHighlight}}" />
+    <SolidColorBrush x:Key="UC_CheckBoxFilledBorder" Color="{Binding Color,Source={StaticResource Col_TextLight}}" />
+    <SolidColorBrush x:Key="UC_CheckBoxFilledBackgroundChecked" Color="{Binding Color,Source={StaticResource Col_Primary}}" />
+    <SolidColorBrush x:Key="UC_CheckBoxFilledBorderChecked" Color="{Binding Color,Source={StaticResource Col_Primary}}" />
+    <SolidColorBrush x:Key="UC_CheckBoxFilledBorderMouseOver" Color="{Binding Color,Source={StaticResource Col_Primary}}" />
+    <SolidColorBrush x:Key="UC_CheckBoxFilledBackgroundPressed" Color="{Binding Color,Source={StaticResource Col_PrimaryDark}}" />
+    <SolidColorBrush x:Key="UC_CheckBoxFilledBorderPressed" Color="Transparent" />
+
+    <!-- UC_ImageButtonWithText -->
+    <SolidColorBrush x:Key="Col_UC_ImageButtonWithTextBackground" Color="Transparent" />
+    <SolidColorBrush x:Key="Col_UC_ImageButtonWithTextBorder" Color="Transparent" />
+    <SolidColorBrush x:Key="Col_UC_ImageButtonWithTextBackgroundMouseOver" Color="{Binding Color,Source={StaticResource Col_BackgroundHighlight}}" />
+    <SolidColorBrush x:Key="Col_UC_ImageButtonWithTextBorderMouseOver" Color="{Binding Color,Source={StaticResource Col_BackgroundHighlight}}" />
+    <SolidColorBrush x:Key="Col_UC_ImageButtonWithTextBackroundPressed" Color="{Binding Color,Source={StaticResource Col_BackgroundHighlight}}" />
+    <SolidColorBrush x:Key="Col_UC_ImageButtonWithTextBorderPressed" Color="Transparent" />
+
+    <!-- UC_LineChart -->
+    <SolidColorBrush x:Key="Col_UC_LineChartBackground" Color="{Binding Color,Source={StaticResource Col_Background}}" />
+    <SolidColorBrush x:Key="Col_UC_LineChartGridStroke" Color="{Binding Color,Source={StaticResource Col_BackgroundLight}}" />
+    <SolidColorBrush x:Key="Col_UC_LineChartMainStroke" Color="{Binding Color,Source={StaticResource Col_TextLight}}" />
+    <SolidColorBrush x:Key="Col_UC_LineChartText" Color="{Binding Color,Source={StaticResource Col_Text}}" />
+    <SolidColorBrush x:Key="Col_UC_LineChart_Series_0" Color="#FF179C7D" />
+    <SolidColorBrush x:Key="Col_UC_LineChart_Series_1" Color="#FF2196F3" />
+    <SolidColorBrush x:Key="Col_UC_LineChart_Series_2" Color="#FFFDD835" />
+    <SolidColorBrush x:Key="Col_UC_LineChart_Series_3" Color="#FFFF3628" />
+    <SolidColorBrush x:Key="Col_UC_LineChart_Series_4" Color="#FFE91EA8" />
+    <SolidColorBrush x:Key="Col_UC_LineChart_Series_5" Color="#FFE91E63" />
+    <SolidColorBrush x:Key="Col_UC_LineChart_Series_6" Color="#FF9C27B0" />
+
+    <!-- UC_NumericUpDown -->
+    <SolidColorBrush x:Key="Col_UC_NumericUpDownBorder" Color="{Binding Color,Source={StaticResource Col_BackgroundLight}}" />
+    <SolidColorBrush x:Key="Col_UC_NumericUpDownBorderMouseOver" Color="{Binding Color,Source={StaticResource Col_Primary}}" />
+    <SolidColorBrush x:Key="Col_UC_NumericUpDownBorderFocus" Color="{Binding Color,Source={StaticResource Col_Primary}}" />
+    <SolidColorBrush x:Key="Col_UC_NumericUpDownButtonBackground" Color="{Binding Color,Source={StaticResource Col_PrimaryDark}}" />
+    <SolidColorBrush x:Key="Col_UC_NumericUpDownButtonBackgroundDisabled" Color="{Binding Color,Source={StaticResource Col_Background}}" />
+    <SolidColorBrush x:Key="Col_UC_NumericUpDownButtonBackgroundMouseOver" Color="{Binding Color,Source={StaticResource Col_Primary}}" />
+    <SolidColorBrush x:Key="Col_UC_NumericUpDownButtonBackgroundPressed" Color="{Binding Color,Source={StaticResource Col_Primary}}" />
+    <SolidColorBrush x:Key="Col_UC_NumericUpDownButtonBorder" Color="{Binding Color,Source={StaticResource Col_PrimaryDark}}" />
+    <SolidColorBrush x:Key="Col_UC_NumericUpDownButtonBorderDisabled" Color="{Binding Color,Source={StaticResource Col_PrimaryDark}}" />
+    <SolidColorBrush x:Key="Col_UC_NumericUpDownButtonBorderMouseOver" Color="{Binding Color,Source={StaticResource Col_Primary}}" />
+    <SolidColorBrush x:Key="Col_UC_NumericUpDownButtonBorderPressed" Color="Transparent" />
+
+    <!-- UC_TimeSetter-->
+    <SolidColorBrush x:Key="Col_UC_TimeSetterBorder" Color="{Binding Color,Source={StaticResource Col_BackgroundLight}}" />
+    <SolidColorBrush x:Key="Col_UC_TimeSetterBorderBackground" Color="{Binding Color,Source={StaticResource Col_BackgroundHighlight}}" />
+    <SolidColorBrush x:Key="Col_UC_TimeSetterBorderMouseOver" Color="{Binding Color,Source={StaticResource Col_Primary}}" />
+    <SolidColorBrush x:Key="Col_UC_TimeSetterBorderFocus" Color="{Binding Color,Source={StaticResource Col_Primary}}" />
+    <SolidColorBrush x:Key="Col_UC_TimeSetterButtonBackground" Color="{Binding Color,Source={StaticResource Col_PrimaryDark}}" />
+    <SolidColorBrush x:Key="Col_UC_TimeSetterButtonBackgroundDisabled" Color="{Binding Color,Source={StaticResource Col_Background}}" />
+    <SolidColorBrush x:Key="Col_UC_TimeSetterButtonBackgroundMouseOver" Color="{Binding Color,Source={StaticResource Col_Primary}}" />
+    <SolidColorBrush x:Key="Col_UC_TimeSetterButtonBackgroundPressed" Color="{Binding Color,Source={StaticResource Col_Primary}}" />
+    <SolidColorBrush x:Key="Col_UC_TimeSetterButtonBorder" Color="{Binding Color,Source={StaticResource Col_PrimaryDark}}" />
+    <SolidColorBrush x:Key="Col_UC_TimeSetterButtonBorderDisabled" Color="Transparent" />
+    <SolidColorBrush x:Key="Col_UC_TimeSetterButtonBorderMouseOver" Color="{Binding Color,Source={StaticResource Col_Primary}}" />
+    <SolidColorBrush x:Key="Col_UC_TimeSetterButtonBorderPressed" Color="Transparent" />
+    
+    <!-- UC_TitleBar -->
+    <SolidColorBrush x:Key="Col_UC_TitleBarButtonBackgroundMouseOver" Color="{Binding Color,Source={StaticResource Col_BackgroundLight}}" />
+    <SolidColorBrush x:Key="Col_UC_TitleBarButtonBackgroundPressed" Color="{Binding Color,Source={StaticResource Col_Primary}}" />
+
+    <!-- Window_MessageBox -->
+    <SolidColorBrush x:Key="Col_Window_Messagebox_DividerBorder" Color="{Binding Color,Source={StaticResource Col_PrimaryDark}}" />
+</ResourceDictionary>
