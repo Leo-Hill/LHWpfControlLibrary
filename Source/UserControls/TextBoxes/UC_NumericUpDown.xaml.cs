@@ -93,15 +93,25 @@ namespace LHWpfControlLibrary.Source.UserControls
         }
         public static readonly DependencyProperty DPiMinValue = DependencyProperty.Register(nameof(iMinValue), typeof(Int64), typeof(UC_NumericUpDown), new UIPropertyMetadata(null));
 
-        private int _iNumOfDecimals; public int iNumOfDecimals                                      //Number of decimals
+        public int iNumOfDecimals                                      //Number of decimals
         {
-            get => _iNumOfDecimals;
+            get
+            {
+                return (int)GetValue(DPiNumOfDecimals);
+            }
             set
             {
-                _iNumOfDecimals = value;
-                vSetNumberFormat();
+                SetValue(DPiNumOfDecimals, (int)value);
             }
         }
+        public static readonly DependencyProperty DPiNumOfDecimals = DependencyProperty.Register(nameof(iNumOfDecimals), typeof(int), typeof(UC_NumericUpDown), new UIPropertyMetadata(PropertyChangedCallback));
+
+        private static void PropertyChangedCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args)
+        {
+            ((UC_NumericUpDown)dependencyObject).vSetNumberFormat();
+        }
+
+
 
         private String sNumberFormat;                                                               //The format to convert the number to text
         public String sText { get { return TBMain.Text; } }                                         //The text of the textbox
