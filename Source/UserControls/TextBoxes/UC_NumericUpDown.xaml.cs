@@ -104,9 +104,9 @@ namespace LHWpfControlLibrary.Source.UserControls
                 SetValue(DPiNumOfDecimals, (int)value);
             }
         }
-        public static readonly DependencyProperty DPiNumOfDecimals = DependencyProperty.Register(nameof(iNumOfDecimals), typeof(int), typeof(UC_NumericUpDown), new UIPropertyMetadata(PropertyChangedCallback));
+        public static readonly DependencyProperty DPiNumOfDecimals = DependencyProperty.Register(nameof(iNumOfDecimals), typeof(int), typeof(UC_NumericUpDown), new UIPropertyMetadata(DPiNumOfDecimalsChangedCallback));
 
-        private static void PropertyChangedCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args)
+        private static void DPiNumOfDecimalsChangedCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args)
         {
             ((UC_NumericUpDown)dependencyObject).vSetNumberFormat();
         }

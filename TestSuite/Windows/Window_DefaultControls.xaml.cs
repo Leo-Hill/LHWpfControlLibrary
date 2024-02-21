@@ -11,13 +11,14 @@ namespace TestSuite.Windows
     /// <summary>
     /// Interaktionslogik für Window_Controls.xaml
     /// </summary>
-    public partial class Window_Controls : Window
+    public partial class Window_DefaultControls : Window
     {
-        public Window_Controls()
+        public Window_DefaultControls()
         {
             InitializeComponent();
             this.DataContext = this;
             this.Resources.MergedDictionaries.Add(Class_Settings.themeDictionary);
         }
+
     }
 }

@@ -50,11 +50,10 @@ namespace LHWpfControlLibrary.Source.UserControls
         public static readonly DependencyProperty DPSCBBackground = DependencyProperty.Register("SCBBackground", typeof(SolidColorBrush), typeof(UC_CheckBoxFilled));
 
         //Status
-        public bool bIsChecked { get { return (bool)GetValue(DPIsChecked); } set { SetValue(DPIsChecked, value); } }    //IsChecked
+        public bool bIsChecked { get { return (bool)GetValue(DPIsChecked); } set { SetValue(DPIsChecked, value); } }
         public static readonly DependencyProperty DPIsChecked = DependencyProperty.Register(nameof(bIsChecked), typeof(bool), typeof(UC_CheckBoxFilled), new UIPropertyMetadata(false));
-        public bool bMouseDown { get { return (bool)GetValue(DPMouseDown); } set { SetValue(DPMouseDown, value); } }    //MouseDown
-        public static readonly DependencyProperty DPMouseDown = DependencyProperty.Register(nameof(bMouseDown), typeof(bool), typeof(UC_CheckBoxFilled), new UIPropertyMetadata(false));
-        public bool bIsPressed { get { return (bool)GetValue(DPPressed); } set { SetValue(DPPressed, value); } }    //MouseDown
+
+        public bool bIsPressed { get { return (bool)GetValue(DPPressed); } set { SetValue(DPPressed, value); } }
         public static readonly DependencyProperty DPPressed = DependencyProperty.Register(nameof(bIsPressed), typeof(bool), typeof(UC_CheckBoxFilled), new UIPropertyMetadata(false));
 
         /***********************************************************************************************
@@ -91,18 +90,18 @@ namespace LHWpfControlLibrary.Source.UserControls
             if (true == bIsPressed)
             {
                 bIsChecked = !bIsChecked;
-                if(null!=EHCheckedChanged)
+                if (null != EHCheckedChanged)
                 {
                     EHCheckedChanged(this, EventArgs.Empty);
                 }
             }
             bIsPressed = false;
-            
+
         }
 
         private void Grid_MouseLeave(object sender, MouseEventArgs e)
         {
-            if(true==bIsPressed)
+            if (true == bIsPressed)
             {
                 bIsPressed = false;
             }
