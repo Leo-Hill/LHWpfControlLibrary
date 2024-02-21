@@ -44,7 +44,8 @@ namespace TestSuite.Windows
             }
 
             this.Resources.MergedDictionaries.Add(Class_Settings.themeDictionary);                          //Set the GUI theme
-            Command_Controls = new Class_RelayCommand(Command_Controls_Executed);
+            Command_DefaultControls = new Class_RelayCommand(Command_DefaultControls_Executed);
+            Command_UserControls = new Class_RelayCommand(Command_UserControls_Executed);
             Command_LineChart = new Class_RelayCommand(Command_LineChart_Executed);
             Command_Excel = new Class_RelayCommand(Command_Excel_Executed);
         }
@@ -76,12 +77,21 @@ namespace TestSuite.Windows
         }
 
 
-        public Class_RelayCommand Command_Controls { get; }
-        private void Command_Controls_Executed(Object qObject)
+        public Class_RelayCommand Command_DefaultControls { get; }
+        private void Command_DefaultControls_Executed(Object qObject)
         {
-            Window_Controls controls = new Window_Controls();
+            Window_DefaultControls controls = new Window_DefaultControls();
             controls.ShowDialog();
         }
+
+
+        public Class_RelayCommand Command_UserControls { get; }
+        private void Command_UserControls_Executed(Object qObject)
+        {
+            Window_UserControls controls = new Window_UserControls();
+            controls.ShowDialog();
+        }
+
 
         public Class_RelayCommand Command_LineChart { get; }
         private void Command_LineChart_Executed(Object qObject)

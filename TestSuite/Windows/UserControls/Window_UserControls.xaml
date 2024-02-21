@@ -1,0 +1,165 @@
+﻿<Window x:Class="TestSuite.Windows.Window_UserControls" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:TestSuite.Windows" Style="{DynamicResource {x:Type Window}}" mc:Ignorable="d" WindowStartupLocation="CenterScreen" xmlns:usercontrols="clr-namespace:LHWpfControlLibrary.Source.UserControls;assembly=LHWpfControlLibrary" Title="Window_UserControls" Height="450" Width="800" WindowState="Maximized" d:DesignHeight="5000">
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Top">
+            <usercontrols:UC_TitleBar Title="{Binding Path=Title, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" />
+            <ToolBarTray>
+                <ToolBar>
+                    <usercontrols:UC_ToolBarButtonWithText Command="{Binding Command_ToolBarButtonClick}" Icon="{DynamicResource Ico_Run_24x}" Text="TestButton" />
+                    <usercontrols:UC_ToolBarButtonWithText Command="{Binding Command_ToolBarButtonClick}" Icon="{DynamicResource Ico_FontSize_24x}" Text="TestButton" />
+                    <Separator />
+                    <usercontrols:UC_ToolBarButtonWithText Command="{Binding Command_ToolBarButtonClick}" Icon="{DynamicResource Ico_InformationSymbol_24x}" Text="TestButton" />
+                    <usercontrols:UC_ToolBarButtonWithText Command="{Binding Command_ToolBarButtonClick}" Icon="{DynamicResource Ico_Search_24x}" Text="TestButton" />
+                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Margin="{StaticResource Dim_ThStandardMarginLeftRight}">
+                        <TextBlock Text="Click counter:" Style="{DynamicResource STY_TextBlock}" />
+                        <TextBlock Text="{Binding ToolBarButtonClickCnt}" Style="{DynamicResource STY_TextBlock}" HorizontalAlignment="Center" />
+                    </StackPanel>
+                </ToolBar>
+            </ToolBarTray>
+        </StackPanel>
+        <ScrollViewer x:Name="SV" Margin="20">
+            <StackPanel>
+                <GroupBox Header="ImageButtonWithText" Style="{DynamicResource STY_GroupBoxWithHeader}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="50*" />
+                            <ColumnDefinition Width="1" />
+                            <ColumnDefinition Width="50*" />
+                        </Grid.ColumnDefinitions>
+                        <usercontrols:UC_ImageButtonWithText Height="150" x:Name="ImageButtonWithText" Command="{Binding Command_ImageButtonWithTextClick}" CommandParameter="ImageButtonWithText" Image="/Resources/Images/Icons/DeviceTest.png" Text="ImageButtonWithText" FontSize="22" Margin="{DynamicResource Dim_ThStandardMargin}" />
+                        <StackPanel Grid.Column="1" Background="{DynamicResource Col_GroupBoxBorder}" />
+                        <StackPanel Grid.Column="2" Grid.Row="0" Margin="{StaticResource Dim_ThStandardMargin}">
+                            <TextBlock Style="{DynamicResource STY_TextBlock}">
+                                 <Run Text="Click counter:" />
+                                 <Run Text=" " /> 
+                                 <Run Text="{Binding ImageButtonClickCnt}" />
+                            </TextBlock>
+                        </StackPanel>
+                    </Grid>
+                </GroupBox>
+
+                <GroupBox Margin="{DynamicResource Dim_ThStandardMarginTop}" Header="CheckBoxFilled" Style="{DynamicResource STY_GroupBoxWithHeader}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="50*" />
+                            <ColumnDefinition Width="1" />
+                            <ColumnDefinition Width="25*" />
+                            <ColumnDefinition Width="25*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <StackPanel Grid.RowSpan="3" HorizontalAlignment="Center">
+                            <usercontrols:UC_CheckBoxFilled x:Name="UC_CBF1" Text="CheckBox 1" bIsChecked="True" Margin="{DynamicResource Dim_ThStandardMargin}" />
+                            <usercontrols:UC_CheckBoxFilled x:Name="UC_CBF2" Text="CheckBox 2" Margin="{DynamicResource Dim_ThStandardMargin}" />
+                            <usercontrols:UC_CheckBoxFilled x:Name="UC_CBF3" Text="CheckBox 3" Margin="{DynamicResource Dim_ThStandardMargin}" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Grid.RowSpan="3" Background="{DynamicResource Col_GroupBoxBorder}" />
+                        <TextBlock Style="{DynamicResource STY_TextBlock}" Grid.Row="0" Grid.Column="2" Margin="{StaticResource Dim_ThStandardMargin}">
+                                <Run Text="IsChecked:" />
+                                <Run Text=" " /> 
+                                <Run Text="{Binding ElementName=UC_CBF1, Path=bIsChecked}" />
+                        </TextBlock>
+                        <TextBlock Style="{DynamicResource STY_TextBlock}" Grid.Row="0" Grid.Column="3" Margin="{StaticResource Dim_ThStandardMargin}">
+                                <Run Text="IsPressed:" />
+                                <Run Text=" " /> 
+                                <Run Text="{Binding ElementName=UC_CBF1, Path=bIsPressed}" />
+                        </TextBlock>
+                        <TextBlock Style="{DynamicResource STY_TextBlock}" Grid.Row="1" Grid.Column="2" Margin="{StaticResource Dim_ThStandardMargin}">
+                            <Run Text="IsChecked:" />
+                            <Run Text=" " /> 
+                            <Run Text="{Binding ElementName=UC_CBF2, Path=bIsChecked}" />
+                        </TextBlock>
+                        <TextBlock Style="{DynamicResource STY_TextBlock}" Grid.Row="1" Grid.Column="3" Margin="{StaticResource Dim_ThStandardMargin}">
+                            <Run Text="IsPressed:" />
+                            <Run Text=" " /> 
+                            <Run Text="{Binding ElementName=UC_CBF2, Path=bIsPressed}" />
+                        </TextBlock>
+                        <TextBlock Style="{DynamicResource STY_TextBlock}" Grid.Row="2" Grid.Column="2" Margin="{StaticResource Dim_ThStandardMargin}">
+                            <Run Text="IsChecked:" />
+                            <Run Text=" " /> 
+                            <Run Text="{Binding ElementName=UC_CBF3, Path=bIsChecked}" />
+                        </TextBlock>
+                        <TextBlock Style="{DynamicResource STY_TextBlock}" Grid.Row="2" Grid.Column="3" Margin="{StaticResource Dim_ThStandardMargin}">
+                            <Run Text="IsPressed:" />
+                            <Run Text=" " /> 
+                            <Run Text="{Binding ElementName=UC_CBF3, Path=bIsPressed}" />
+                        </TextBlock>
+                    </Grid>
+                </GroupBox>
+
+                <GroupBox Margin="{DynamicResource Dim_ThStandardMarginTop}" Header="NumericUpDown" Style="{DynamicResource STY_GroupBoxWithHeader}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="50*" />
+                            <ColumnDefinition Width="1" />
+                            <ColumnDefinition Width="50*" />
+                        </Grid.ColumnDefinitions>
+
+                        <usercontrols:UC_NumericUpDown x:Name="UC_NUD" HorizontalAlignment="Center" VerticalAlignment="Center" iMinValue="{Binding ElementName=NUD_MIN,Path=dCurrentNumber}" iMaxValue="{Binding ElementName=NUD_MAX,Path=dCurrentNumber}" iNumOfDecimals="{Binding ElementName=NUD_NOD,Path=dCurrentNumber}" dIncrement="{Binding ElementName=NUD_INC,Path=dCurrentNumber}" Width="200" />
+                        <StackPanel Grid.Column="1" Grid.RowSpan="3" Background="{DynamicResource Col_GroupBoxBorder}" />
+
+                        <StackPanel Grid.Column="2">
+                            <TextBlock Style="{DynamicResource STY_TextBlock}" Grid.Column="2" Margin="{StaticResource Dim_ThStandardMargin}">
+                            <Run Text="Value:" />
+                            <Run Text=" " /> 
+                            <Run Text="{Binding ElementName=UC_NUD, Path=dCurrentNumber}" />
+                            </TextBlock>
+
+                            <StackPanel Orientation="Horizontal">
+                                <StackPanel HorizontalAlignment="Left">
+                                    <Label Content="Min" />
+                                    <usercontrols:UC_NumericUpDown x:Name="NUD_MIN" iMinValue="-100000" iMaxValue="100000" Width="200" Margin="{StaticResource Dim_ThStandardMarginLeftRight}" />
+                                </StackPanel>
+                                <StackPanel HorizontalAlignment="Left">
+                                    <Label Content="Max" />
+                                    <usercontrols:UC_NumericUpDown x:Name="NUD_MAX" dCurrentNumber="100" Width="200" iMinValue="-100000" iMaxValue="100000" Margin="{StaticResource Dim_ThStandardMarginLeftRight}" />
+                                </StackPanel>
+                                <StackPanel HorizontalAlignment="Left">
+                                    <Label Content="NumOfDecimals" />
+                                    <usercontrols:UC_NumericUpDown x:Name="NUD_NOD" Width="200" iMinValue="0" iMaxValue="10" Margin="{StaticResource Dim_ThStandardMarginLeftRight}" />
+                                </StackPanel>
+                                <StackPanel HorizontalAlignment="Left">
+                                    <Label Content="Increment" />
+                                    <usercontrols:UC_NumericUpDown dCurrentNumber="1" x:Name="NUD_INC" Width="200" iMinValue="0" iMaxValue="1000" dIncrement="1" iNumOfDecimals="5" Margin="{StaticResource Dim_ThStandardMarginLeftRight}" />
+                                </StackPanel>
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+
+                </GroupBox>
+
+                <GroupBox Margin="{DynamicResource Dim_ThStandardMarginTop}" Header="TimeSetter" Style="{DynamicResource STY_GroupBoxWithHeader}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="50*" />
+                            <ColumnDefinition Width="1" />
+                            <ColumnDefinition Width="50*" />
+                        </Grid.ColumnDefinitions>
+                        <usercontrols:UC_TimeSetter x:Name="UC_TimeSetter" iMinTime="{Binding ElementName=NUD_TimeSetterMin,Path=dCurrentNumber}" iMaxTime="{Binding ElementName=NUD_TimeSetterMax,Path=dCurrentNumber}" HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" />
+
+                        <StackPanel Grid.Column="1" Background="{DynamicResource Col_GroupBoxBorder}" />
+                        <StackPanel Grid.Column="2" Grid.Row="0" Margin="{StaticResource Dim_ThStandardMargin}">
+                            <TextBlock Style="{DynamicResource STY_TextBlock}">
+                               <Run Text="Time:" />
+                               <Run Text=" " /> 
+                               <Run Text="{Binding ElementName=UC_TimeSetter,Path=ActDateTime}" />
+                            </TextBlock>
+                            <StackPanel Orientation="Horizontal">
+                                <StackPanel>
+                                    <Label Content="Min [s]" />
+                                    <usercontrols:UC_NumericUpDown x:Name="NUD_TimeSetterMin" iMinValue="0" iMaxValue="1000000" Margin="{StaticResource Dim_ThStandardMarginLeftRight}" Width="200"/>
+                                </StackPanel>
+                                <StackPanel>
+                                    <Label Content="Max [s]" />
+                                    <usercontrols:UC_NumericUpDown x:Name="NUD_TimeSetterMax" dCurrentNumber="3600" iMinValue="0" iMaxValue="1000000" Margin="{StaticResource Dim_ThStandardMarginLeftRight}" Width="200"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+                </GroupBox>
+            </StackPanel>
+        </ScrollViewer>
+    </DockPanel>
+</Window>

@@ -59,7 +59,11 @@ namespace LHWpfControlLibrary.Source.UserControls
                 SetValue(DPiMaxTime, value);
             }
         }
-        public static readonly DependencyProperty DPiMaxTime = DependencyProperty.Register(nameof(iMaxTime), typeof(int), typeof(UC_TimeSetter), new UIPropertyMetadata(null));
+        public static readonly DependencyProperty DPiMaxTime = DependencyProperty.Register(nameof(iMaxTime), typeof(int), typeof(UC_TimeSetter), new UIPropertyMetadata(DPiMinMaxTimeChangedCallback));
+        private static void DPiMinMaxTimeChangedCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs args)
+        {
+            ((UC_TimeSetter)dependencyObject).UserControl_Loaded(null, null);
+        }
         public int iMinTime                                                                         //Minimum time in seconds
         {
             get
@@ -71,7 +75,7 @@ namespace LHWpfControlLibrary.Source.UserControls
                 SetValue(DPiMinTime, value);
             }
         }
-        public static readonly DependencyProperty DPiMinTime = DependencyProperty.Register(nameof(iMinTime), typeof(int), typeof(UC_TimeSetter), new UIPropertyMetadata(null));
+        public static readonly DependencyProperty DPiMinTime = DependencyProperty.Register(nameof(iMinTime), typeof(int), typeof(UC_TimeSetter), new UIPropertyMetadata(DPiMinMaxTimeChangedCallback));
 
         /***********************************************************************************************
         * 
@@ -139,15 +143,30 @@ namespace LHWpfControlLibrary.Source.UserControls
         {
             if (TBLastSelected == TBHours)
             {
-                ActDateTime = ActDateTime.Add(new TimeSpan(1, 0, 0));
+                DateTime newTime = ActDateTime.Add(new TimeSpan(1, 0, 0));
+                if (newTime > MaxDateTime)
+                {
+                    return;
+                }
+                ActDateTime = newTime;
             }
             else if (TBLastSelected == TBMinutes)
             {
-                ActDateTime = ActDateTime.Add(new TimeSpan(0, 1, 0));
+                DateTime newTime = ActDateTime.Add(new TimeSpan(0, 1, 0));
+                if (newTime > MaxDateTime)
+                {
+                    return;
+                }
+                ActDateTime = newTime;
             }
             else if (TBLastSelected == TBSecons)
             {
-                ActDateTime = ActDateTime.Add(new TimeSpan(0, 0, 1));
+                DateTime newTime = ActDateTime.Add(new TimeSpan(0, 0, 1));
+                if (newTime > MaxDateTime)
+                {
+                    return;
+                }
+                ActDateTime = newTime;
             }
             vRemoveDateFromTime();
             TBLastSelected.SelectAll();                                                             //Select entire text of the textbox
@@ -161,15 +180,30 @@ namespace LHWpfControlLibrary.Source.UserControls
 
                 if (TBLastSelected == TBHours)
                 {
-                    ActDateTime = ActDateTime.Subtract(new TimeSpan(1, 0, 0));
+                    DateTime newTime = ActDateTime.Subtract(new TimeSpan(1, 0, 0));
+                    if (newTime < MinDateTime)
+                    {
+                        return;
+                    }
+                    ActDateTime = newTime;
                 }
                 else if (TBLastSelected == TBMinutes)
                 {
-                    ActDateTime = ActDateTime.Subtract(new TimeSpan(0, 1, 0));
+                    DateTime newTime = ActDateTime.Subtract(new TimeSpan(0, 1, 0));
+                    if (newTime < MinDateTime)
+                    {
+                        return;
+                    }
+                    ActDateTime = newTime;
                 }
                 else if (TBLastSelected == TBSecons)
                 {
-                    ActDateTime = ActDateTime.Subtract(new TimeSpan(0, 0, 1));
+                    DateTime newTime = ActDateTime.Subtract(new TimeSpan(0, 0, 1));
+                    if (newTime < MinDateTime)
+                    {
+                        return;
+                    }
+                    ActDateTime = newTime;
                 }
             }
             catch
@@ -207,6 +241,7 @@ namespace LHWpfControlLibrary.Source.UserControls
         {
             TextBox textBox = (TextBox)sender;
             char cMaxFirstDigit;
+
 
             if (RXNoLetters.IsMatch(e.Text))                                                        //Check if there is a non number character in the text
             {
@@ -261,6 +296,10 @@ namespace LHWpfControlLibrary.Source.UserControls
                 BDown_MouseDown(null, null);
                 e.Handled = true;
             }
+            else if (e.Key == Key.Enter)
+            {
+                vDateTimeFromTextBoxes();
+            }
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
@@ -276,7 +315,6 @@ namespace LHWpfControlLibrary.Source.UserControls
             if (iMaxTime == 0)
             {
                 MaxDateTime = DateTime.MaxValue;
-
             }
             else
             {
@@ -295,6 +333,18 @@ namespace LHWpfControlLibrary.Source.UserControls
         private void vDateTimeFromTextBoxes()
         {
             DateTime dateTime = new DateTime();
+            if (TBHours.Text == String.Empty)
+            {
+                TBHours.Text = "00";
+            }
+            if (TBMinutes.Text == String.Empty)
+            {
+                TBMinutes.Text = "00";
+            }
+            if (TBSecons.Text == String.Empty)
+            {
+                TBSecons.Text = "00";
+            }
             dateTime = dateTime.AddHours(int.Parse(TBHours.Text)).AddMinutes(int.Parse(TBMinutes.Text)).AddSeconds(int.Parse(TBSecons.Text));
             if (DateTime.Compare(MinDateTime, dateTime) > 0)
             {
@@ -363,15 +413,15 @@ namespace LHWpfControlLibrary.Source.UserControls
         {
             if (ActDateTime.Year > 1)
             {
-                ActDateTime = ActDateTime.AddYears(1-ActDateTime.Year);
+                ActDateTime = ActDateTime.AddYears(1 - ActDateTime.Year);
             }
             if (ActDateTime.Month > 1)
             {
-                ActDateTime = ActDateTime.AddMonths(1-ActDateTime.Month);
+                ActDateTime = ActDateTime.AddMonths(1 - ActDateTime.Month);
             }
             if (ActDateTime.Day > 1)
             {
-                ActDateTime = ActDateTime.AddDays(1-ActDateTime.Day);
+                ActDateTime = ActDateTime.AddDays(1 - ActDateTime.Day);
             }
         }
 

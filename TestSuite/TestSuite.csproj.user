@@ -7,10 +7,13 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="Windows\Window_Controls.xaml.cs">
+    <Compile Update="Windows\Window_DefaultControls.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Windows\Window_Excel.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Windows\UserControls\Window_UserControls.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
@@ -21,7 +24,7 @@
     <Page Update="Resources\Dictionaries\Themes\ThemeLight.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Windows\Window_Controls.xaml">
+    <Page Update="Windows\Window_DefaultControls.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Windows\Window_Excel.xaml">
@@ -31,6 +34,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Windows\Window_Main.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\UserControls\Window_UserControls.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

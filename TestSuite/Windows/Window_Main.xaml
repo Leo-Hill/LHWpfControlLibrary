@@ -10,9 +10,10 @@
                 <RadioButton x:Name="radioButtonDark" Click="RadioButton_Click" Tag="Dark" Content="Dark" Margin="{StaticResource Dim_ThStandardMargin}" />
             </StackPanel>
             <StackPanel HorizontalAlignment="Center" Margin="0,50,0,0">
-                <Button Content="Controls" Command="{Binding Command_Controls}" Margin="{StaticResource Dim_ThStandardMargin}" />
-                <Button Content="LineChart" Command="{Binding Command_LineChart}" Margin="{StaticResource Dim_ThStandardMargin}" />
-                <Button Content="ExcelChart" Command="{Binding Command_Excel}" Margin="{StaticResource Dim_ThStandardMargin}" />
+                <Button Content="DefaultControls" Command="{Binding Command_DefaultControls}" Margin="{StaticResource Dim_ThStandardMargin}" Width="100" />
+                <Button Content="UserControls" Command="{Binding Command_UserControls}" Margin="{StaticResource Dim_ThStandardMargin}" Width="100"/>
+                <Button Content="LineChart" Command="{Binding Command_LineChart}" Margin="{StaticResource Dim_ThStandardMargin}" Width="100"/>
+                <Button Content="ExcelChart" Command="{Binding Command_Excel}" Margin="{StaticResource Dim_ThStandardMargin}" Width="100"/>
             </StackPanel>
         </StackPanel>
     </DockPanel>
